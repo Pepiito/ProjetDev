@@ -1,5 +1,5 @@
 <?php if (!isset($_SESSION)) session_start(); ?>
-<?php include("./php/head.php"); ?>
+<?php include("./php/vue/head.php"); ?>
   <body>
     <div id="background"></div>
     <div id="background2"></div>
@@ -27,5 +27,6 @@
     		<img src="./images/heig.png" alt="Logo HEIG">
     	</div>
     </footer>
+    <script type="text/javascript" src="./js/controleur.js"></script>
   </body>
 </html>
