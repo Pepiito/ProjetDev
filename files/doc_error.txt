@@ -1,1 +1,3 @@
-101:Unexpected Error
+100: Echec lors de l'ouverture du flux vers l'URL
+101: Unexpected Error
+110: Attribut de Ellipse invalide
