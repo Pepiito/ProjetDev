@@ -1,3 +1,4 @@
 100: Echec lors de l'ouverture du flux vers l'URL
 101: Unexpected Error
 110: Attribut de Ellipse invalide
+120: Localisation hors de l'emprise de la grille de transformation RGF93/NTF

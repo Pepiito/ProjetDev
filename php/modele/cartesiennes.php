@@ -1,5 +1,5 @@
 <?php
-include("variable.php");
+include("variables.php");
 
 /**
 * Fonction cartesien_to_geographic
@@ -49,7 +49,7 @@ function geographic_to_cartesien($lambda, $phi, $h, $ellipse) {
 
   $X = ($N + $h)*cos($lambda)*cos($phi);
   $Y = ($N + $h)*sin($lambda)*cos($phi);
-  $Z = $N*(1-$e**2)+$h)*sin($phi);
+  $Z = ($N*(1-$e**2)+$h)*sin($phi);
 
   return array($X, $Y, $Z);
 }
@@ -59,8 +59,33 @@ function RGF_to_NTF($X, $Y, $Z) {
   $geog = cartesien_to_geographic($X, $Y, $Z, $ellipse);
   $grille = lecture_fichier("../../files/gr3df97a.txt");
 
-  $lambda = $geog[0];
-  $phi = $geog[1];
+  //passage du radian au degré
+  for ($elem in $geog) {
+    $elem = $elem/pi()*180
+  }
 
+  $lambda0 = floor($geog[0]*10)/10;
+  $phi0 = floor($geog[1]*10)/10;
+  $lambda1 = ceil($geog[0]*10)/10;
+  $phi1 = ceil($geog[1]*10)/10;
+  if (test de localisation) {
+    echo("Error 120: Localisation hors de l'emprise de la grille de transformation RGF93/NTF")
+  } else {
+    $debutligne0 = substr($grille, strpos($grille, $lambda0 + '00000000   ' + $phi0));
+    $ligne0 = substr($debutligne0, 0, strpos($debutligne0, "\n"));
+    $tab0 = explode("  ", $ligne0);
+
+    $debutligne1 = substr($grille, strpos($grille, $lambda0 + '00000000   ' + $phi1));
+    $ligne1 = substr($debutligne1, 0, strpos($debutligne1, "\n"));
+    $tab1 = explode("  ", $ligne1);
+
+    $debutligne2 = substr($grille, strpos($grille, $lambda1 + '00000000   ' + $phi1));
+    $ligne2 = substr($debutligne2, 0, strpos($debutligne2, "\n"));
+    $tab2 = explode("  ", $ligne2);
+
+    $debutligne3 = substr($grille, strpos($grille, $lambda1 + '00000000   ' + $phi1));
+    $ligne3 = substr($debutligne3, 0, strpos($debutligne3, "\n"));
+    $tab3 = explode("  ", $ligne3);
+  }
 }
  ?>
