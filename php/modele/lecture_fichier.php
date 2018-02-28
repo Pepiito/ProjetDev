@@ -5,8 +5,8 @@ function lecture_fichier($fichier){
     echo("Error 100: Echec lors de l'ouverture du flux vers l'URL");
     exit;
   } else {
-    $contenu = fread($file, filesize($file));
-    $fclose($file);
+    $contenu = fread($file, filesize($fichier));
+    fclose($file);
   }
   return $contenu;
 }

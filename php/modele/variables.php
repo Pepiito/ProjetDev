@@ -1,11 +1,11 @@
 <?php
 include("lecture_fichier.php");
 class Ellipse {
-  private $_nom;
-  private $_a;
-  private $_b;
-  private $_e;
-  private $_f;
+  private $nom;
+  private $a;
+  private $b;
+  private $e;
+  private $f;
 
   public function __construct($nom) {
     $contenu = lecture_fichier("../../files/ellipsoide.txt");
@@ -15,7 +15,7 @@ class Ellipse {
     } else {
       $contenureduit = substr($contenu, $indice);
       $sortieligne = strpos($contenureduit, "\n");
-      $ligne = substr($contenureduit, 0, $sortieligne)
+      $ligne = substr($contenureduit, 0, $sortieligne);
 
       $tab = explode(" ", $ligne);
       $this->nom = $nom;
@@ -33,8 +33,7 @@ class Ellipse {
  * Retourne la valeur de l'attribut appelée
  *
  * @param string $att
- * @return int $age
- * @throws Exception
+ * @return mixed
  */
 public function __get($att) {
 
@@ -54,7 +53,7 @@ public function __get($att) {
     return $this->nom;
   }
   else {
-    echo('Error 110: Attribut de Ellipse invalide !');
+    echo('Error 110: Unexpected Error');
     exit;
   }
 }
@@ -67,7 +66,6 @@ public function __get($att) {
  * @param string $att
  * @param mixed $value
  * @return void
- * @throws Exception
  */
 public function __set($att, $value) {
 
@@ -87,7 +85,7 @@ public function __set($att, $value) {
     $this->nom = (string) $value;
   }
   else {
-    echo('Error 110: Attribut de Ellipse invalide !');
+    echo('Error 110: Unexpected Error');
     exit;
   }
 }

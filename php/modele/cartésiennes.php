@@ -14,10 +14,10 @@ include("variable.php");
 * @return array avec les trois coordonnées géographiques
 */
 function cartesien_to_geographic($X, $Y, $Z, $ellipse) {
-  $a = $ellipse.__get('a');
-  $b = $ellipse.__get('b');
-  $e = $ellipse.__get('e');
-  $f = $ellipse.__get('f');
+  $a = $ellipse->__get('a');
+  $b = $ellipse->__get('b');
+  $e = $ellipse->__get('e');
+  $f = $ellipse->__get('f');
 
   $R = ($X**2 + $Y**2 + $Z**2)**(1/2);
   $mu = atan($Z/($X**2 + $Y**2)**(1/2)*((1-$f)+($e**2*$a/$R)));
@@ -42,8 +42,8 @@ function cartesien_to_geographic($X, $Y, $Z, $ellipse) {
 * @return array avec les trois coordonnées cartésiens
 */
 function geographic_to_cartesien($lambda, $phi, $h, $ellipse) {
-  $a = $ellipse.__get('a');
-  $e = $ellipse.__get('e');
+  $a = $ellipse->__get('a');
+  $e = $ellipse->__get('e');
   $w = (1-$e**2*sin($phi)**2)**(1/2);
   $N = $a/$w;
 
