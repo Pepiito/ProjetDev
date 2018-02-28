@@ -37,3 +37,22 @@ function Ajax(callback, file, data) {
   });
   ajax.send(data);
 }
+
+
+function sendDataToModel(data) {
+
+  Ajax(receiveDataFromModel, "transfo_coord.php", data)
+}
+
+function receiveDataFromModel(reponse) {
+  if isErrorType(reponse) {
+    // Instruction en cas d'erreur du modèle
+  }
+  else {
+    // Instruction si tout va bien
+  }
+}
+
+function isErrorType(string) {
+  return string.substr(0,5) == "Error"
+}
