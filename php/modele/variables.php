@@ -49,12 +49,13 @@ public function __get($att) {
   }
   elseif ('f' === $att) {
     return $this->_f;
-  } 
+  }
   elseif ('nom' === $att) {
     return $this->_nom;
   }
   else {
-    throw new Exception('Propriété invalide !');
+    echo('Error 110: Attribut de Ellipse invalide !');
+    exit;
   }
 }
 
@@ -86,7 +87,8 @@ public function __set($att, $value) {
     $this->_nom = (string) $value;
   }
   else {
-    throw new Exception('Attribut invalide !');
+    echo('Error 110: Attribut de Ellipse invalide !');
+    exit;
   }
 }
 }
