@@ -14,10 +14,10 @@ include("variable.php");
 * @return array avec les trois coordonnées géographiques
 */
 function cartesien_to_geographic($X, $Y, $Z, $ellipse) {
-  $a = $ellipse.__get('a')
-  $b = $ellipse.__get('b')
-  $e = $ellipse.__get('e')
-  $f = $ellipse.__get('f')
+  $a = $ellipse.__get('a');
+  $b = $ellipse.__get('b');
+  $e = $ellipse.__get('e');
+  $f = $ellipse.__get('f');
 
   $R = ($X**2 + $Y**2 + $Z**2)**(1/2);
   $mu = atan($Z/($X**2 + $Y**2)**(1/2)*((1-$f)+($e**2*$a/$R)));
@@ -52,5 +52,11 @@ function geographic_to_cartesien($lambda, $phi, $h, $ellipse) {
   $Z = $N*(1-$e**2)+$h)*sin($phi);
 
   return array($X, $Y, $Z);
+}
+
+function RGF_to_NTF($X, $Y, $Z) {
+  $ellipse = Ellipse("IAG_GRS_1980");
+  $geog = cartesien_to_geographic($X, $Y, $Z, $ellipse);
+  $grille = lecture_fichier("../../files/gr3df97a.txt");
 }
  ?>
