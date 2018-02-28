@@ -19,7 +19,7 @@
     	</div>
     	<div id="postdata">
     		<p>Tous droits réservés.</p>
-    		<p>Ceci est une application à but non commercial, réalisée dans le cadre du projet développement 2è année à l'ENSG et à l'HEIV.</p>
+    		<p>Ceci est une application à but non commercial, réalisée dans le cadre du projet développement de 2ème année à l'ENSG et de 3ème année à l'HEIVGp>
     		<p>Pour toutes questions, contactez-nous aux adresses suivantes: <strong>benoit.messiaen@ensg.eu</strong> ou <strong>hugo.lecomte@ensg.eu</strong></p>
     	  <p><em>ENSG Géomatique, 6-8 avenue Blaise Pascal, Cité Descartes, 77420 Champs-sur-Marne</em></p>
       </div>
