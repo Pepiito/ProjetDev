@@ -58,5 +58,9 @@ function RGF_to_NTF($X, $Y, $Z) {
   $ellipse = Ellipse("IAG_GRS_1980");
   $geog = cartesien_to_geographic($X, $Y, $Z, $ellipse);
   $grille = lecture_fichier("../../files/gr3df97a.txt");
+
+  $lambda = $geog[0];
+  $phi = $geog[1];
+
 }
  ?>
