@@ -4,7 +4,7 @@ include("variables.php");
 /**
 * Fonction cartesien_to_geographic
 *
-* Transforme des coordonnées cartésiens en coordonnées géographiques associées à un éllipsoïde
+* Transforme des coordonnées cartésiennes en coordonnées géographiques associées à un éllipsoïde
 * Les coordonnées sont entrées en mètres et sont données en radians et en mètres
 *
 * @param float $X première coordonnées cartésienne
@@ -32,7 +32,7 @@ function cartesien_to_geographic($X, $Y, $Z, $ellipse) {
 /**
 * Fonction geographic_to_cartesien
 *
-* Transforme des coordonnées géographiques associées à un éllipsoïde en coordonnées cartésiens associées à un éllipsoïde
+* Transforme des coordonnées géographiques associées à un éllipsoïde en coordonnées cartésiennes associées à un éllipsoïde
 * Les coordonnées sont entrées en radians et mètres et sont données en mètres
 *
 * @param float $lambda première coordonnées géographique
@@ -54,6 +54,17 @@ function geographic_to_cartesien($lambda, $phi, $h, $ellipse) {
   return array($X, $Y, $Z);
 }
 
+/**
+* Fonction RGF_to_NTF
+*
+* Transforme des coordonnées cartésiennes RGF en coordonnées cartésiennes NTF à l'aide d'une grille de transformation
+* Les coordonnées sont entrées en mètres et sont données en mètres
+*
+* @param float $X première coordonnées cartésiennes
+* @param float $Y deuxième coordonnées cartésiennes
+* @param float $Z troisième coordonnées cartésiennes
+* @return array avec les trois coordonnées cartésiennes
+*/
 function RGF_to_NTF($X, $Y, $Z) {
   $ellipse = Ellipse("IAG_GRS_1980");
   $geog = cartesien_to_geographic($X, $Y, $Z, $ellipse);
