@@ -1,13 +1,14 @@
 <?php
 include("lecture_fichier.php");
-class Ellipse {
-  private $_nom;
-  private $_a;
-  private $_b;
-  private $_e;
-  private $_f;
 
-  public fonction __construct($nom) {
+class Ellipse {
+  private $nom;
+  private $a;
+  private $b;
+  private $e;
+  private $f;
+
+  public function __construct($nom) {
     $contenu = lecture_fichier("../../files/ellipsoide.txt");
 
     if (($indice = strpos($contenu, $nom)) === FALSE) {
@@ -15,15 +16,15 @@ class Ellipse {
     } else {
       $contenureduit = substr($contenu, $indice);
       $sortieligne = strpos($contenureduit, "\n");
-      $ligne = substr($contenureduit, 0, $sortieligne)
+      $ligne = substr($contenureduit, 0, $sortieligne);
 
       $tab = explode(" ", $ligne);
-      $this->_nom = $nom;
-      $this->_a = $tab[1];
-      $this->_b = $tab[2];
+      $this->nom = $nom;
+      $this->a = $tab[1];
+      $this->b = $tab[2];
 
-      $this->_f = ($this->_a - $this->_b)/$this->_a;
-      $this->_e = (($this->_a**2 - $this->_b**2)/($this->_b**2))**(1/2);
+      $this->f = ($this->a - $this->b)/$this->a;
+      $this->e = (($this->a**2 - $this->b**2)/($this->b**2))**(1/2);
     }
   }
 
@@ -33,28 +34,27 @@ class Ellipse {
  * Retourne la valeur de l'attribut appelée
  *
  * @param string $att
- * @return int $age
- * @throws Exception
+ * @return mixed
  */
 public function __get($att) {
 
   if('a' === $att) {
-    return $this->_a;
+    return $this->a;
   }
   elseif ('b' === $att) {
-    return $this->_b;
+    return $this->b;
   }
   elseif ('e' === $att) {
-    return $this->_e;
+    return $this->e;
   }
   elseif ('f' === $att) {
-    return $this->_f;
+    return $this->f;
   }
   elseif ('nom' === $att) {
-    return $this->_nom;
+    return $this->nom;
   }
   else {
-    echo('Error 110: Attribut de Ellipse invalide !');
+    echo('Error 110: Unexpected Error');
     exit;
   }
 }
@@ -67,27 +67,26 @@ public function __get($att) {
  * @param string $att
  * @param mixed $value
  * @return void
- * @throws Exception
  */
 public function __set($att, $value) {
 
   if('a' === $att) {
-    $this->_a = (float) $value;
+    $this->a = (float) $value;
   }
   elseif ('b' === $att){
-    $this->_b = (float) $value;
+    $this->b = (float) $value;
   }
   elseif ('f' === $att){
-    $this->_f = (float) $value;
+    $this->f = (float) $value;
   }
   elseif ('b' === $att){
-    $this->_e = (float) $value;
+    $this->e = (float) $value;
   }
   elseif ('nom' === $att){
-    $this->_nom = (string) $value;
+    $this->nom = (string) $value;
   }
   else {
-    echo('Error 110: Attribut de Ellipse invalide !');
+    echo('Error 110: Unexpected Error');
     exit;
   }
 }
