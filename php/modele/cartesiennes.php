@@ -71,16 +71,16 @@ function RGF_to_NTF($X, $Y, $Z) {
   $grille = lecture_fichier("../../files/gr3df97a.txt");
 
   //passage du radian au degré
-  for ($elem in $geog) {
-    $elem = $elem/pi()*180
+  foreach ($geog as &$elem) {
+    $elem = $elem/pi()*180;
   }
 
   $lambda0 = floor($geog[0]*10)/10;
   $phi0 = floor($geog[1]*10)/10;
   $lambda1 = ceil($geog[0]*10)/10;
   $phi1 = ceil($geog[1]*10)/10;
-  if (test de localisation) {
-    echo("Error 120: Localisation hors de l'emprise de la grille de transformation RGF93/NTF")
+  if (True) { //test de Localisation
+    echo("Error 120: Localisation hors de l'emprise de la grille de transformation RGF93/NTF");
   } else {
     $debutligne0 = substr($grille, strpos($grille, $lambda0 + '00000000   ' + $phi0));
     $ligne0 = substr($debutligne0, 0, strpos($debutligne0, "\n"));
@@ -99,4 +99,5 @@ function RGF_to_NTF($X, $Y, $Z) {
     $tab3 = explode("  ", $ligne3);
   }
 }
+
  ?>
