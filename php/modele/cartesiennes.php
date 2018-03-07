@@ -66,7 +66,7 @@ function geographic_to_cartesien($lambda, $phi, $h, $ellipse) {
 * @return array avec les trois coordonnées cartésiennes
 */
 function RGF_to_NTF($X, $Y, $Z) {
-  $ellipse = Ellipse("IAG_GRS_1980");
+  $ellipse = new Ellipse("IAG_GRS_1980");
   $geog = cartesien_to_geographic($X, $Y, $Z, $ellipse);
   $grille = lecture_fichier("../../files/gr3df97a.txt");
 
@@ -79,25 +79,45 @@ function RGF_to_NTF($X, $Y, $Z) {
   $phi0 = floor($geog[1]*10)/10;
   $lambda1 = ceil($geog[0]*10)/10;
   $phi1 = ceil($geog[1]*10)/10;
-  if (True) { //test de Localisation
+
+  $lambda0str = substr($lambda0 + .0000000001, 0, -1);
+  $phi0str = substr($phi0 + .0000000001, 0, -1);
+  $lambda1str = substr($lambda1 + .0000000001, 0, -1);
+  $phi1str = substr($phi1 + .0000000001, 0, -1);
+
+  if (FALSE) { //test de Localisation
     echo("Error 120: Localisation hors de l'emprise de la grille de transformation RGF93/NTF");
   } else {
-    $debutligne0 = substr($grille, strpos($grille, $lambda0 + '00000000   ' + $phi0));
+    $debutligne0 = substr($grille, strpos($grille, $lambda0str . "   " . $phi0str));
     $ligne0 = substr($debutligne0, 0, strpos($debutligne0, "\n"));
     $tab0 = explode("  ", $ligne0);
 
-    $debutligne1 = substr($grille, strpos($grille, $lambda0 + '00000000   ' + $phi1));
+    $debutligne1 = substr($grille, strpos($grille, $lambda0str . "   " . $phi1str));
     $ligne1 = substr($debutligne1, 0, strpos($debutligne1, "\n"));
     $tab1 = explode("  ", $ligne1);
 
-    $debutligne2 = substr($grille, strpos($grille, $lambda1 + '00000000   ' + $phi1));
+    $debutligne2 = substr($grille, strpos($grille, $lambda1str . "   " . $phi0str));
     $ligne2 = substr($debutligne2, 0, strpos($debutligne2, "\n"));
     $tab2 = explode("  ", $ligne2);
 
-    $debutligne3 = substr($grille, strpos($grille, $lambda1 + '00000000   ' + $phi1));
+    $debutligne3 = substr($grille, strpos($grille, $lambda1str . "   " . $phi1str));
     $ligne3 = substr($debutligne3, 0, strpos($debutligne3, "\n"));
     $tab3 = explode("  ", $ligne3);
+
+    $x = ($geog[0] - $lambda0)/($lambda1 - $lambda0);
+    $y = ($geog[1] - $phi0)/($phi1 - $phi0);
+
+    $Tx = (1 - $x)*(1 - $y)*$tab0[2] + (1 - $x)*$y*$tab2[2] + $x*(1 - $y)*$tab1[2] + $x*$y*$tab3[2];
+    $Ty = (1 - $x)*(1 - $y)*$tab0[3] + (1 - $x)*$y*$tab2[3] + $x*(1 - $y)*$tab1[3] + $x*$y*$tab3[3];
+    $Tz = (1 - $x)*(1 - $y)*$tab0[4] + (1 - $x)*$y*$tab2[4] + $x*(1 - $y)*$tab1[4] + $x*$y*$tab3[4];
+
+    return array($X - $Tx, $Y - $Ty, $Z - $Tz);
   }
 }
+$tab = RGF_to_NTF(4511390, 236435, 4487348);
+
+echo $tab[0];
+echo " ";
+echo $tab[1];
 
  ?>
