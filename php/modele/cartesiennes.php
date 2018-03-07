@@ -70,7 +70,8 @@ function RGF_to_NTF($X, $Y, $Z) {
   $geog = cartesien_to_geographic($X, $Y, $Z, $ellipse);
 
   if ($geog[0]<-0.0959931 || $geog[0]>0.1745329 || $geog[1]<0.7155850 || $geog[1]>0.9075712) { //test de Localisation
-    echo("Error 120: Localisation hors de l'emprise de la grille de transformation RGF93/NTF");
+    echo "Error 120: Localisation hors de l'emprise de la grille de transformation RGF93/NTF";
+    exit;
   } else {
     $translation = lecture_grille($geog);
     return array($X - $translation[0], $Y - $translation[1], $Z - $translation[2]);
@@ -96,7 +97,8 @@ function NTF_to_RGF($X, $Y, $Z)  {
   $geog = cartesien_to_geographic($X + $T0[0], $Y + $T0[1], $Z + $T0[2], $ellipse);
 
   if ($geog[0]<-0.0959931 || $geog[0]>0.1745329 || $geog[1]<0.7155850 || $geog[1]>0.9075712) { //test de Localisation
-    echo("Error 120: Localisation hors de l'emprise de la grille de transformation RGF93/NTF");
+    echo "Error 120: Localisation hors de l'emprise de la grille de transformation RGF93/NTF";
+    exit;
   } else {
     $translation = lecture_grille($geog);
     return array($X + $translation[0], $Y + $translation[1], $Z + $translation[2]);
@@ -162,4 +164,5 @@ function lecture_grille($geog) {
   return array($Tx, $Ty, $Tz);
 }
 
+$e = new Ellipse('lol');
  ?>
