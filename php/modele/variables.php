@@ -24,7 +24,7 @@ class Ellipse {
       $this->b = $tab[2];
 
       $this->f = ($this->a - $this->b)/$this->a;
-      $this->e = (($this->a**2 - $this->b**2)/($this->b**2))**(1/2);
+      $this->e = (($this->a**2 - $this->b**2)/($this->a**2))**(1/2);
     }
   }
 
