@@ -45,7 +45,10 @@ function sendDataToModel(data) {
 }
 
 function receiveDataFromModel(reponse) {
-  if isErrorType(reponse) {
+  if (isPHPErrorType(reponse)) {
+    console.log("Erreur sur la réponse AJAX :\n" + response);
+  }
+  if (isErrorType(reponse)) {
     // Instruction en cas d'erreur du modèle
   }
   else {
@@ -55,4 +58,8 @@ function receiveDataFromModel(reponse) {
 
 function isErrorType(string) {
   return string.substr(0,5) == "Error"
+}
+
+function isPHPErrorType(string) {
+  return /<b>/.test(string)
 }

@@ -66,38 +66,100 @@ function geographic_to_cartesien($lambda, $phi, $h, $ellipse) {
 * @return array avec les trois coordonnées cartésiennes
 */
 function RGF_to_NTF($X, $Y, $Z) {
-  $ellipse = Ellipse("IAG_GRS_1980");
+  $ellipse = new Ellipse("IAG_GRS_1980");
   $geog = cartesien_to_geographic($X, $Y, $Z, $ellipse);
-  $grille = lecture_fichier("../../files/gr3df97a.txt");
 
+  if ($geog[0]<-0.0959931 || $geog[0]>0.1745329 || $geog[1]<0.7155850 || $geog[1]>0.9075712) { //test de Localisation
+    echo("Error 120: Localisation hors de l'emprise de la grille de transformation RGF93/NTF");
+  } else {
+    $translation = lecture_grille($geog);
+    return array($X - $translation[0], $Y - $translation[1], $Z - $translation[2]);
+  }
+}
+
+
+/**
+* Fonction RGF_to_NTF
+*
+* Transforme des coordonnées cartésiennes NTF en coordonnées cartésiennes RGF à l'aide d'une grille de transformation
+* Les coordonnées sont entrées en mètres et sont données en mètres
+*
+* @param float $X première coordonnées cartésiennes
+* @param float $Y deuxième coordonnées cartésiennes
+* @param float $Z troisième coordonnées cartésiennes
+* @return array avec les trois coordonnées cartésiennes
+*/
+function NTF_to_RGF($X, $Y, $Z)  {
+  $T0 = array(-168, -60, 320);
+
+  $ellipse = new Ellipse("IAG_GRS_1980");
+  $geog = cartesien_to_geographic($X + $T0[0], $Y + $T0[1], $Z + $T0[2], $ellipse);
+
+  if ($geog[0]<-0.0959931 || $geog[0]>0.1745329 || $geog[1]<0.7155850 || $geog[1]>0.9075712) { //test de Localisation
+    echo("Error 120: Localisation hors de l'emprise de la grille de transformation RGF93/NTF");
+  } else {
+    $translation = lecture_grille($geog);
+    return array($X + $translation[0], $Y + $translation[1], $Z + $translation[2]);
+  }
+}
+
+/**
+* Fonction lecture_grille
+*
+* Lit le fichier qui donne les paramètres de translation de la grille pour convertir du RGF vers NTF
+* S'interesse en particulier à la maille de la grille correspondant aux coordonnées géographiques recu
+* Renvoie le vecteur translation à appliquer en mètre
+*
+* @param array $geog coordonnées géographiques dans un array en radians
+* @return array avec les trois coordonnées cartésiennes de la translation à appliquer
+*/
+function lecture_grille($geog) {
   //passage du radian au degré
   foreach ($geog as &$elem) {
     $elem = $elem/pi()*180;
   }
 
+  //détermination de la maille
   $lambda0 = floor($geog[0]*10)/10;
   $phi0 = floor($geog[1]*10)/10;
   $lambda1 = ceil($geog[0]*10)/10;
   $phi1 = ceil($geog[1]*10)/10;
-  if (True) { //test de Localisation
-    echo("Error 120: Localisation hors de l'emprise de la grille de transformation RGF93/NTF");
-  } else {
-    $debutligne0 = substr($grille, strpos($grille, $lambda0 + '00000000   ' + $phi0));
-    $ligne0 = substr($debutligne0, 0, strpos($debutligne0, "\n"));
-    $tab0 = explode("  ", $ligne0);
 
-    $debutligne1 = substr($grille, strpos($grille, $lambda0 + '00000000   ' + $phi1));
-    $ligne1 = substr($debutligne1, 0, strpos($debutligne1, "\n"));
-    $tab1 = explode("  ", $ligne1);
+  //lecture du contenu de la grille
+  $grille = lecture_fichier("../../files/gr3df97a.txt");
 
-    $debutligne2 = substr($grille, strpos($grille, $lambda1 + '00000000   ' + $phi1));
-    $ligne2 = substr($debutligne2, 0, strpos($debutligne2, "\n"));
-    $tab2 = explode("  ", $ligne2);
+  //formatage pour lecture de la grille
+  $lambda0str = substr($lambda0 + .0000000001, 0, -1);
+  $phi0str = substr($phi0 + .0000000001, 0, -1);
+  $lambda1str = substr($lambda1 + .0000000001, 0, -1);
+  $phi1str = substr($phi1 + .0000000001, 0, -1);
 
-    $debutligne3 = substr($grille, strpos($grille, $lambda1 + '00000000   ' + $phi1));
-    $ligne3 = substr($debutligne3, 0, strpos($debutligne3, "\n"));
-    $tab3 = explode("  ", $ligne3);
-  }
+  //lecture des informations nous interessant dans la grille
+  $debutligne0 = substr($grille, strpos($grille, $lambda0str . "   " . $phi0str));
+  $ligne0 = substr($debutligne0, 0, strpos($debutligne0, "\n"));
+  $tab0 = explode("  ", $ligne0);
+
+  $debutligne1 = substr($grille, strpos($grille, $lambda0str . "   " . $phi1str));
+  $ligne1 = substr($debutligne1, 0, strpos($debutligne1, "\n"));
+  $tab1 = explode("  ", $ligne1);
+
+  $debutligne2 = substr($grille, strpos($grille, $lambda1str . "   " . $phi0str));
+  $ligne2 = substr($debutligne2, 0, strpos($debutligne2, "\n"));
+  $tab2 = explode("  ", $ligne2);
+
+  $debutligne3 = substr($grille, strpos($grille, $lambda1str . "   " . $phi1str));
+  $ligne3 = substr($debutligne3, 0, strpos($debutligne3, "\n"));
+  $tab3 = explode("  ", $ligne3);
+
+  //calcul du vecteur de translation par interpolation bilinéaire
+  $x = ($geog[0] - $lambda0)/($lambda1 - $lambda0);
+  $y = ($geog[1] - $phi0)/($phi1 - $phi0);
+
+  $Tx = (1 - $x)*(1 - $y)*$tab0[2] + (1 - $x)*$y*$tab2[2] + $x*(1 - $y)*$tab1[2] + $x*$y*$tab3[2];
+  $Ty = (1 - $x)*(1 - $y)*$tab0[3] + (1 - $x)*$y*$tab2[3] + $x*(1 - $y)*$tab1[3] + $x*$y*$tab3[3];
+  $Tz = (1 - $x)*(1 - $y)*$tab0[4] + (1 - $x)*$y*$tab2[4] + $x*(1 - $y)*$tab1[4] + $x*$y*$tab3[4];
+
+  return array($Tx, $Ty, $Tz);
 }
 
  ?>
