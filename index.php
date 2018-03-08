@@ -8,9 +8,8 @@
 	<div style="width:100%;position:relative;">
 	<div id="map">
 	</div>
-	<div class="button_transfo">
-		<input type="submit" value="Changement de coordonnées"/>
-	</div>
+	<div class="button_transfo"><input type="submit" value="Changement de coordonnées"/></div>
+	<div class="school"><img src="images/ensg-heig.png" width="350" height="81"/></div>
 	</div>
 	</div>
 	<script src="lib/proj4.js"></script>

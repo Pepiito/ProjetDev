@@ -15,8 +15,14 @@ h3, p{
 .button_transfo {
 	position: absolute;
 	top: 10px;
-	right:10px;
+	right:50px;
 }
+.school {
+	position: absolute;
+	bottom: 10px;
+	right:50px;
+}
+
 
 fieldset {
 	padding:0 20px 20px 20px;
