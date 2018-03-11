@@ -32,23 +32,41 @@ var map = new ol.Map({
 
 
 function changeProjection(code) {
-                console.log("changeProjection(\"" + code + "\")");
+	console.log("changeProjection(\"" + code + "\")");
 
-                var digit;
+	var digit;
 
-                // Définition de l'unité et de la précision
-                if (code == "EPSG:21781" || code == "EPSG:2056" || code == "EPSG:2154" ) {
-                    digit = 2;
-                }
-                else if (code == "EPSG:4326") {
-                    digit = 6;
-                }
+	// Définition de l'unité et de la précision
+	if (code == "EPSG:21781" || code == "EPSG:2056" || code == "EPSG:2154" ) {
+		digit = 2;
+	}
+	else if (code == "EPSG:4326") {
+		digit = 6;
+	}
 
-                // Création de la projection
-                var projection = new ol.proj.Projection({
-                    code: code
-                });
+	// Création de la projection
+	var projection = new ol.proj.Projection({
+		code: code
+	});
 
-                mousePositionControl.setProjection(projection);
-                mousePositionControl.setCoordinateFormat(ol.coordinate.createStringXY(digit));
-            }
+	mousePositionControl.setProjection(projection);
+	mousePositionControl.setCoordinateFormat(ol.coordinate.createStringXY(digit));
+}
+			
+var modal = document.getElementById('popup');
+var span = document.getElementsByClassName("close")[0];
+
+function Open_transfo() {
+	modal.style.display="block";
+}
+span.onclick = function() {
+	modal.style.display = "none";
+}
+function close_popup() {
+	modal.style.display = "none";
+}
+window.onclick = function(event) {
+	if (event.target == modal) {
+		modal.style.display = "none";
+	} 
+}
