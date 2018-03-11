@@ -7,7 +7,16 @@
 			<p id="head2" onclick="show_trans_fichier()">Transformation via fichier</p>
 		</div>
 		<div id="trans_coord">
-			<p>essai_coord</p>
+			<form>
+				<fieldset>
+				<legend>Système de départ:</legend>
+				
+				</fieldset>
+				<fieldset>
+				<legend>Système d'arrivée:</legend>
+				
+				</fieldset>
+			</form>
 		</div>
 		<div id="trans_fichier">
 			<p>essai_fichier</p>

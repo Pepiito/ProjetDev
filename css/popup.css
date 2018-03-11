@@ -67,3 +67,35 @@ div#trans_fichier{
 	display: none;
 	margin: 20px;
 }
+div#pop_body form {
+}
+div#pop_body fieldset {
+	padding:0 20px 20px 20px;
+	margin-bottom:10px;
+	border:1px solid black;
+}
+div#pop_body legend {
+	color: black;
+	font-weight:bold
+}
+div#pop_body label {
+	margin-top:10px;
+	display:block;
+	}
+div#pop_body label.inline {
+	display:inline;
+	margin-right:50px;
+}
+div#pop_body select {
+	margin-top: 0;
+}
+div#pop_body input, div#pop_body textarea, div#pop_body select, div#pop_body option {
+	background-color:#ffffff;
+}
+div#pop_body input, div#pop_body textarea, div#pop_body select {
+	padding:3px;
+	border:1px solid black;
+	border-radius:5px;
+	width:200px;
+	box-shadow:1px 1px 2px #C0C0C0;
+}
