@@ -10,7 +10,35 @@
 			<form>
 				<fieldset>
 				<legend>Système de départ:</legend>
-				
+				<label for="type_coord">Type de coordonnées</label>
+				<select name="type_coord" id="type_coord">
+					<option value="Projetées">Projetées</option>
+					<option value="Géographiques">Géographiques</option>
+					<option value="Cartésiennes">Cartésiennes</option>
+				</select>
+				<div id="Projetées">
+				<div>
+				<label for="Est">Est</label>
+				<input type="text" name="Est">
+				</div>
+				<div>
+				<label for="Nord">Nord</label>
+				<input type="text" name="Est">
+				</div>
+				<div>
+				<label for="Altitude">Altitude</label>
+				<input type="text" name="Est">
+				</div>
+				<div>
+				<label for="verticale" style="display:flex">Déviation de la véritcale<p style="font-family: 'Greek', Sherif;margin:0;">c-x</p></label>
+				<input type="text" name="Vert1" id="vert">
+				<input type="text" name="Vert2" id="vert">
+				</div>
+				<div>
+				<label for="Cote">Cote du Géoid</label>
+				<input type="text" name="Cote">
+				</div>
+				</div>
 				</fieldset>
 				<fieldset>
 				<legend>Système d'arrivée:</legend>

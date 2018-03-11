@@ -16,7 +16,7 @@
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 700px;
+    width: 800px;
 }
 .close {
     color: #aaaaaa;
@@ -62,6 +62,7 @@ div#pop_body {
 
 div#trans_coord{
 	margin: 20px;
+	font-size: 13px;
 }
 div#trans_fichier{
 	display: none;
@@ -92,10 +93,19 @@ div#pop_body select {
 div#pop_body input, div#pop_body textarea, div#pop_body select, div#pop_body option {
 	background-color:#ffffff;
 }
+
 div#pop_body input, div#pop_body textarea, div#pop_body select {
 	padding:3px;
 	border:1px solid black;
 	border-radius:5px;
-	width:200px;
+	width:100px;
 	box-shadow:1px 1px 2px #C0C0C0;
+	font-size:0.9em;
+	margin-right: 5px;
+}
+div#Projetées {
+	display:flex;
+}
+div#pop_body input#vert {
+	width: 70px;
 }

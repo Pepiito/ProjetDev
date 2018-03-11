@@ -16,4 +16,5 @@
     <script src='./js/main.js'></script>
 	<script type="text/javascript" src="https://openlayers.org/en/master/build/ol.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://openlayers.org/en/master/css/ol.css" />
+	 <link href="http://allfont.net/allfont.css?fonts=greek" rel="stylesheet" type="text/css" />
   </head>

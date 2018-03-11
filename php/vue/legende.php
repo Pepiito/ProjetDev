@@ -1,4 +1,4 @@
-<input class="recherche" type="text" placeholder="Recherche par points"/>
+<input class="recherche" type="search" placeholder="Recherche par points"/>
 	<form>
 	<h3>
        Liste des points fixes:</h3>
