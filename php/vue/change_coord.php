@@ -10,12 +10,42 @@
 			<form>
 				<fieldset>
 				<legend>Système de départ:</legend>
+				<div id="Projetées">
+				<div>
 				<label for="type_coord">Type de coordonnées</label>
-				<select name="type_coord" id="type_coord">
+				<select name="type_coord" id="type_coord" style="margin-right:20px;">
 					<option value="Projetées">Projetées</option>
 					<option value="Géographiques">Géographiques</option>
 					<option value="Cartésiennes">Cartésiennes</option>
 				</select>
+				</div>
+				<div>
+				<label for="sys_coord">Système de coordonnées</label>
+				<select name="sys_coord" id="sys_coord" style="width:150px";>
+					<optgroup label="Suisse">
+						<option value="EPSG:2056">CH1903+ EPSG:2056</option>
+						<option value="EPSG:21781">CH1903 EPSG:21781</option>
+					</optgroup>
+					<optgroup label="France">
+						<option value="EPSG:2154">RGF93 EPSG:2154</option>
+						<option value="EPSG:4275">NTF EPSG:4275</option>
+					</optgroup>
+				</select>
+				</div>
+				<div>
+				<label for="sys_alt">Système altimétrique</label>
+				<select name="sys_alt" id="sys_alt" style="width:150px";>
+					<optgroup label="Suisse">
+						<option value="RAN95">RAN95</option>
+						<option value="NF02">NF02</option>
+					</optgroup>
+					<optgroup label="France">
+						<option value="">??</option>
+						<option value="">??</option>
+					</optgroup>
+				</select>
+				</div>
+				</div>
 				<div id="Projetées">
 				<div>
 				<label for="Est">Est</label>
