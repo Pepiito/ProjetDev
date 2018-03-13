@@ -10,7 +10,7 @@
 			<form>
 				<fieldset>
 				<legend>Système de départ:</legend>
-				
+				<div style="display:flex;">
 				<div>
 				<label for="type_coord">Type de coordonnées</label>
 				<select name="type_coord" onchange="change_typecoord(this.value)" id="type_coord" style="margin-right:20px;">
@@ -19,21 +19,25 @@
 					<option value="Cart">Cartésiennes</option>
 				</select>
 				</div>
-				<div id="Projetées">
-				<div style="display:flex;">
 				<div>
-				<label for="sys_coord">Système de coordonnées</label>
-				<select name="sys_coord" id="sys_coord" style="width:150px";>
+				<label for="systeme">Systèmes</label>
+				<select name="systeme" id="systeme" style="width:150px";>
+					<optgroup label="Europe">
+						<option value="ETRS89">ETRS89/CHTRF95</option>
+					</optgroup>
 					<optgroup label="Suisse">
-						<option value="EPSG:2056">CH1903+ EPSG:2056</option>
-						<option value="EPSG:21781">CH1903 EPSG:21781</option>
+						<option value="CH1903+">CH1903+</option>
+						<option value="CH1903">CH1903</option>
 					</optgroup>
 					<optgroup label="France">
-						<option value="EPSG:2154">RGF93 EPSG:2154</option>
-						<option value="EPSG:4275">NTF EPSG:4275</option>
+						<option value="RGF93">RGF93</option>
+						<option value="NTF">NTF</option>
 					</optgroup>
 				</select>
 				</div>
+				</div>
+				<div id="Projetées">
+				<div style="display:flex;">
 				<div>
 				<label for="sys_alt">Système altimétrique</label>
 				<select name="sys_alt" id="sys_alt" style="width:150px";>
@@ -42,7 +46,7 @@
 						<option value="NF02">NF02</option>
 					</optgroup>
 					<optgroup label="France">
-						<option value="">NGF-IGN</option>
+						<option value="">IGN69</option>
 					</optgroup>
 				</select>
 				</div>
@@ -50,7 +54,7 @@
 				<div style="display:flex;">
 				<div>
 				<label for="Est">Est</label>
-				<input type="text" name="Est">
+				<input type="n" name="Est">
 				</div>
 				<div>
 				<label for="Nord">Nord</label>
@@ -74,32 +78,6 @@
 				<div id="Geog">
 				<div style="display:flex;">
 				<div>
-				<label for="sys_ell">Système géographique</label>
-				<select name="sys_ell" id="sys_ell" style="width:150px";>
-						<option value="EPSG:4258">ETRS89</option>
-					<optgroup label="Suisse">
-						<option value="Bessel">Bessel</option>
-					</optgroup>
-					<optgroup label="France">
-						<option value="GRS80">IAS GRS 1980</option>
-					</optgroup>
-				</select>
-				</div>
-				<div>
-				<label for="sys_alt">Système altimétrique</label>
-				<select name="sys_alt" id="sys_alt" style="width:150px";>
-					<optgroup label="Suisse">
-						<option value="RAN95">RAN95</option>
-						<option value="NF02">NF02</option>
-					</optgroup>
-					<optgroup label="France">
-						<option value="">NGF-IGN</option>
-					</optgroup>
-				</select>
-				</div>
-				</div>
-				<div style="display:flex;">
-				<div>
 				<label for="Long">Long</label>
 				<input type="text" name="Long">
 				</div>
@@ -113,10 +91,51 @@
 				</div>
 				</div>
 				</div>
+				<div id="Cart">
+				<div style="display:flex;">
+				<div>
+				<label for="X">X</label>
+				<input type="text" name="X">
+				</div>
+				<div>
+				<label for="Y">Y</label>
+				<input type="text" name="Y">
+				</div>
+				<div>
+				<label for="Z">Z</label>
+				<input type="text" name="Z">
+				</div>
+				</div>
+				</div>
 				</fieldset>
 				<fieldset>
 				<legend>Système d'arrivée:</legend>
-				
+				<div style="display:flex;">
+				<div>
+				<label for="type_coord2">Type de coordonnées</label>
+				<select name="type_coord2" onchange="change_typecoord2(this.value)" id="type_coord2" style="margin-right:20px;">
+					<option value="Projetées" selected>Projetées</option>
+					<option value="Geog">Géographiques</option>
+					<option value="Cart">Cartésiennes</option>
+				</select>
+				</div>
+				<div>
+				<label for="systeme2">Système</label>
+				<select name="systeme2" id="systeme2" style="width:150px";>
+						<option value="ETRS89">ETRS89</option>
+					<optgroup label="Suisse">
+						<option value="CH1903+">CH1903+</option>
+						<option value="CH1903">CH1903</option>
+					</optgroup>
+					<optgroup label="France">
+						<option value="RGF93">RGF93</option>
+						<option value="NTF">NTF</option>
+					</optgroup>
+				</select>
+				</div>
+				</div>
+				<div>
+				</div>
 				</fieldset>
 			</form>
 		</div>

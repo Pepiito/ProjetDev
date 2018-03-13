@@ -24,7 +24,7 @@
 	   
 	   <h3>Liste des systèmes altimétriques</h3>
 	   <p><u>Altitudes</u></p>
-       <div><input type="checkbox" name="" id="" checked/> <label for="">NGF-IGN</label></div>
+       <div><input type="checkbox" name="" id="" checked/> <label for="">IGN69</label></div>
        <div><input type="checkbox" name="" id="" checked/> <label for="">RAN95</label></div>
        <div><input type="checkbox" name="" id="" checked/> <label for="">NF02</label></div>
 	   <p><u>Hauteur</u></p>
