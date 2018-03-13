@@ -22,6 +22,16 @@
        <div><input type="checkbox" name="EPSG:2056" id="EPSG:2056" checked/> <label for="EPSG:2056">CH1903+ EPSG:2056</label></div>
        <div><input type="checkbox" name="EPSG:21781" id="EPSG:21781" checked/> <label for="EPSG:21781">CH1903 EPSG:21781</label></div>
 	   
+	   <h3>Liste des systèmes altimétriques</h3>
+	   <p><u>Altitudes</u></p>
+       <div><input type="checkbox" name="" id="" checked/> <label for="">NGF-IGN</label></div>
+       <div><input type="checkbox" name="" id="" checked/> <label for="">RAN95</label></div>
+       <div><input type="checkbox" name="" id="" checked/> <label for="">NF02</label></div>
+	   <p><u>Hauteur</u></p>
+	   <div><input type="checkbox" name="Bessel" id="Bessel" checked/> <label for="Bessel">Ellisoïde: Bessel</label></div>
+	   <div><input type="checkbox" name="" id="" checked/> <label for="">Ellisoïde: IAG GRS 1980</label></div>
+
+	   
 	   
        
    
@@ -31,10 +41,14 @@
             <p>Projection :
                 <select id="maListe" onchange="changeProjection(this.value)">
                     <option value="EPSG:4326">WGS84</option>
+					<optgroup label="Français">
 					<option value="EPSG:2154">RGF93</option>
-					<option value="EPSG:2154">RGF93</option>
+					<option value="EPSG:4275">NTF</option>
+					</optgroup>
+					<optgroup label="Suisse">
                     <option value="EPSG:21781">CH1903</option>
                     <option value="EPSG:2056">CH1903+</option>
+					</optgroup>
                 </select>
             </p>
             <p id="coordonnees"></p>

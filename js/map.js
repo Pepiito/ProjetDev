@@ -24,10 +24,11 @@ var map = new ol.Map({
 
             map.addControl(mousePositionControl);
 
-            // Récupération des projections suisses depuis Proj4JS
+            // Récupération des projections depuis Proj4JS
             ol.proj.get("EPSG:21781");
             ol.proj.get("EPSG:2056");
 			ol.proj.get("EPSG:2154");
+			ol.proj.get("EPSG:4275");
 
 
 
@@ -37,7 +38,7 @@ function changeProjection(code) {
 	var digit;
 
 	// Définition de l'unité et de la précision
-	if (code == "EPSG:21781" || code == "EPSG:2056" || code == "EPSG:2154" ) {
+	if (code == "EPSG:21781" || code == "EPSG:2056" || code == "EPSG:2154" || code == "EPSG:4275" ) {
 		digit = 2;
 	}
 	else if (code == "EPSG:4326") {

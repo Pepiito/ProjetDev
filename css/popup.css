@@ -104,7 +104,13 @@ div#pop_body input, div#pop_body textarea, div#pop_body select {
 	margin-right: 5px;
 }
 div#Projetées {
-	display:flex;
+	display:block;
+}
+div#Geog {
+	display:none;
+}
+div#Cart {
+	display:none;
 }
 div#pop_body input#vert {
 	width: 70px;
