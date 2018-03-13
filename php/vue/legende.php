@@ -32,6 +32,7 @@
                 <select id="maListe" onchange="changeProjection(this.value)">
                     <option value="EPSG:4326">WGS84</option>
 					<option value="EPSG:2154">RGF93</option>
+					<option value="EPSG:2154">RGF93</option>
                     <option value="EPSG:21781">CH1903</option>
                     <option value="EPSG:2056">CH1903+</option>
                 </select>
