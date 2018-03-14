@@ -6,7 +6,7 @@
 				<p id="head1" onclick="show_trans_coord()">Transformation de coordonnées</p>
 				<p id="head2" onclick="show_trans_fichier()">Transformation via fichier</p>
 			</div>
-			<div id="trans_coord">
+			<div id="trans_coord" class="form_transfo">
 				<form>
 					<fieldset>
 						<legend>Système de départ:</legend>
@@ -54,7 +54,7 @@
 							<div style="display:flex;">
 								<div>
 									<label for="Est">Est</label>
-									<input type="n" name="Est">
+									<input type="text" name="Est">
 								</div>
 								<div>
 									<label for="Nord">Nord</label>
@@ -137,8 +137,8 @@
 					</fieldset>
 				</form>
 			</div>
-			<div id="trans_fichier">
-				<p>essai_fichier</p>
+			<div id="trans_fichier" class="form_transfo">
+				<?php include("./php/vue/input_fichier.php"); ?>
 			</div>
 		</div>
 	</div>

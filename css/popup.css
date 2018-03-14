@@ -1,15 +1,15 @@
 .modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1; 
-    padding-top: 100px; 
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
     left: 0;
     top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgb(0,0,0); 
-    background-color: rgba(0,0,0,0.4); 
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.6);
 }
 .modal-content {
     background-color: #fefefe;
@@ -60,13 +60,13 @@ div#pop_body {
 	background-color: #f5f5f5;
 }
 
-div#trans_coord{
+.form_transfo{
 	margin: 20px;
 	font-size: 13px;
 }
+
 div#trans_fichier{
 	display: none;
-	margin: 20px;
 }
 div#pop_body form {
 }
@@ -90,18 +90,21 @@ div#pop_body label.inline {
 div#pop_body select {
 	margin-top: 0;
 }
-div#pop_body input, div#pop_body textarea, div#pop_body select, div#pop_body option {
+div#pop_body input[type="text"], input[type="number"], div#pop_body textarea, div#pop_body select, div#pop_body option {
 	background-color:#ffffff;
 }
 
-div#pop_body input, div#pop_body textarea, div#pop_body select {
+div#pop_body input[type="text"], input[type="number"] {
+  max-width: 90px;
+}
+
+div#pop_body input[type="number"], input[type="text"], div#pop_body textarea, div#pop_body select {
 	padding:3px;
 	border:1px solid black;
 	border-radius:5px;
-	width:100px;
 	box-shadow:1px 1px 2px #C0C0C0;
 	font-size:0.9em;
-	margin-right: 5px;
+	margin-right: 15px;
 }
 div#Projetées {
 	display:block;
@@ -114,4 +117,20 @@ div#Cart {
 }
 div#pop_body input#vert {
 	width: 70px;
+}
+
+#inputfile {
+  position: absolute;
+  opacity: 0;
+}
+
+#separateur, #ligne_start {
+  width: 30px;
+  text-align: center;
+}
+
+.input_transfo_fichier {
+  position: relative;
+  top: 5px;
+  left: 5px;
 }

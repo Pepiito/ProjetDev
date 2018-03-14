@@ -48,7 +48,7 @@ function receiveDataFromModel(reponse) {
   if (isPHPErrorType(reponse)) {
     console.log("Erreur sur la réponse AJAX :\n" + reponse);
   }
-  if (isErrorType(reponse)) {
+  else if (isErrorType(reponse)) {
     // Instruction en cas d'erreur du modèle
   }
   else {
@@ -62,4 +62,17 @@ function isErrorType(string) {
 
 function isPHPErrorType(string) {
   return /<b>/.test(string)
+}
+
+
+function modify(htmlCollection, display) {
+  Array.from(htmlCollection).forEach( function(htmlelement) {
+    htmlelement.style = "display:"+display;
+  });
+}
+function enable(htmlCollection) {
+  modify(htmlCollection, "block");
+}
+function disable(htmlCollection) {
+  modify(htmlCollection, "none");
 }
