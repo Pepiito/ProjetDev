@@ -46,7 +46,7 @@ function sendDataToModel(data) {
 
 function receiveDataFromModel(reponse) {
   if (isPHPErrorType(reponse)) {
-    console.log("Erreur sur la réponse AJAX :\n" + response);
+    console.log("Erreur sur la réponse AJAX :\n" + reponse);
   }
   if (isErrorType(reponse)) {
     // Instruction en cas d'erreur du modèle
