@@ -118,13 +118,13 @@ class Cone_CC  {
 
       $tab = explode(" ", $ligne);
       $this->nom = $nom;
-      $this->lambda0 = $tab[1];
-      $this->phi0 = $tab[2];
-      $this->phi1 = $tab[3];
-      $this->phi2 = $tab[4];
+      $this->lambda0 = $tab[1]*pi()/180;
+      $this->phi0 = $tab[2]*pi()/180;
+      $this->phi1 = $tab[3]*pi()/180;
+      $this->phi2 = $tab[4]*pi()/180;
       $this->X0 = $tab[5];
       $this->Y0 = $tab[6];
-      $this->ellipse = new Ellipse($tab[7]);
+      $this->ellipse = new Ellipse(substr($tab[7], 0, strlen($tab[7])-1));
 
       $a = $this->ellipse->__get('a');
       $b = $this->ellipse->__get('b');

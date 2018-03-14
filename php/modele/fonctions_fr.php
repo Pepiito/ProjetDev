@@ -11,7 +11,7 @@ include("variables.php");
 * @param Cone_CC $cone cone de projection
 * @return array
 */
-function proj_sur_CC($lambda, $phi, $cone) {
+function proj_to_CC($lambda, $phi, $cone) {
   $X0 = $cone->__get('X0');
   $Y0 = $cone->__get('Y0');
   $phi0 = $cone->__get('phi0');
@@ -43,13 +43,13 @@ function CC_to_geog($X, $Y, $cone) {
   $n = $cone->__get('n');
   $lambda0 = $cone->__get('lambda0');
 
-  $Ys = $Y0 + $C*exp(-$n*$this->L_CC($phi0));
-  $R = (($X - $X0)**2 + ($Y - $Ys)**2)**(1/2)
+  $Ys = $Y0 + $C*exp(-$n*$cone->L_CC($phi0));
+  $R = (($X - $X0)**2 + ($Y - $Ys)**2)**(1/2);
   $lambda = $lambda0 + atan(($X - $X0)/($Ys - $Y))/$n;
   $L = -log($R/abs($C))/$n;
-  $phi = Linverse($L, $cone->__get('ellipse'));
+  $phi = L_iso_inverse($L, $cone->__get('ellipse'));
 
-  return array($lambda, $phi)
+  return array($lambda, $phi);
 }
 
 
@@ -87,9 +87,13 @@ function L_iso_inverse($L, $ellipse) {
     $ecart = abs($phi1 - $phi0);
     $phi0 = $phi1;
   }
-  return $phi;
+  return $phi0;
 }
  ?>
 <?php
-
+$a = new Cone_CC('CC42');
+$b = CC_to_geog(1741000, 1211000, $a);
+echo $b[0];
+echo "    ";
+echo $b[1];
 ?>
