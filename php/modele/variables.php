@@ -103,7 +103,6 @@ class Cone_CC  {
   private $ellipse;
   private $C;
   private $n;
-  private $R0;
 
 
   public function __construct($nom) {
@@ -245,5 +244,127 @@ class Cone_CC  {
  }
 }
 
+class Cone_Lambert  {
+  private $nom;
+  private $lambda0;
+  private $phi0;
+  private $X0;
+  private $Y0;
+  private $k0;
+  private $ellipse;
+  private $n;
 
+
+  public function __construct($nom) {
+    $contenu = lecture_fichier("../../files/cone_Lambert.txt");
+
+    if (($indice = strpos($contenu, $nom)) === FALSE) {
+      exit("Erreur 122: La projection conique demandée n'existe pas");
+    } else {
+      $contenureduit = substr($contenu, $indice);
+      $sortieligne = strpos($contenureduit, "\n");
+      $ligne = substr($contenureduit, 0, $sortieligne);
+
+      $tab = explode(" ", $ligne);
+      $this->nom = $nom;
+      $this->lambda0 = $tab[1]*pi()/180;
+      $this->phi0 = $tab[2]*pi()/180;
+      $this->X0 = $tab[3];
+      $this->Y0 = $tab[4];
+      $this->k0 = $tab[5];
+      $this->ellipse = new Ellipse(substr($tab[6], 0, strlen($tab[6])-1));
+
+      $a = $this->ellipse->__get('a');
+      $b = $this->ellipse->__get('b');
+      $e = $this->ellipse->__get('e');
+
+      $this->n = sin($this->phi0);
+    }
+  }
+
+  /**
+ * Methode __get()
+ *
+ * Retourne la valeur de l'attribut appelée
+ *
+ * @param string $att
+ * @return mixed
+ */
+ public function __get($att) {
+
+  if('nom' === $att) {
+    return $this->nom;
+  }
+  elseif ('lambda0' === $att) {
+    return $this->lambda0;
+  }
+  elseif ('phi0' === $att) {
+    return $this->phi0;
+  }
+  elseif ('k0' === $att) {
+    return $this->k0;
+  }
+  elseif ('X0' === $att) {
+    return $this->X0;
+  }
+  elseif ('Y0' === $att) {
+    return $this->Y0;
+  }
+  elseif ('ellipse' === $att) {
+    return $this->ellipse;
+  }
+  elseif ('n' === $att) {
+    return $this->n;
+  }
+  else {
+    echo('Error 110: Unexpected Error');
+    exit;
+  }
+ }
+
+  /**
+ * Methode __set()
+ *
+ * Fixe la valeur de l'attribut appelée
+ *
+ * @param string $att
+ * @param mixed $value
+ * @return void
+ */
+ public function __set($att, $value) {
+
+  if('nom' === $att) {
+    $this->nom = (string) $value;
+  }
+  elseif ('lambda0' === $att){
+    $this->lambda0 = (float) $value;
+  }
+  elseif ('phi0' === $att){
+    $this->phi0 = (float) $value;
+  }
+  elseif ('k0' === $att){
+    $this->k0 = (float) $value;
+  }
+  elseif ('phi2' === $att){
+    $this->phi2 = (float) $value;
+  }
+  elseif ('X0' === $att){
+    $this->X0 = (float) $value;
+  }
+  elseif ('Y0' === $att){
+    $this->Y0 = (float) $value;
+  }
+  elseif ('ellipse' === $att){
+    $this->ellipse = $value;
+  }
+  elseif ('n' === $att){
+    $this->n = (float) $value;
+  }
+  else {
+    echo('Error 110: Unexpected Error');
+    exit;
+  }
+ }
+
+}
 ?>
