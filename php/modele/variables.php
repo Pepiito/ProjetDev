@@ -92,13 +92,14 @@ class Ellipse {
  }
 }
 
-class Cone {
+class Cone_CC  {
   private $nom;
   private $lambda0;
   private $phi0;
+  private $phi1;
+  private $phi2;
   private $X0;
   private $Y0;
-  private $k0;
   private $ellipse;
   private $C;
   private $n;
@@ -106,7 +107,7 @@ class Cone {
 
 
   public function __construct($nom) {
-    $contenu = lecture_fichier("../../files/projection_conique.txt");
+    $contenu = lecture_fichier("../../files/cone_CC.txt");
 
     if (($indice = strpos($contenu, $nom)) === FALSE) {
       exit("Erreur 122: La projection conique demandée n'existe pas");
@@ -119,18 +120,19 @@ class Cone {
       $this->nom = $nom;
       $this->lambda0 = $tab[1];
       $this->phi0 = $tab[2];
-      $this->X0 = $tab[3];
-      $this->Y0 = $tab[4];
-      $this->k0 = $tab[5];
-      $this->ellipse = new Ellipse($tab[6]);
+      $this->phi1 = $tab[3];
+      $this->phi2 = $tab[4];
+      $this->X0 = $tab[5];
+      $this->Y0 = $tab[6];
+      $this->ellipse = new Ellipse($tab[7]);
 
       $a = $this->ellipse->__get('a');
       $b = $this->ellipse->__get('b');
       $e = $this->ellipse->__get('e');
 
-      $this->n = sin($phi0);
-      $this->R0 = $b**2/$a*cos(atan($b/$a*tan($this->phi0)))/sin($this->phi0) * $this->k0;
-      $this->C = $this->R0 * exp($this->n * log(tan(pi()/4 + $this->phi0/2)) - $e/2*log((1 + $e*sin($this->phi0))/(1 - $e*sin($this->phi0))));
+      $this->n = log((1-$e**2*sin($this->phi1)**2)**(1/2)*cos($this->phi2)/(1-$e**2*sin($this->phi2)**2)**(1/2)/cos($this->phi1))
+      /($this->L_CC($this->phi1) - $this->L_CC($this->phi2));
+      $this->C = $a*cos($this->phi1)/(1-$e**2*sin($this->phi1)**2)**(1/2)/$this->n*exp($this->n*$this->L_CC($this->phi1));
     }
   }
 
@@ -153,6 +155,12 @@ class Cone {
   elseif ('phi0' === $att) {
     return $this->phi0;
   }
+  elseif ('phi1' === $att) {
+    return $this->phi1;
+  }
+  elseif ('phi2' === $att) {
+    return $this->phi2;
+  }
   elseif ('X0' === $att) {
     return $this->X0;
   }
@@ -162,17 +170,11 @@ class Cone {
   elseif ('ellipse' === $att) {
     return $this->ellipse;
   }
-  elseif ('k0' === $att) {
-    return $this->k0;
-  }
   elseif ('C' === $att) {
     return $this->C;
   }
   elseif ('n' === $att) {
     return $this->n;
-  }
-  elseif ('R0' === $att) {
-    return $this->R0;
   }
   else {
     echo('Error 110: Unexpected Error');
@@ -200,14 +202,17 @@ class Cone {
   elseif ('phi0' === $att){
     $this->phi0 = (float) $value;
   }
+  elseif ('phi1' === $att){
+    $this->phi1 = (float) $value;
+  }
+  elseif ('phi2' === $att){
+    $this->phi2 = (float) $value;
+  }
   elseif ('X0' === $att){
     $this->X0 = (float) $value;
   }
   elseif ('Y0' === $att){
     $this->Y0 = (float) $value;
-  }
-  elseif ('k0' === $att){
-    $this->k0 = (float) $value;
   }
   elseif ('ellipse' === $att){
     $this->ellipse = $value;
@@ -218,13 +223,27 @@ class Cone {
   elseif ('n' === $att){
     $this->n = (float) $value;
   }
-  elseif ('R0' === $att){
-    $this->R0 = (float) $value;
-  }
   else {
     echo('Error 110: Unexpected Error');
     exit;
   }
  }
+
+ /**
+ * Méthode L_CC
+ *
+ * Retourne la donnée L en mètre obtenue à partir de la latitude géographique en radian
+ *
+ * @param float $phi
+ * @param Ellipse $ellipse
+ * @return float
+ */
+ public function L_CC($phi) {
+   $e = $this->ellipse->__get('e');
+
+   return log((1 + sin($phi))/(1 - sin($phi)))/2 - $e/2*log((1 + $e*sin($phi))/(1 - $e*sin($phi)));
+ }
 }
+
+
 ?>

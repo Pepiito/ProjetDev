@@ -8,20 +8,20 @@ include("variables.php");
 *
 * @param float $X première coordonnée géographique
 * @param float $Y deuxième coordonnée géographique
-* @param Cone $cone cone de projection
-* @param Ellipse $ellipse ellipsoide de référence
+* @param Cone_CC $cone cone de projection
 * @return array
 */
-function proj_sur_conique($lambda, $phi, $cone, $ellipse) {
+function proj_sur_CC($lambda, $phi, $cone) {
   $X0 = $cone->__get('X0');
   $Y0 = $cone->__get('Y0');
+  $phi0 = $cone->__get('phi0');
   $C = $cone->__get('C');
   $n = $cone->__get('n');
-  $R0 = $cone->__get('R0');
   $lambda0 = $cone->__get('lambda0');
 
-  $X = $X0 + $C*exp(-$n * L($phi, $ellipse))*sin($n*($lambda-$lambda0));
-  $Y = $Y0 + $R0 - $C*exp(-$n * L($phi, $ellipse))*cos($n*($lambda-$lambda0));
+  $R = $C*exp(-$n*$cone->L_CC($phi));
+  $X = $X0 + $R*sin($n*($lambda-$lambda0));
+  $Y = $Y0 + $C*exp(-$n*$cone->L_CC($phi0)) - $R*cos($n*($lambda-$lambda0));
   return array($X, $Y);
 }
 
@@ -32,35 +32,37 @@ function proj_sur_conique($lambda, $phi, $cone, $ellipse) {
 *
 * @param float $X première coordonnée projetée
 * @param float $Y deuxième coordonnée projetée
-* @param Cone $cone cone de projection
-* @param Ellipse $ellipse ellipsoide de référence
+* @param Cone_CC $cone cone de projection
 * @return array
 */
-function conique_to_geog($X, $Y, $cone, $ellipse) {
+function CC_to_geog($X, $Y, $cone) {
   $X0 = $cone->__get('X0');
   $Y0 = $cone->__get('Y0');
+  $phi0 = $cone->__get('phi0');
   $C = $cone->__get('C');
   $n = $cone->__get('n');
-  $R0 = $cone->__get('R0');
   $lambda0 = $cone->__get('lambda0');
 
-  $lambda = $lambda0 + atan(($X - $X0)/($Y0 + $R0 - $Y))/$n;
-  $L = -log((($X - $X0)**2 + ($Y0 + $R0 - $Y)**2)**(1/2)/$C)/$n;
-  $phi = Linverse($L, $ellipse);
+  $Ys = $Y0 + $C*exp(-$n*$this->L_CC($phi0));
+  $R = (($X - $X0)**2 + ($Y - $Ys)**2)**(1/2)
+  $lambda = $lambda0 + atan(($X - $X0)/($Ys - $Y))/$n;
+  $L = -log($R/abs($C))/$n;
+  $phi = Linverse($L, $cone->__get('ellipse'));
 
   return array($lambda, $phi)
 }
 
+
 /**
 * Fonction L
 *
-* Retourne la latitude isométrique en radian obtenue à partir de la latitude géographique en radian
+* Retourne la latitude isométrique en mètres obtenue à partir de la latitude géographique en radian
 *
 * @param float $phi
 * @param Ellipse $ellipse
 * @return float
 */
-function L($phi, $ellipse) {
+function L_iso($phi, $ellipse) {
   $e = $ellipse->__get('e');
 
   return log(tan(pi()/4 + $phi/2)) - $e/2*log((1 + $e*sin($phi))/(1 - $e*sin($phi)));
@@ -69,13 +71,13 @@ function L($phi, $ellipse) {
 /**
 * Fonction Linverse
 *
-* Retourne la latitude géographique en radian obtenue à partir de la latitude isométrique en radian
+* Retourne la latitude géographique en radian obtenue à partir de la latitude isométrique en mètres
 *
 * @param float $L
 * @param Ellipse $ellipse
 * @return float
 */
-function Linverse($L, $ellipse) {
+function L_iso_inverse($L, $ellipse) {
   $e = $ellipse->__get('e');
 
   $phi0 = 2*atan(exp($L)) - pi()/2;
@@ -88,3 +90,6 @@ function Linverse($L, $ellipse) {
   return $phi;
 }
  ?>
+<?php
+
+?>
