@@ -38,11 +38,11 @@ function changeProjection(code) {
 	var digit;
 
 	// Définition de l'unité et de la précision
-	if (code == "EPSG:21781" || code == "EPSG:2056" || code == "EPSG:2154" || code == "EPSG:4275" ) {
-		digit = 2;
+	if (code == "EPSG:21781" || code == "EPSG:2056" || code == "EPSG:2154" ) {
+		digit = 0;
 	}
-	else if (code == "EPSG:4326") {
-		digit = 6;
+	else if (code == "EPSG:4326" || code == "EPSG:4275" ) {
+		digit = 2;
 	}
 
 	// Création de la projection

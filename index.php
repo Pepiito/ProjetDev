@@ -17,6 +17,7 @@
     <script src="lib/proj4-epsg21781.js"></script>
     <script src="lib/proj4-epsg2056.js"></script>
 	<script src="lib/proj4-epsg2154.js"></script>
+	<script src="lib/proj4-epsg4275.js"></script>
     <script src="js/map.js"></script>
     <script type="text/javascript" src="./js/controleur.js"></script>
   </body>

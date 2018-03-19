@@ -37,14 +37,24 @@
 							</div>
 						</div>
 						<div id="Projetées">
+						
 							<div style="display:flex;">
+							
+								<input type="radio" id="altimetrieChoice1"
+								name="altimetrie_depart" value="altitude" checked>
+								<label for="altimetrieChoice1" style="margin:auto 10px auto 0;">Altitude</label>
+							
+								<input type="radio" id="altimetrieChoice2"
+								name="altimetrie_depart" value="hauteur">
+								<label for="altimetrieChoice2" style="margin:auto 30px auto 0;">Hauteur ellipsoïdale</label>
+							
 								<div>
 									<label for="sys_alt">Système altimétrique</label>
 									<select name="sys_alt" id="sys_alt" style="width:150px";>
-										<optgroup label="Suisse">
+										<optgroup label="Suisse" class="Alt_suisse">
 											<option value="RAN95">RAN95</option>
 											<option value="NF02">NF02</option>
-										</optgroup>
+										</optgroup class="Alt_francais">
 										<optgroup label="France">
 											<option value="">IGN69</option>
 										</optgroup>
@@ -148,7 +158,6 @@ var body_trans1 = document.getElementById('trans_coord');
 var body_trans2 = document.getElementById('trans_fichier');
 var head_trans1 = document.getElementById('head1');
 var head_trans2 = document.getElementById('head2');
-var type_coord = document.getElementById('type_coord');
 
 function show_trans_coord() {
 	body_trans1.style.display="block";
@@ -161,26 +170,5 @@ function show_trans_fichier() {
 	body_trans1.style.display="none";
 	head_trans1.style.borderWidth="0px 1px 2px 0px";
 	head_trans2.style.borderWidth="0px 0px 0px 1px";
-}
-
-function change_typecoord(type){
-	console.log(type)
-	switch(type){
-		case "Projetées":
-			Projetées.style.display="block";
-			Geog.style.display="none";
-			Cart.style.display="none";
-			break;
-		case "Geog":
-			Projetées.style.display="none";
-			Geog.style.display="block";
-			Cart.style.display="none";
-			break;
-		case "Cart":
-			Projetées.style.display="none";
-			Geog.style.display="none";
-			Cart.style.display="block";
-			break;
-	}
 }
 </script>

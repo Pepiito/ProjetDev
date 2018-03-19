@@ -53,3 +53,24 @@ document.getElementById('type_coord_transfo_fichier').addEventListener('change',
       break;
   };
 }, false);
+
+document.getElementById('type_coord').addEventListener('change', (event)=> {
+	console.log(event.target.value);
+	switch(event.target.value){
+		case "Projetées":
+			Projetées.style.display="block";
+			Geog.style.display="none";
+			Cart.style.display="none";
+			break;
+		case "Geog":
+			Projetées.style.display="none";
+			Geog.style.display="block";
+			Cart.style.display="none";
+			break;
+		case "Cart":
+			Projetées.style.display="none";
+			Geog.style.display="none";
+			Cart.style.display="block";
+			break;
+	};
+}, false);
