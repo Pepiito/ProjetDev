@@ -54,7 +54,7 @@ function CC_to_geog($X, $Y, $cone) {
 
 
 /**
-* Fonction proj_to_Lambert
+* Fonction geog_to_Lambert
 *
 * Retourne les deux premières coordonnées projetées en représentation conique sur un cone donnée obtenues à partir des coordonnées géographiques
 *
@@ -63,7 +63,7 @@ function CC_to_geog($X, $Y, $cone) {
 * @param Cone_Lambert $cone cone de projection
 * @return array
 */
-function proj_to_Lambert($lambda, $phi, $cone) {
+function geog_to_Lambert($lambda, $phi, $cone) {
   $X0 = $cone->__get('X0');
   $Y0 = $cone->__get('Y0');
   $k0 = $cone->__get('k0');
@@ -147,8 +147,4 @@ function L_iso_inverse($L, $ellipse) {
   }
   return $phi0;
 }
-
-$a = new Cone_Lambert('Lambert3');
-$b = proj_to_Lambert(3.5*pi()/180, 44.1*pi()/180, $a);
-echo $b[0]." ".$b[1];
  ?>
