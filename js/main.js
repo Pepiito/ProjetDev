@@ -66,13 +66,38 @@ function isPHPErrorType(string) {
 
 
 function modify(htmlCollection, display) {
-  Array.from(htmlCollection).forEach( function(htmlelement) {
-    htmlelement.style = "display:"+display;
-  });
+  if (htmlCollection instanceof HTMLCollection) { // liste d'élement
+    Array.from(htmlCollection).forEach( function(htmlelement) {
+      htmlelement.style = "display:"+display;
+    });
+  }
+  else { // unique element
+    htmlCollection.style = "display:"+display;
+  }
 }
 function enable(htmlCollection) {
   modify(htmlCollection, "block");
 }
 function disable(htmlCollection) {
   modify(htmlCollection, "none");
+}
+
+function adaptInputFileParams(value, cart, geog, proj) {
+  switch(value) {
+    case "Projetées":
+      disable(cart);
+      disable(geog);
+      enable(proj);
+      break;
+    case "Geog":
+      disable(cart);
+      enable(geog);
+      disable(proj);
+      break;
+    case "Cart":
+      enable(cart);
+      disable(geog);
+      disable(proj);
+      break;
+  };
 }
