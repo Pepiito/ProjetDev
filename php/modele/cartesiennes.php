@@ -163,6 +163,4 @@ function lecture_grille($geog) {
 
   return array($Tx, $Ty, $Tz);
 }
-
-$e = new Ellipse('lol');
  ?>
