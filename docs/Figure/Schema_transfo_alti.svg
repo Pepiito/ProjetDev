@@ -209,7 +209,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="639.735"
+     inkscape:cx="458.41262"
      inkscape:cy="378.94475"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -292,7 +292,7 @@
    style="font-size:64.99999762%;baseline-shift:sub"
    id="flowSpan1435">ETRS89</flowSpan>/h<flowSpan
    style="font-size:64.99999762%;baseline-shift:sub"
-   id="flowSpan823-4">IGN69</flowSpan></flowPara></flowRoot>    <flowRoot
+   id="flowSpan823-4">ETRS89</flowSpan></flowPara></flowRoot>    <flowRoot
        xml:space="preserve"
        id="flowRoot1393"
        style="font-style:normal;font-weight:normal;font-size:18.66666603px;line-height:0.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
@@ -382,7 +382,7 @@
    style="font-size:64.99999762%;baseline-shift:sub"
    id="flowSpan1435-3">ETRS89</flowSpan>/Z<flowSpan
    style="font-size:64.99999762%;baseline-shift:sub"
-   id="flowSpan823-4-3">IGN69</flowSpan></flowPara></flowRoot>    <path
+   id="flowSpan823-4-3">ETRS89</flowSpan></flowPara></flowRoot>    <path
        style="fill:none;stroke:#000000;stroke-width:0.26499999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Lend-6-1-2)"
        d="m 71.093695,120.55232 48.910325,-0.0402"
        id="path831-2-6-4"
