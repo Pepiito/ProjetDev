@@ -148,7 +148,7 @@ function L_iso_inverse($L, $ellipse) {
   return $phi0;
 }
 
-$a = new Cone_Lambert('Lambert3');
-$b = proj_to_Lambert(3.5*pi()/180, 44.1*pi()/180, $a);
+$a = new Cone_CC('Lambert93');
+$b = proj_to_CC(3.2*pi()/180, 43.2*pi()/180, $a);
 echo $b[0]." ".$b[1];
  ?>
