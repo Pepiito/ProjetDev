@@ -31,7 +31,7 @@ list($X1903plus,$Y1903plus,$Z1903plus)=carthesienne_ETRS89_to_carthesienne_CH190
 
 #echo $X1903plus;
 
-# Transformation coordonnees carthesienne --> coordonnees geographiques
+# Transformation coordonnees carthesienne CH1903+ --> coordonnees geographiques CH1903+ (ellipsoïdales)
 
 function XYZ_to_LambdaPhiH($X1903plus, $Y1903plus, $Z1903plus, $Bessel_a, $Bessel_e, $epsilon){
     $r=sqrt($X1903plus**2+$Y1903plus**2);
@@ -51,5 +51,16 @@ function XYZ_to_LambdaPhiH($X1903plus, $Y1903plus, $Z1903plus, $Bessel_a, $Besse
 
 list($r,$lambda,$phi0)=XYZ_to_LambdaPhiH($X1903plus, $Y1903plus, $Z1903plus, $Bessel_a, $Bessel_e, $Epsilon);
 #echo $lambda;
+
+# Transformation coordonnees geographiques CH1903+ ellipsoïdales) --> coordonnees suisse en projection y, x (formules rigoureuses)
+
+
+
+
+
+
+
+
+
 
 ?>
