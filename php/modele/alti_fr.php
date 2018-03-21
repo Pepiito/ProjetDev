@@ -1,17 +1,48 @@
 <?php
 include("lecture_fichier.php");
 
+/**
+* Fonction h_to_alti
+*
+* Retourne un altitude par rapport aux coordonnées géographique données en radian et mètre
+*
+* @param float $lambda première coordonnée géographique
+* @param float $phi deuxième coordonnée géographique
+* @param float $h troisième coordonnée géographique
+* @return float
+*/
 function h_to_alti($lambda, $phi, $h) {
   $N = lecture_grille_alti($lambda, $phi);
   return $h - $N;
 }
 
+/**
+* Fonction h_to_alti
+*
+* Retourne un hauteur par rapport aux coordonnées géographique et une altitude données en radian et mètre
+*
+* @param float $lambda première coordonnée géographique
+* @param float $phi deuxième coordonnée géographique
+* @param float $H altitude
+* @return float
+*/
 function alti_to_h($lambda, $phi, $H) {
   $N = lecture_grille_alti($lambda, $phi);
   return $H + $N;
 }
 
+/**
+* Fonction lecture_grille_alti
+*
+* Retourne l'ondulation du géoïde à une position donnée en coordonnées géographiques
+*
+* @param float $lambda première coordonnée géographique
+* @param float $phi deuxième coordonnée géographique
+* @return float
+*/
 function lecture_grille_alti($lambda, $phi) {
+  $lambda = $lambda*180/pi();
+  $phi = $phi*180/pi();
   //lecture du contenu de la grille
   $grille = lecture_fichier("../../files/RAF09.mnt");
   $tab = explode(" ", $grille);
