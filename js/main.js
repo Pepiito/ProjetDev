@@ -79,25 +79,25 @@ function enable(htmlCollection) {
   modify(htmlCollection, "block");
 }
 function disable(htmlCollection) {
-  modify(htmlCollection, "none");
+  modify(htmlCollection, "none !important");
 }
 
 function adaptInputFileParams(value, cart, geog, proj) {
   switch(value) {
-    case "Projetées":
+    case "proj":
       disable(cart);
       disable(geog);
       enable(proj);
       break;
-    case "Geog":
+    case "geog":
       disable(cart);
-      enable(geog);
       disable(proj);
+      enable(geog);
       break;
-    case "Cart":
-      enable(cart);
+    case "cart":
       disable(geog);
       disable(proj);
+      enable(cart);
       break;
   };
 }

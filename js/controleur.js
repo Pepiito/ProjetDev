@@ -14,31 +14,13 @@ window.addEventListener('load', (event) => {
 
   // variables à déclarer
 
-  var input_fieldset = document.getElementById('fichier-de-depart');
-  var output_fieldset = document.getElementById('fichier-d-arrivee');
-
-  window.projection_in_params = input_fieldset.getElementsByClassName('projection');
-  window.cartesien_in_params = input_fieldset.getElementsByClassName('cartesien');
-  window.geog_in_params = input_fieldset.getElementsByClassName('geographique');
-
-  window.projection_out_params = output_fieldset.getElementsByClassName('projection');
-  window.cartesien_out_params = output_fieldset.getElementsByClassName('cartesien');
-  window.geog_out_params = output_fieldset.getElementsByClassName('geographique');
-
-
-  window.alti_suisse = document.getElementsByClassName('Alt_suisse');
-  window.alti_francais = document.getElementsByClassName('Alt_francais');
-  window.alti_suisse2 = document.getElementsByClassName('Alt_suisse2');
-  window.alti_francais2 = document.getElementsByClassName('Alt_francais2');
-
-  window.actionType = new Array();
-  ['Cart', 'Geog', 'Projetées'].forEach( function (type) {
-    window.actionType[type.substr(0,4)] = new Array();
+  window.typeCoord = new Array();
+  ['cart', 'geog', 'proj'].forEach( function (coordtype) {
+    window.typeCoord[coordtype] = new Array();
     ['point', 'file'].forEach( function (data) {
-      window.actionType[type.substr(0,4)][data] = new Array();
+      window.typeCoord[coordtype][data] = new Array();
       ['in', 'out'].forEach( function (action) {
-        console.log(type +'-'+ data + '-' + action);
-        window.actionType[type.substr(0,4)][data][action] = document.getElementsByClassName(type +'-'+ data + '-' + action);
+        window.typeCoord[coordtype][data][action] = document.getElementsByClassName(coordtype +'-'+ data + '-' + action);
       });
     });
   });
@@ -46,20 +28,14 @@ window.addEventListener('load', (event) => {
   ['in', 'out'].forEach( function (action) {
     ['point', 'file'].forEach( function (data) {
 
-      //initialisation à coordonnées Projetées
-      adaptInputFileParams('Projetées', actionType['Cart'][data][action], actionType['Geog'][data][action], actionType['Proj'][data][action]);
+      //initialisation en coordonnées géographiques
+      adaptInputFileParams('geog', typeCoord['cart'][data][action], typeCoord['geog'][data][action], typeCoord['proj'][data][action]);
     });
   });
 
   // fonction à éxécuter au lancement
 
-  adaptInputFileParams("Projetées", cartesien_in_params, geog_in_params, projection_in_params);
-
-  adaptInputFileParams("Projetées", cartesien_out_params, geog_out_params, projection_out_params);
-
-
-  disable(alti_suisse);
-  disable(alti_francais);
+/*
   document.getElementById("altimetrieChoice_alti").disabled = true;
   document.getElementById("type_altimetre_projetee_coord").style.color = "gray";
   document.getElementById("type_altimetre_projetee_coord").style.borderColor = "gray";
@@ -70,7 +46,7 @@ window.addEventListener('load', (event) => {
   document.getElementById("type_altimetre_projetee_coord2").style.color = "gray";
   document.getElementById("type_altimetre_projetee_coord2").style.borderColor = "gray";
   document.getElementById("altimetrieChoice_hauteur2").checked = true;
-  document.getElementById('sys_alti_arrivee_coord').style.display="none";
+  document.getElementById('sys_alti_arrivee_coord').style.display="none";*/
 }, false);
 
 /*
@@ -85,8 +61,8 @@ document.addEventListener('keydown', (event) => {
   ['point', 'file'].forEach( function (data) {
 
     document.getElementById('type-coord-' + data + '-' + action).addEventListener('change', (event) => {
-      console.log(actionType);
-      adaptInputFileParams(event.target.value, actionType['Cart'][data][action], actionType['Geog'][data][action], actionType['Proj'][data][action]);
+      console.log(typeCoord);
+      adaptInputFileParams(event.target.value, typeCoord['cart'][data][action], typeCoord['geog'][data][action], typeCoord['proj'][data][action]);
     }, false);
 
   });
@@ -106,7 +82,7 @@ document.getElementById('head2').addEventListener('click', (event) => {
     document.getElementById('head2').style.borderWidth="0px 0px 0px 1px";
 }, false);
 
-document.getElementById('altimetrieChoice_alti').addEventListener('click', (event) => {
+/*document.getElementById('altimetrieChoice_alti').addEventListener('click', (event) => {
 	document.getElementById('sys_alti_depart_coord').style.display="block";
 	document.getElementById("label_input_alti_projetee_coord").innerHTML = "Altitude [m]";
 }, false);
@@ -225,3 +201,4 @@ document.getElementById('systeme_plani_coord2').addEventListener('change', (even
       break;
   };
 }, false);
+*/
