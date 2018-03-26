@@ -14,55 +14,53 @@ window.addEventListener('load', (event) => {
 
   // variables à déclarer
 
+
+  // Eléments du DOM dont l'affichage dépend du type de coordonnée choisi
   window.typeCoord = new Array();
   ['cart', 'geog', 'proj'].forEach( function (coordtype) {
     window.typeCoord[coordtype] = new Array();
     ['point', 'file'].forEach( function (data) {
       window.typeCoord[coordtype][data] = new Array();
-      ['in', 'out'].forEach( function (action) {
-        window.typeCoord[coordtype][data][action] = document.getElementsByClassName(coordtype +'-'+ data + '-' + action);
+      ['in', 'out'].forEach( function (inout) {
+        window.typeCoord[coordtype][data][inout] = document.getElementsByClassName(coordtype +'-'+ data + '-' + inout);
       });
     });
   });
 
-  ['in', 'out'].forEach( function (action) {
-    ['point', 'file'].forEach( function (data) {
-
-      //initialisation en coordonnées géographiques
-      adaptInputFileParams('geog', typeCoord['cart'][data][action], typeCoord['geog'][data][action], typeCoord['proj'][data][action]);
-    });
-  });
+  // Eéléments du DOM dont l'affichage dépend du système plani choisi
 
   // fonction à éxécuter au lancement
 
-/*
-  document.getElementById("altimetrieChoice_alti").disabled = true;
-  document.getElementById("type_altimetre_projetee_coord").style.color = "gray";
-  document.getElementById("type_altimetre_projetee_coord").style.borderColor = "gray";
-  document.getElementById("altimetrieChoice_hauteur").checked = true;
-  document.getElementById('sys_alti_depart_coord').style.display="none";
+  ['in', 'out'].forEach( function (inout) {
+    ['point', 'file'].forEach( function (data) {
 
-  document.getElementById("altimetrieChoice_alti2").disabled = true;
-  document.getElementById("type_altimetre_projetee_coord2").style.color = "gray";
-  document.getElementById("type_altimetre_projetee_coord2").style.borderColor = "gray";
-  document.getElementById("altimetrieChoice_hauteur2").checked = true;
-  document.getElementById('sys_alti_arrivee_coord').style.display="none";*/
+      //initialisation en coordonnées géographiques
+      adaptInputFileParams('geog', typeCoord['cart'][data][inout], typeCoord['geog'][data][inout], typeCoord['proj'][data][inout]);
+    });
+  });
+
 }, false);
 
 /*
 Ecouteurs
 */
 
+document.getElementById('type-alti-point-in-altitude').addEventListener('input', (event) => {
+  var sys_alti_display = document.getElementById('systeme-alti-point-in').style.display
+  if (sys_alti_display == "none") sys_alti_display = "block";
+  else sys_alti_display = "none";
+})
+
 document.addEventListener('keydown', (event) => {
   console.log(event.key);
 }, false);
 
-['in', 'out'].forEach( function (action) {
+['in', 'out'].forEach( function (inout) {
   ['point', 'file'].forEach( function (data) {
 
-    document.getElementById('type-coord-' + data + '-' + action).addEventListener('change', (event) => {
+    document.getElementById('type-coord-' + data + '-' + inout).addEventListener('change', (event) => {
       console.log(typeCoord);
-      adaptInputFileParams(event.target.value, typeCoord['cart'][data][action], typeCoord['geog'][data][action], typeCoord['proj'][data][action]);
+      adaptInputFileParams(event.target.value, typeCoord['cart'][data][inout], typeCoord['geog'][data][inout], typeCoord['proj'][data][inout]);
     }, false);
 
   });

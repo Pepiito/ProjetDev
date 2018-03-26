@@ -92,29 +92,30 @@ div#pop_body select {
 	margin-top: 0;
 }
 #pop_body select {
-  max-width: 150px !important;
-}
-
-#pop_body input[type="number"], input[type="text"], #pop_body textarea, #pop_body select {
   background-color:#ffffff;
   padding:3px;
 	border:1px solid black;
 	border-radius:5px;
 	box-shadow:1px 1px 2px #C0C0C0;
 	font-size:0.9em;
+	margin: 3px 25px;
+  max-height: 25px;
+  min-width: 150px;
+  max-width: 170px;
+}
+
+#pop_body input[type="number"], input[type="text"] {
+  background-color:#ffffff;
+  padding:3px;
+	border:1px solid black;
+	border-radius:5px;
+	box-shadow:2px 2px 5px #C0C0C0;
+	font-size:0.9em;
 	margin-right: 11px;
   max-height: 25px;
   max-width: 90px;
 }
-div#proj {
-	display:block;
-}
-div#geog {
-	display:none;
-}
-div#cart {
-	display:none;
-}
+
 .type-alti{
 	display:flex !important;
   align-items: center;
@@ -134,9 +135,6 @@ div#cart {
   margin: 5px 20px;
 }
 
-div#pop_body input#vert {
-	width: 70px;
-}
 div#pop_body input[type="text"]:disabled {
 	background-color: rgb(180, 180, 180);
 }
@@ -166,6 +164,11 @@ div#pop_body input[type="text"]:disabled {
   left: 5px;
 }
 
+#selection-formatage-in, #selection-formatage-out {
+  max-width: 200px !important;
+  width: 200px;
+}
+
 .inputs-coord {
   display: flex;
 }
@@ -185,5 +188,5 @@ div#pop_body input[type="text"]:disabled {
 	text-align: center;
 }
 .button_popup_calc:hover {
-	background-color: #FF0303;
+	background-color: #EE1313;
 }
