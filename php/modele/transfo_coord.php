@@ -45,6 +45,13 @@ if ($type_coord == 'proj') {
     }
   } else if ( == 'NTF') {
     $ellipse = new Ellipse('Clarke_1880');
+    if ($type_alti == 'a') {
+      $H = floatval($_POST['H']);
+      $cst = alti_to_h(48.846211, 2.346199, 0); //N croix du pantheon
+      $h = alti_to_h($lambda, $phi, $H) + $cst;
+    } else if ($type_alti == 'h') {
+      $h = floatval($_POST['h']);
+    }
   }
   $array_cart = geographic_to_cartesien($lambda, $phi, $h, $ellipse);
   $X = $array_cart[0];
