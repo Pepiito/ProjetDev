@@ -182,11 +182,24 @@ list ($b_equatorial, $l_equatorial)=pseudo_equatorial_to_equatorial($b0, $b_3, $
 
 # Sphère (b, l) --> ellipsoïde (phi, lambda)
 
-function sphere_to_ellipsoide($lambda_Berne, $alpha){
+function sphere_to_ellipsoide($lambda_Berne, $alpha, $l_equatorial, $K, $Bessel_e, $b_equatorial){
     $lambda_ellipsoide=$lambda_Berne+$l_equatorial/$alpha;
-    $S_ellipsoide=log(tan(pi()/4+))
+    $phi_ellipsoide=$b_equatorial;
+    $phi_ellipsoide_1=0;
+    $S_ellipsoide_round=0;
+    $S_ellipsoide_round_1=1;
+    while ($S_ellipsoide_round!=$S_ellipsoide_round_1){
+        $S_ellipsoide=log(tan(pi()/4+$phi_ellipsoide/2));
+        $S_ellipsoide_1=1/$alpha*(log(tan(pi()/4+$b_equatorial/2))-$K)+sqrt($Bessel_e)*log(tan(pi()/4+asin(sqrt($Bessel_e)*sin($phi_ellipsoide))/2));
+        $phi_ellipsoide_1=2*atan(exp($S_ellipsoide_1))-pi()/2;
+        $phi_ellipsoide=$phi_ellipsoide_1;
+        $S_ellipsoide_round=round($S_ellipsoide,15);
+        $S_ellipsoide_round_1=round($S_ellipsoide_1,15);
+    }
+    return array($S_ellipsoide, $phi_ellipsoide_1);
 }
 
+list ($S_ellipsoide, $phi_ellipsoide_1)=sphere_to_ellipsoide($lambda_Berne, $alpha, $l_equatorial, $K, $Bessel_e, $b_equatorial);
 
-
+echo $phi_ellipsoide_1;
 ?>
