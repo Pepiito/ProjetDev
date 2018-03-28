@@ -1,22 +1,22 @@
 .modal {
-    display: none;
     position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 1;
-    padding-top: 80px;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.6);
 }
 .modal-content {
     background-color: #fefefe;
-    margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 800px;
+    width: 60vw;
+    min-width: 850px;
 }
 .close {
     color: #aaaaaa;
@@ -34,12 +34,14 @@
 
 #pop_header {
 	display: flex;
+  cursor: pointer;
 }
 div#pop_header p {
 	width: 50%;
 	text-align:center;
 	padding:10px 0 10px 0;
 	margin: 0;
+  transition: .5s;
 }
 div#pop_header p#head1 {
 	border-style: solid;
@@ -55,7 +57,7 @@ div#pop_header p:hover{
 div#pop_body {
 	border-width: 2px 2px 2px 2px;
 	border-style: solid;
-	height:550px;
+  height:550px;
 	width: 96%;
 	background-color: #f5f5f5;
 }
@@ -80,7 +82,6 @@ div#pop_body legend {
 	font-weight:bold
 }
 div#pop_body label {
-	margin-top:0px;
 	display:block;
 	}
 div#pop_body label.inline {
@@ -90,56 +91,52 @@ div#pop_body label.inline {
 div#pop_body select {
 	margin-top: 0;
 }
-div#pop_body input[type="text"], input[type="number"], div#pop_body textarea, div#pop_body select, div#pop_body option {
-	background-color:#ffffff;
-}
-
-div#pop_body input[type="text"], input[type="number"] {
-  max-width: 90px;
-}
-
-div#pop_body input[type="number"], input[type="text"], div#pop_body textarea, div#pop_body select {
-	padding:3px;
+#pop_body select {
+  background-color:#ffffff;
+  padding:3px;
 	border:1px solid black;
 	border-radius:5px;
 	box-shadow:1px 1px 2px #C0C0C0;
 	font-size:0.9em;
-	margin-right: 15px;
+	margin: 3px 25px;
+  max-height: 25px;
+  min-width: 150px;
+  max-width: 170px;
 }
-div#Projetées {
-	display:block;
+
+#pop_body input[type="number"], input[type="text"] {
+  background-color:#ffffff;
+  padding:3px;
+	border:1px solid black;
+	border-radius:5px;
+	box-shadow:2px 2px 5px #C0C0C0;
+	font-size:0.9em;
+	margin-right: 11px;
+  max-height: 25px;
+  max-width: 90px;
 }
-div#Geog {
-	display:none;
-}
-div#Cart {
-	display:none;
-}
-div#Projetées2 {
-	display:block;
-}
-div#Geog2 {
-	display:none;
-}
-div#Cart2 {
-	display:none;
-}
-#type_altimetre_projetee_coord, #type_altimetre_projetee_coord2{
-	display:flex;
+
+.type-alti{
+	display:flex !important;
+  align-items: center;
+  justify-content: center;
 	border:0.5px solid black;
 	margin-right:15px;
+  padding: 10px;
 }
-#sys_alti_depart_coord {
-	display:none;
+.type-alti label {
+  position: relative;
+  top: 2px;
+  margin: 3px;
 }
-div#Projetées input[type="radio"]{
-	margin: auto 5px auto 5px;
+
+.systeme-alti {
+  min-width: 120px;
+  margin: 5px 20px;
 }
-div#pop_body input#vert {
-	width: 70px;
-}
-div#pop_body input[type="text"].input_calc_coord{
-	background-color: gray;
+
+div#pop_body input[type="text"]:disabled {
+	background-color: rgb(180, 180, 180);
 }
 
 #inputfile {
@@ -147,33 +144,49 @@ div#pop_body input[type="text"].input_calc_coord{
   opacity: 0;
 }
 
-#separateur, #ligne_start {
-  width: 30px;
-  text-align: center;
+#container-input-file button {
+  margin: 10px 20px;
 }
 
-.input_transfo_fichier {
+#separateur-file-in, #separateur-file-out, #ligne-start {
+  width: 30px;
+  text-align: center;
+  font-weight: bold;
+}
+
+#nom-export-file-out {
+  max-width: 300px !important;
+  width: 300px;
+  text-align: center;
+}
+.input-transfo-fichier {
   position: relative;
-  top: 5px;
   left: 5px;
 }
 
+#selection-formatage-in, #selection-formatage-out {
+  max-width: 200px !important;
+  width: 200px;
+}
 
+.inputs-coord {
+  display: flex;
+}
 .button_popup_calc {
-	width: 280px;
+	max-width: 280px;
 	background-color: #E34112;
 	color: white;
-	padding: 14px 0px 14px 0px;
-	margin: 8px 0;
+	padding: 15px 30px;
+	margin: 0 15px;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
 	transition: .3s;
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 15px;
 	font-family: Arial;
 	text-align: center;
 }
 .button_popup_calc:hover {
-	background-color: #FF0303;
+	background-color: #EE1313;
 }

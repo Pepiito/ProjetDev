@@ -1,5 +1,10 @@
 <?php if (!isset($_SESSION)) session_start(); ?>
-<?php include("./php/vue/head.php"); ?>
+<?php
+include("./php/vue/head.php");
+include("./php/vue/data_functions.php"); 
+?>
+
+
   <body>
     <div class="corps">
 	<div class="legende">

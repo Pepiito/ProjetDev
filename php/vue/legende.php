@@ -14,7 +14,7 @@
 	   <p><u>Coordonnées géographiques</u></p>
        <div><input type="checkbox" name="EPSG:4326" id="EPSG:4326" checked/> <label for="EPSG:4326">WGS 84 EPSG:4326</label></div>
        <div><input type="checkbox" name="EPSG:4258" id="EPSG:4258" checked/> <label for="EPSG:4258">ETRS89 EPSG:4258</label></div>
-	   <p><u>Coordonnées projetées</u></p>
+	   <p><u>Coordonnées proj</u></p>
 	   <p><u>Français</u></p>
        <div><input type="checkbox" name="EPSG:2154" id="EPSG:2154" checked/> <label for="EPSG:2154">RGF93 EPSG:2154</label></div>
        <div><input type="checkbox" name="EPSG:4275" id="EPSG:4275" checked/> <label for="EPSG:4275">NTF EPSG:4275</label></div>
@@ -38,8 +38,8 @@
 	
 	</form>
 	
-            <p>Projection :
-                <select id="maListe" onchange="changeProjection(this.value)">
+            <p>projection :
+                <select id="maListe" onchange="changeprojection(this.value)">
                     <option value="EPSG:4326">WGS84</option>
 					<optgroup label="Français">
 					<option value="EPSG:2154">RGF93</option>
