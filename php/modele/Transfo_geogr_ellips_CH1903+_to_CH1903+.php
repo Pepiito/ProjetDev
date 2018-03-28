@@ -95,7 +95,7 @@ function ellipsoide_to_sphere($lambda, $phi, $K, $b0, $alpha, $Bessel_e, $lambda
 	$Xprojection=$R/2*log((1+sin($b_2))/(1-sin($b_2)));
 	return array($Yprojection, $Xprojection);
 }
-		
+
 list($Yprojection, $Xprojection)=ellipsoide_to_sphere($lambda, $phi, $K, $b0, $alpha, $Bessel_e, $lambda_Berne, $R);
 #echo $Xprojection;
 
@@ -161,7 +161,7 @@ list($l_3)=val_aux_1($Y_sphere, $R);
 
 function val_aux_2($X_sphere, $R){
     $b_3=2*(atan(exp($X_sphere/$R))-pi()/4);
-    return array($b_3);    
+    return array($b_3);
 }
 
 list($b_3)=val_aux_2($X_sphere, $R);

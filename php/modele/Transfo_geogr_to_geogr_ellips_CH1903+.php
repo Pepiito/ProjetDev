@@ -46,8 +46,8 @@ function LambdaPhiH_to_XYZ($lambda, $phi, $h, $Bessel_a, $Bessel_e){
 	$w=sqrt(1-($Bessel_e*sin($phi))**2);
 	$X=($Bessel_a/$w+$h)*cos($phi)*cos($lambda);
 	$Y=($Bessel_a/$w+$h)*cos($phi)*sin($lambda);
-	$Z=($Bessel_a*(1-$Bessel_e**2)/$w+$h)*sin($phi);	
-	return array($X,$Y,$Z);	
+	$Z=($Bessel_a*(1-$Bessel_e**2)/$w+$h)*sin($phi);
+	return array($X,$Y,$Z);
 }
 
 list($X,$Y,$Z)=LambdaPhiH_to_XYZ(deg_rad($lambda), deg_rad($phi), $h, $GRS80_a, $GRS80_e);
@@ -60,6 +60,13 @@ function carthesienne_ETRS89_to_carthesienne_CH1903plus($X, $Y, $Z, $Bessel_dx, 
     $Y1903plus=$Y+$Bessel_dy;
     $Z1903plus=$Z+$Bessel_dz;
     return array($X1903plus,$Y1903plus,$Z1903plus);
+}
+
+function carthesienne_CH1903plus_to_carthesienne_ETRS89($X, $Y, $Z, $Bessel_dx, $Bessel_dy, $Bessel_dz){
+    $XETRS=$X-$Bessel_dx;
+    $YETRS=$Y-$Bessel_dy;
+    $ZETRS=$Z-$Bessel_dz;
+    return array($XETRS,$YETRS,$ZETRS);
 }
 
 list($X1903plus,$Y1903plus,$Z1903plus)=carthesienne_ETRS89_to_carthesienne_CH1903plus($X, $Y, $Z, $Bessel_dx, $Bessel_dy, $Bessel_dz);
@@ -81,7 +88,7 @@ function XYZ_to_LambdaPhiH($X1903plus, $Y1903plus, $Z1903plus, $Bessel_a, $Besse
         $phi=atan($Z1903plus*($vn+$hn)/($r*($vn*(1-$Bessel_e)+$hn)));
 		$deviation=abs($phi-$phi0);
     }
-    return array($r,$lambda,$phi);    
+    return array($r,$lambda,$phi);
 }
 
 list($r,$lambda,$phi)=XYZ_to_LambdaPhiH($X1903plus, $Y1903plus, $Z1903plus, $Bessel_a, $Bessel_e, $Epsilon);
