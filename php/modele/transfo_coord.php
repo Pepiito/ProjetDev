@@ -37,9 +37,15 @@ if ($type_coord_dep = 'proj') {
   if ($type_plani_dep == 'NTF') {
     $ellipse = new Ellipse('Clarke_1880');
     $cone = new Cone_Lambert($type_proj_dep);
-  }  else if ($type_plani_dep == 'RGF')
+  }  else if ($type_plani_dep == 'RGF93') {
     $ellipse = new Ellipse('IAG_GRS_1980');
     $cone = new Cone_CC($type_proj_dep);
+  } else if ($type_plani_dep == 'ETRS89') {
+    $ellipse = new Ellipse('IAG_GRS_1980');
+  } else if ($type_plani_dep == 'CH1903') {
+    $ellipse = new Ellipse('Bessel_1841');
+  } else if ($type_plani_dep == 'CH1903+') {
+    $ellipse = new Ellipse('Bessel_1841');
   }
 
 } else if ($type_coord_dep = 'geog') {
@@ -57,6 +63,12 @@ if ($type_coord_dep = 'proj') {
     $ellipse = new Ellipse('IAG_GRS_1980');
   } else if ($type_plani_dep == 'NTF') {
     $ellipse = new Ellipse('Clarke_1880');
+  } else if ($type_plani_dep == 'ETRS89') {
+    $ellipse = new Ellipse('IAG_GRS_1980');
+  } else if ($type_plani_dep == 'CH1903') {
+    $ellipse = new Ellipse('Bessel_1841');
+  } else if ($type_plani_dep == 'CH1903+') {
+    $ellipse = new Ellipse('Bessel_1841');
   }
 
 } else if ($type_coord_dep == 'cart') {
