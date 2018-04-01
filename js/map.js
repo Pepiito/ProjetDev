@@ -1,3 +1,30 @@
+
+//Chargement de vecteur de GeoServer en GeoJSON
+var proxyUrl = "http://localhost/cgi-bin/proxy.cgi?url=";
+var pfp1Url = "http://localhost:8080/geoserver/cite/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=cite:PFP1&maxFeatures=50&outputFormat=application%2Fjson";
+var encodedUrlpfp1 = encodeURIComponent(pfp1Url);
+var wfsPFP1 = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    format: new ol.format.GeoJSON(),
+                    url: proxyUrl + encodedUrlpfp1
+                }),
+            });
+			
+
+var pfa1Url = "http://localhost:8080/geoserver/cite/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=cite:PFA1&maxFeatures=50&outputFormat=application%2Fjson";
+var encodedUrlpfa1 = encodeURIComponent(pfa1Url);
+var wfsPFA1 = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    format: new ol.format.GeoJSON(),
+                    url: proxyUrl + encodedUrlpfa1
+                }),
+            });
+			
+
+var popup_map = new ol.Overlay(({
+                autoPan: true
+            }));
+			
 var map = new ol.Map({
                 target: "map",
 
@@ -11,8 +38,9 @@ var map = new ol.Map({
                 // Vue
                 view: new ol.View({
                     center: ol.proj.fromLonLat([6.6, 46.6]),
-                    zoom: 10
-                })
+                    zoom: 10,
+                }),
+				overlays: [popup_map]
             });
 			// Affichage des coordonnées
             var mousePositionControl = new ol.control.MousePosition({
@@ -29,8 +57,24 @@ var map = new ol.Map({
             ol.proj.get("EPSG:2056");
 			ol.proj.get("EPSG:2154");
 			ol.proj.get("EPSG:4275");
+			
+//Ajouter à la carte les points fixes
+map.addLayer(wfsPFP1);
+map.addLayer(wfsPFA1);
 
 
+map.on('click', function(e) {
+              popup_map.setPosition();
+              var features = map.getFeaturesAtPixel(e.pixel);
+			  
+              if (features) {
+				console.log(features)
+                var coords = e.coordinate;
+                
+				console.log(coords);
+				//window.open("dossier.php?id="+iddoss);
+              }
+            });
 
 function changeProjection(code) {
 	console.log("changeProjection(\"" + code + "\")");
@@ -58,7 +102,7 @@ var modal = document.getElementById('popup');
 var span = document.getElementsByClassName("close")[0];
 
 function Open_transfo() {
-	modal.style.display="block";
+	modal.style.display="flex";
 }
 span.onclick = function() {
 	modal.style.display = "none";
