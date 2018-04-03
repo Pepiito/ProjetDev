@@ -11,27 +11,33 @@
 	   
 	</div> 
 	<h3>
-       Liste des systèmes de coordonnées</h3>
-	   <p><u>Coordonnées géographiques</u></p>
-       <div><input type="checkbox" name="etrs89_geog_map" id="etrs89_geog_map"/> <label for="etrs89_geog_map">ETRS89 EPSG:4258</label></div>
-	   <div><input type="checkbox" name="ch1903_geog_map" id="ch1903_geog_map" /> <label for="ch1903_geog_map">CH1903+</label></div>
-	   <div><input type="checkbox" name="rgf_geog_map" id="rgf_geog_map" /> <label for="rgf_geog_map">RGF</label></div>
-	   <div><input type="checkbox" name="ntf_geog_map" id="ntf_geog_map" /> <label for="ntf_geog_map">NTF</label></div>
+       Systèmes de coordonnées</h3>
 	   <p><u>Coordonnées projetées</u></p>
-	   <div><input type="checkbox" name="ch1903_proj_map" id="ch1903_proj_map"/> <label for="ch1903_proj_map">CH1903 </label></div>
+	   <div><input type="checkbox" name="ch1903_proj_map" id="ch1903_proj_map"/> <label for="ch1903_proj_map">CH1903</label></div>
 	   <div><input type="checkbox" name="ch1903plus_proj_map" id="ch1903plus_proj_map" /> <label for="ch1903plus_proj_map">CH1903+</label></div>
 	   <div><input type="checkbox" name="rgf_proj_map" id="rgf_proj_map" /> <label for="rgf_proj_map">RGF</label></div>
 	   <div><input type="checkbox" name="ntf_proj_map" id="ntf_proj_map" /> <label for="ntf_proj_map">NTF</label></div>
+	   <p><u>Coordonnées géographiques</u></p>
+       <div><input type="checkbox" name="etrs89_geog_map" id="etrs89_geog_map"/> <label for="etrs89_geog_map">ETRS89</label></div>
+	   <div><input type="checkbox" name="ch1903_geog_map" id="ch1903_geog_map" /> <label for="ch1903_geog_map">CH1903+</label></div>
+	   <div><input type="checkbox" name="rgf_geog_map" id="rgf_geog_map" /> <label for="rgf_geog_map">RGF</label></div>
+	   <div><input type="checkbox" name="ntf_geog_map" id="ntf_geog_map" /> <label for="ntf_geog_map">NTF</label></div>
+	   <p><u>Coordonnées cartésiennes</u></p>
+       <div><input type="checkbox" name="etrs89_cart_map" id="etrs89_cart_map"/> <label for="etrs89_cart_map">ETRS89</label></div>
+	   <div><input type="checkbox" name="ch1903_cart_map" id="ch1903_cart_map" /> <label for="ch1903_cart_map">CH1903+</label></div>
+	   <div><input type="checkbox" name="rgf_cart_map" id="rgf_cart_map" /> <label for="rgf_cart_map">RGF</label></div>
+	   <div><input type="checkbox" name="ntf_cart_map" id="ntf_cart_map" /> <label for="ntf_cart_map">NTF</label></div>
 	   
 	   
-	   <h3>Liste des systèmes altimétriques</h3>
+	   
+	   <h3>Systèmes altimétriques</h3>
 	   <p><u>Altitudes</u></p>
-       <div><input type="checkbox" name="" id="" checked/> <label for="">IGN69</label></div>
-       <div><input type="checkbox" name="" id="" checked/> <label for="">RAN95</label></div>
-       <div><input type="checkbox" name="" id="" checked/> <label for="">NF02</label></div>
+       <div><input type="checkbox" name="ign69_map" id="ign69_map"/> <label for="ign69_map">IGN69</label></div>
+       <div><input type="checkbox" name="ran95_map" id="ran95_map"/> <label for="ran95_map">RAN95</label></div>
+       <div><input type="checkbox" name="nf02_map" id="nf02_map"/> <label for="nf02_map">NF02</label></div>
 	   <p><u>Hauteur</u></p>
-	   <div><input type="checkbox" name="Bessel" id="Bessel" checked/> <label for="Bessel">Ellisoïde: Bessel</label></div>
-	   <div><input type="checkbox" name="" id="" checked/> <label for="">Ellisoïde: IAG GRS 1980</label></div>
+	   <div><input type="checkbox" name="hbessel_map" id="hbessel_map"/> <label for="hbessel_map">Ellisoïde: Bessel</label></div>
+	   <div><input type="checkbox" name="hgrs80_map" id="hgrs80_map"/> <label for="hgrs80_map">Ellisoïde: IAG GRS 1980</label></div>
 
 	   
 	   
