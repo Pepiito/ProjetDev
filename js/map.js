@@ -10,6 +10,11 @@ var proxyUrl = "http://localhost/cgi-bin/proxy.cgi?url=";
 			format: new ol.format.GeoJSON(),
 			url: proxyUrl + encodedUrlpfp1
 		}),
+		style: new ol.style.Style({
+			image: new ol.style.Icon({
+				src: 'icon_map/PFP1.svg'
+			})
+		}),
 	});
 			
 
@@ -19,6 +24,11 @@ var proxyUrl = "http://localhost/cgi-bin/proxy.cgi?url=";
 		source: new ol.source.Vector({
 			format: new ol.format.GeoJSON(),
 			url: proxyUrl + encodedUrlpfa1
+		}),
+		style: new ol.style.Style({
+			image: new ol.style.Icon({
+				src: 'icon_map/PFA1.svg'
+			})
 		}),
 	});
 

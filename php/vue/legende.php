@@ -6,8 +6,8 @@
 	   <p><u>Français</u></p>
        
 	   <p><u>Suisse</u></p>
-       <div><input type="checkbox" name="PFP1" id="PFP1_leg"/> <label for="PFP1">PFP1</label></div>
-	   <div><input type="checkbox" name="PFP2" id="PFA1_leg"/> <label for="PFA1">PFA1</label></div>
+       <div style="height:25px;"><input type="checkbox" name="PFP1" id="PFP1_leg"/> <label for="PFP1">PFP1</label><img src="icon_map/PFP1.svg">  </div>
+	   <div style="height:25px;"><input type="checkbox" name="PFP2" id="PFA1_leg"/> <label for="PFA1">PFA1</label><img src="icon_map/PFA1.svg"></div>
 	   
 	</div> 
 	<h3>
