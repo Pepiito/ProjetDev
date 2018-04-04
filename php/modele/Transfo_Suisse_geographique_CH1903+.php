@@ -5,8 +5,8 @@ $lambda=0.148115967;
 $phi=0.821317799;
 $h=510.4000;
 
-$Y_MN95=2679520.05;
-$X_MN95=1212273.44;
+$E_MN95=2679520.05;
+$N_MN95=1212273.44;
 
 # Définition des variables
 
@@ -97,21 +97,10 @@ function ellipsoide_to_sphere($lambda, $phi, $K, $b0, $alpha, $Bessel_e, $lambda
 }
 
 list($Yprojection, $Xprojection)=ellipsoide_to_sphere($lambda, $phi, $K, $b0, $alpha, $Bessel_e, $lambda_Berne, $R);
+
 #echo $Xprojection;
 
-# Transformation vers LV03 (600'000, 200'000)
-
-function sphere_to_LV03($Yprojection, $Xprojection){
-	$Y_LV03=$Yprojection+600000;
-	$X_LV03=$Xprojection+200000;
-	return array($Y_LV03, $X_LV03);
-}
-
-list($Y_LV03, $X_LV03)=sphere_to_LV03($Yprojection, $Xprojection);
-
-#echo $Y_LV03;
-
-# Transformation vers LV95 (2600'000, 1200'000)
+# Transformation vers LV95 (2'600'000, 1'200'000)
 
 function sphere_to_LV95($Yprojection, $Xprojection){
 	$Y_LV95=$Yprojection+2600000;
@@ -123,29 +112,37 @@ list($Y_LV95, $X_LV95)=sphere_to_LV95($Yprojection, $Xprojection);
 
 #echo $X_LV95;
 
+# Fonction qui permet de passer de la transformation coordonnees geographiques CH1903+ (ellipsoïdales) --> coordonnees suisse en projection y, x (formules rigoureuses)
+
+function geog_to_MN95($lambda, $phi, $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne){
+    list($R)=rayon_sphere_projection($phi_Berne, $Bessel_e, $Bessel_a);
+    list($alpha)=rapport_longitude($phi_Berne, $Bessel_e);
+    list($b0)=latitude_origine_sphere($phi_Berne, $alpha);
+    list($K)=constante_formule_latitudes($b0, $alpha, $phi_Berne, $Bessel_e);
+    list($Yprojection, $Xprojection)=ellipsoide_to_sphere($lambda, $phi, $K, $b0, $alpha, $Bessel_e, $lambda_Berne, $R);
+    list($Y_LV95, $X_LV95)=sphere_to_LV95($Yprojection, $Xprojection);
+    return array($Y_LV95, $X_LV95);
+}
+
+list ($Y_LV95, $X_LV95)=geog_to_MN95($lambda, $phi, $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
+
+echo $Y_LV95;
+
+
+
 #Coordonnées suisses en projection (y, x) --> coordonnées ellipsoïdales (λ, φ) (formules rigoureuses)
 
 # Plan de projection (y, x) --> sphère ( b, l )
 # Transformation vers LV03 (600'000, 200'000)
 # Pour ne pas utiliser les mêmes noms, nous avons pour un sense utilisé l'appelation LV95 et LV03 et pour l'autre sense, MN95 et MN03. LV95 = MN95 et LV03 = MN03 --> traduction français --> allemand
 
-function MN95_to_MN03($Y_MN95, $X_MN95){
-    $Y_MN03=$Y_MN95-2000000;
-    $X_MN03=$X_MN95-1000000;
-    return array($Y_MN03, $X_MN03);
-}
-
-list($Y_MN03, $X_MN03)=MN95_to_MN03($Y_LV95, $X_LV95);
-
-#echo $Y_MN03;
-
-function MN03_to_sphere($Y_MN03, $X_MN03){
-    $Y_sphere=$Y_MN03-600000;
-    $X_sphere=$X_MN03-200000;
+function MN95_to_sphere($E_MN95, $N_MN95){
+    $Y_sphere=$E_MN95-2600000;
+    $X_sphere=$N_MN95-1200000;
     return array($Y_sphere, $X_sphere);
 }
 
-list($Y_sphere, $X_sphere)=MN03_to_sphere($Y_MN03, $X_MN03);
+#list($Y_sphere, $X_sphere)=MN95_to_sphere($Y_LV95, $X_LV95);
 
 #echo $Y_sphere;
 
@@ -155,7 +152,7 @@ function val_aux_1($Y_sphere, $R){
     $l_3=$Y_sphere/$R;
     return array($l_3);
 }
-list($l_3)=val_aux_1($Y_sphere, $R);
+#list($l_3)=val_aux_1($Y_sphere, $R);
 
 #echo $l_3;
 
@@ -164,7 +161,7 @@ function val_aux_2($X_sphere, $R){
     return array($b_3);
 }
 
-list($b_3)=val_aux_2($X_sphere, $R);
+#list($b_3)=val_aux_2($X_sphere, $R);
 
 #echo $b_3;
 
@@ -176,7 +173,7 @@ function pseudo_equatorial_to_equatorial($b0, $b_3, $l_3){
     return array($b_equatorial, $l_equatorial);
 }
 
-list ($b_equatorial, $l_equatorial)=pseudo_equatorial_to_equatorial($b0, $b_3, $l_3);
+#list ($b_equatorial, $l_equatorial)=pseudo_equatorial_to_equatorial($b0, $b_3, $l_3);
 
 #echo $b_equatorial;
 
@@ -196,8 +193,30 @@ function sphere_to_ellipsoide($lambda_Berne, $alpha, $l_equatorial, $K, $Bessel_
         $S_ellipsoide_round=round($S_ellipsoide,15);
         $S_ellipsoide_round_1=round($S_ellipsoide_1,15);
     }
-    return array($S_ellipsoide, $phi_ellipsoide_1);
+    return array($phi_ellipsoide_1, $lambda_ellipsoide);
 }
 
-list ($S_ellipsoide, $phi_ellipsoide_1)=sphere_to_ellipsoide($lambda_Berne, $alpha, $l_equatorial, $K, $Bessel_e, $b_equatorial);
+#list ($phi_ellipsoide_1, $lambda_ellipsoide)=sphere_to_ellipsoide($lambda_Berne, $alpha, $l_equatorial, $K, $Bessel_e, $b_equatorial);
+
+#echo $phi_ellipsoide_1;
+
+# Fonction qui permet de passer des coordonnées suisses en projection (y, x) --> coordonnées ellipsoïdales (λ, φ) (formules rigoureuses)
+
+function MN95_to_geog($E_MN95, $N_MN95, $Y_LV95, $X_LV95, $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne){
+	list($R)=rayon_sphere_projection($phi_Berne, $Bessel_e, $Bessel_a);
+	list($Y_sphere, $X_sphere)=MN95_to_sphere($Y_LV95, $X_LV95);
+	list($l_3)=val_aux_1($Y_sphere, $R);
+	list($b_3)=val_aux_2($X_sphere, $R);
+	list($alpha)=rapport_longitude($phi_Berne, $Bessel_e);
+	list($b0)=latitude_origine_sphere($phi_Berne, $alpha);
+	list($b_equatorial, $l_equatorial)=pseudo_equatorial_to_equatorial($b0, $b_3, $l_3);
+	list($K)=constante_formule_latitudes($b0, $alpha, $phi_Berne, $Bessel_e);
+	list($phi_ellipsoide_1, $lambda_ellipsoide)=sphere_to_ellipsoide($lambda_Berne, $alpha, $l_equatorial, $K, $Bessel_e, $b_equatorial);
+	return array($phi_ellipsoide_1, $lambda_ellipsoide);
+}
+
+list($phi_ellipsoide_1, $lambda_ellipsoide)=MN95_to_geog($E_MN95, $N_MN95, $Y_LV95, $X_LV95, $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
+
+#echo $phi_ellipsoide_1;
+
 ?>

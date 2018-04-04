@@ -13,10 +13,16 @@ include("./php/vue/data_functions.php");
 	<div style="width:100%;position:relative;">
 	<div id="map">
 	</div>
+	
+	<div>
 	<div class="button_transfo"><input class="button_tran" type="submit" onclick="Open_transfo()" value="Changement de coordonnées"/></div>
 	<div class="school"><img src="images/ensg-heig.png" width="350" height="81"/></div>
 	</div>
 	</div>
+	<div id="popup-map" class="ol-popup">
+      <a href="#" id="popup-map-closer" class="ol-popup-closer"></a>
+      <div id="popup-map-content"></div>
+    </div>
 	<?php include("./php/vue/change_coord.php"); ?>
 	<script src="lib/proj4.js"></script>
     <script src="lib/proj4-epsg21781.js"></script>
