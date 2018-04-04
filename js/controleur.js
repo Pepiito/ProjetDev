@@ -12,30 +12,51 @@ Variables à déclarer
 
 window.addEventListener('load', (event) => {
 
-  // variables à déclarer
+  /*
+  * variables à déclarer
+  */
 
+  window.allVar = new Array(); // stocke tous les éléments du DOM utiles
+  allVar['type-transfo-selected'] = 'point';
+
+  var inputs = document.getElementById('pop_body').getElementsByTagName('input');
+  var selects =  document.getElementById('pop_body').getElementsByTagName('select');
+
+  window.allHTMLElem = Array.from(inputs).concat(Array.from(selects))
 
   // Eléments du DOM dont l'affichage dépend du type de coordonnée choisi
-  window.typeCoord = new Array();
-  ['cart', 'geog', 'proj'].forEach( function (coordtype) {
-    window.typeCoord[coordtype] = new Array();
-    ['point', 'file'].forEach( function (data) {
-      window.typeCoord[coordtype][data] = new Array();
-      ['in', 'out'].forEach( function (inout) {
-        window.typeCoord[coordtype][data][inout] = document.getElementsByClassName(coordtype +'-'+ data + '-' + inout);
-      });
-    });
+  getAllElementsByClass(['cart', 'geog', 'proj'], 'typeCoord');
+
+  // Eléments du DOM dont l'affichage dépend du système plani choisi
+  getAllElementsByClass(['ETRS89', 'CH1903', 'CH1903+', 'RGF93', 'NTF'], 'systemePlani');
+
+  getAllElementsByClass(['proj-alti', 'proj-hauteur', 'geog-alti', 'geog-hauteur'], 'typeAlti')
+  // Inputs de coordonnées
+
+  registerAllData();
+
+  allHTMLElem.forEach( (data) => {
+    data.addEventListener('input', (event) => {
+      registerAllData();
+      validAndSetData();
+    }, false);
+    data.addEventListener('click', (event) => {
+      registerAllData();
+      validAndSetData();
+    }, false);
   });
 
-  // Eéléments du DOM dont l'affichage dépend du système plani choisi
-
-  // fonction à éxécuter au lancement
+  /*
+  * fonction à éxécuter au lancement
+  */
 
   ['in', 'out'].forEach( function (inout) {
     ['point', 'file'].forEach( function (data) {
 
       //initialisation en coordonnées géographiques
-      adaptInputFileParams('geog', typeCoord['cart'][data][inout], typeCoord['geog'][data][inout], typeCoord['proj'][data][inout]);
+      adaptDisplay(allVar.typeCoord, 'geog', data, inout);
+      adaptDisplay(allVar.systemePlani, 'RGF93', data, inout)
+      hideAlti(inout);
     });
   });
 
@@ -45,158 +66,49 @@ window.addEventListener('load', (event) => {
 Ecouteurs
 */
 
-document.getElementById('type-alti-point-in-altitude').addEventListener('input', (event) => {
-  var sys_alti_display = document.getElementById('systeme-alti-point-in').style.display
-  if (sys_alti_display == "none") sys_alti_display = "block";
-  else sys_alti_display = "none";
-})
-
-document.addEventListener('keydown', (event) => {
-  console.log(event.key);
-}, false);
-
 ['in', 'out'].forEach( function (inout) {
+  document.getElementById('type-alti-altitude-point-' + inout).addEventListener('change', (event) => {
+    adaptDisplay(allVar.typeAlti, document.getElementById('type-coord-point-' + inout).value + '-alti', 'point', inout);
+  });
+  document.getElementById('type-alti-hauteur-point-' + inout).addEventListener('change', (event) => {
+    adaptDisplay(allVar.typeAlti, document.getElementById('type-coord-point-' + inout).value + '-hauteur', 'point', inout);
+  });
+
   ['point', 'file'].forEach( function (data) {
 
     document.getElementById('type-coord-' + data + '-' + inout).addEventListener('change', (event) => {
-      console.log(typeCoord);
-      adaptInputFileParams(event.target.value, typeCoord['cart'][data][inout], typeCoord['geog'][data][inout], typeCoord['proj'][data][inout]);
+      adaptDisplay(allVar.typeCoord, event.target.value, data, inout);
+      hideAlti(inout);
     }, false);
+    document.getElementById('systeme-plani-' + data + '-' + inout).addEventListener('change', (event) => {
+      adaptDisplay(allVar.systemePlani, event.target.value, data, inout);
+      hideAlti(inout);
+    })
 
   });
 });
 
-document.getElementById('head1').addEventListener('click', (event) => {
-	document.getElementById('trans_coord').style.display="block";
-    document.getElementById('trans_fichier').style.display="none";
-    document.getElementById('head1').style.borderWidth="0px 1px 0px 0px";
-    document.getElementById('head2').style.borderWidth="0px 0px 2px 1px";
+document.getElementById('head_trans_coord').addEventListener('click', (event) => {
+	toggleHead('left');
+  allVar['type-transfo-selected'] = 'point';
 }, false);
 
-document.getElementById('head2').addEventListener('click', (event) => {
-	document.getElementById('trans_coord').style.display="none";
-    document.getElementById('trans_fichier').style.display="block";
-    document.getElementById('head1').style.borderWidth="0px 1px 2px 0px";
-    document.getElementById('head2').style.borderWidth="0px 0px 0px 1px";
+document.getElementById('head_trans_fichier').addEventListener('click', (event) => {
+	toggleHead('right');
+  allVar['type-transfo-selected'] = 'file';
 }, false);
 
-/*document.getElementById('altimetrieChoice_alti').addEventListener('click', (event) => {
-	document.getElementById('sys_alti_depart_coord').style.display="block";
-	document.getElementById("label_input_alti_projetee_coord").innerHTML = "Altitude [m]";
-}, false);
-document.getElementById('altimetrieChoice_hauteur').addEventListener('click', (event) => {
-	document.getElementById('sys_alti_depart_coord').style.display="none";
-	document.getElementById("label_input_alti_projetee_coord").innerHTML = "Hauteur [m]";
-}, false);
-
-document.getElementById('systeme_plani_coord').addEventListener('change', (event) => {
-  console.log(event.target.value);
-  if(event.target.value=="ETRS89"){
-	document.getElementById("altimetrieChoice_alti").disabled = true;
-	document.getElementById("type_altimetre_projetee_coord").style.color = "gray";
-	document.getElementById("type_altimetre_projetee_coord").style.borderColor = "gray";
-	document.getElementById("altimetrieChoice_hauteur").checked = true;
-	document.getElementById('sys_alti_depart_coord').style.display="none";
-	document.getElementById("label_input_alti_projetee_coord").innerHTML = "Hauteur [m]";
-  }else{
-	document.getElementById("altimetrieChoice_alti").disabled = false;
-	document.getElementById("type_altimetre_projetee_coord").style.color = "black";
-	document.getElementById("type_altimetre_projetee_coord").style.borderColor = "black";
-  };
-  switch(event.target.value) {
-    case "ETRS89":
-      disable(alti_suisse);
-      disable(alti_francais);
-	  document.getElementById("altimetrie_RAN95_coord").selected = false;
-	  document.getElementById("altimetrie_IGN69_coord").selected = false;
-
-      break;
-	case "CH1903+":
-      enable(alti_suisse);
-      disable(alti_francais);
-	  document.getElementById("altimetrie_RAN95_coord").selected = true;
-	  document.getElementById("altimetrie_IGN69_coord").selected = false;
-      break;
-	case "CH1903":
-      enable(alti_suisse);
-      disable(alti_francais);
-	  document.getElementById("altimetrie_RAN95_coord").selected = true;
-	  document.getElementById("altimetrie_IGN69_coord").selected = false;
-      break;
-	case "RGF93":
-      disable(alti_suisse);
-      enable(alti_francais);
-	  document.getElementById("altimetrie_RAN95_coord").selected = false;
-	  document.getElementById("altimetrie_IGN69_coord").selected = true;
-      break;
-    case "NTF":
-      disable(alti_suisse);
-      enable(alti_francais);
-	  document.getElementById("altimetrie_RAN95_coord").selected = false;
-	  document.getElementById("altimetrie_IGN69_coord").selected = true;
-      break;
-  };
-}, false);
-
-
-// Fonctions pour l'affichage dans la popup de transformation de coordonnées pour le système d'arrivée
-// ---------------------------------------------------------------------------------------------------
-
-document.getElementById('altimetrieChoice_alti2').addEventListener('click', (event) => {
-	document.getElementById('sys_alti_arrivee_coord').style.display="block";
-	document.getElementById("label_input_alti_projetee_coord2").innerHTML = "Altitude [m]";
-}, false);
-document.getElementById('altimetrieChoice_hauteur2').addEventListener('click', (event) => {
-	document.getElementById('sys_alti_arrivee_coord').style.display="none";
-	document.getElementById("label_input_alti_projetee_coord2").innerHTML = "Hauteur [m]";
-}, false);
-
-document.getElementById('systeme_plani_coord2').addEventListener('change', (event) => {
-  console.log(event.target.value);
-  if(event.target.value=="ETRS89"){
-	document.getElementById("altimetrieChoice_alti2").disabled = true;
-	document.getElementById("type_altimetre_projetee_coord2").style.color = "gray";
-	document.getElementById("type_altimetre_projetee_coord2").style.borderColor = "gray";
-	document.getElementById("altimetrieChoice_hauteur2").checked = true;
-	document.getElementById('sys_alti_arrivee_coord').style.display="none";
-	document.getElementById("label_input_alti_projetee_coord2").innerHTML = "Hauteur [m]";
-  }else{
-	document.getElementById("altimetrieChoice_alti2").disabled = false;
-	document.getElementById("type_altimetre_projetee_coord2").style.color = "black";
-	document.getElementById("type_altimetre_projetee_coord2").style.borderColor = "black";
-  };
-  switch(event.target.value) {
-    case "ETRS89":
-      disable(alti_suisse2);
-      disable(alti_francais2);
-	  document.getElementById("altimetrie_RAN95_coord2").selected = false;
-	  document.getElementById("altimetrie_IGN69_coord2").selected = false;
-
-      break;
-	case "CH1903+":
-      enable(alti_suisse2);
-      disable(alti_francais2);
-	  document.getElementById("altimetrie_RAN95_coord2").selected = true;
-	  document.getElementById("altimetrie_IGN69_coord2").selected = false;
-      break;
-	case "CH1903":
-      enable(alti_suisse2);
-      disable(alti_francais2);
-	  document.getElementById("altimetrie_RAN95_coord2").selected = true;
-	  document.getElementById("altimetrie_IGN69_coord2").selected = false;
-      break;
-	case "RGF93":
-      disable(alti_suisse2);
-      enable(alti_francais2);
-	  document.getElementById("altimetrie_RAN95_coord2").selected = false;
-	  document.getElementById("altimetrie_IGN69_coord2").selected = true;
-      break;
-    case "NTF":
-      disable(alti_suisse2);
-      enable(alti_francais2);
-	  document.getElementById("altimetrie_RAN95_coord2").selected = false;
-	  document.getElementById("altimetrie_IGN69_coord2").selected = true;
-      break;
-  };
-}, false);
-*/
+function toggleHead(side) {
+  toShow = 'trans_coord';
+  toHide = 'trans_fichier';
+  border = "2px 2px 0 0";
+  if (side == "right") {
+    toShow = 'trans_fichier';
+    toHide = 'trans_coord';
+    border = "2px 0 0 2px";
+  }
+  document.getElementById(toShow).style.display="block";
+    document.getElementById(toHide).style.display="none";
+    document.getElementById('head_' + toHide).style.borderWidth="0 0 2px 0";
+    document.getElementById('head_' + toShow).style.borderWidth = border;
+  }

@@ -1,40 +1,41 @@
 <?php
-function Afficheprojections() {
-  return "<optgroup label=France>
-    <option value=Lambert1>Lambert 1</option>
-    <option value=Lambert2>Lambert 2</option>
-    <option value=Lambert3>Lambert 3</option>
-    <option value=Lambert4>Lambert 4</option>
-    <option value=Lambert2etendu>Lambert 2 étendu</option>
-    <option value=Lambert93>Lambert 93</option>
-    <option value=CC42>CC42</option>
-    <option value=CC43>CC43</option>
-    <option value=CC44>CC44</option>
-    <option value=CC45>CC45</option>
-    <option value=CC46>CC46</option>
-    <option value=CC47>CC47</option>
-    <option value=CC48>CC48</option>
-    <option value=CC49>CC49</option>
-    <option value=CC50>CC50</option>
-    <option value=CC51>CC51</option>
+function Afficheprojections($type, $inout) {
+  return "<optgroup label=France class='NTF-$type-$inout RGF93-$type-$inout'>
+    <option value=Lambert1 class='NTF-$type-$inout'>Lambert 1</option>
+    <option value=Lambert2 class='NTF-$type-$inout'>Lambert 2</option>
+    <option value=Lambert3 class='NTF-$type-$inout'>Lambert 3</option>
+    <option value=Lambert4 class='NTF-$type-$inout'>Lambert 4</option>
+    <option value=Lambert2etendu class='NTF-$type-$inout'>Lambert 2 étendu</option>
+    <option value=Lambert93 class='RGF93-$type-$inout' selected>Lambert 93</option>
+    <option value=CC42 class='RGF93-$type-$inout'>CC42</option>
+    <option value=CC43 class='RGF93-$type-$inout'>CC43</option>
+    <option value=CC44 class='RGF93-$type-$inout'>CC44</option>
+    <option value=CC45 class='RGF93-$type-$inout'>CC45</option>
+    <option value=CC46 class='RGF93-$type-$inout'>CC46</option>
+    <option value=CC47 class='RGF93-$type-$inout'>CC47</option>
+    <option value=CC48 class='RGF93-$type-$inout'>CC48</option>
+    <option value=CC49 class='RGF93-$type-$inout'>CC49</option>
+    <option value=CC50 class='RGF93-$type-$inout'>CC50</option>
+    <option value=CC51 class='RGF93-$type-$inout'>CC51</option>
   </optgroup>
-  <optgroup label=Suisse>
-    <option value=CH1905>CH1905</option>
-      <option value=??>??</option>
+  <optgroup label=Suisse class='CH1903+-$type-$inout ETRS89-$type-$inout'>
+    <option value=MN95 class='CH1903+-$type-$inout'>MN95</option>
+    <option value=MN03 class='CH1903-$type-$inout'>MN03</option>
+    <option value=false class='ETRS89-$type-$inout' disabled>Pas de projection</option>
   </optgroup>";
 }
 
 function AfficheSystemesPlani() {
   return "
   <optgroup label=Europe>
-    <option value=ETRS89>ETRS89/CHTRF95</option>
+    <option value=ETRS89>ETRS89/CHTRS95</option>
   </optgroup>
   <optgroup label=Suisse>
     <option value=CH1903+>CH1903+</option>
     <option value=CH1903>CH1903</option>
   </optgroup>
   <optgroup label=France>
-    <option value=RGF93>RGF93</option>
+    <option value=RGF93 selected>RGF93</option>
     <option value=NTF>NTF</option>
   </optgroup>";
 }
@@ -65,14 +66,14 @@ function AfficheCoord($inout) {
     .
     addInput('proj', 'nord', 'Nord', $inout)
     .
-    addInput('proj', 'hauteur', 'Hauteur [m]', $inout)
+    addInput('proj', 'hauteur', 'Hauteur [m]', $inout, "proj-hauteur-point-".$inout)
     .
-    addInput('proj', 'altitude', 'Alitude [m]', $inout)
+    addInput('proj', 'altitude', 'Alitude [m]', $inout, "proj-alti-point-".$inout)
     . "
     <div class=proj-point-$inout>
       <label>Déviation de la véritcale &eta; - &xi;</label>
-      <input type=text id=coord-proj-eta-point-$inout $disable>
-      <input type=text id=coord-proj-xi-point-$inout $disable>
+      <input type=text id=coord-eta-point-$inout $disable>
+      <input type=text id=coord-xi-point-$inout $disable>
     </div>"
     .
     addInput('proj', 'cote', 'Cote du géoïde', $inout)
@@ -84,13 +85,13 @@ function AfficheCoord($inout) {
     .
     addInput('geog', 'lat', 'Latitude', $inout)
     .
-    addInput('geog', 'hauteur', 'Hauteur [m]', $inout)
+    addInput('geog', 'hauteur', 'Hauteur [m]', $inout, "geog-hauteur-point-".$inout)
     .
-    addInput('geog', 'altitude', 'Alitude [m]', $inout)
+    addInput('geog', 'altitude', 'Alitude [m]', $inout, "geog-alti-point-".$inout)
     . "
     <div $hide class=geog-point-$inout>
-      <label for=geog-unite-$inout>Unité</label>
-      <select id=geog-unite-$inout style=width:150px;>
+      <label for=geog-unite-point-$inout>Unité</label>
+      <select id=geog-unite-point-$inout style=width:150px;>
         <option value=grad>Grades</option>
         <option value=deg>Degrés centésimaux - décimaux</option>
         <option value=rad>Radians</option>
@@ -109,13 +110,14 @@ function AfficheCoord($inout) {
   ";
 }
 
-function addInput($typecoord, $value, $label, $inout) {
+function addInput($typecoord, $value, $label, $inout, $addedclasses="") {
   $disable = "";
+  $classes = "class='$typecoord-point-$inout " . $addedclasses . "'";
   if ($inout == "out") $disable = "disabled";
   return "
-  <div class=$typecoord-point-$inout>
-    <label for=coord-$typecoord-$value-point-$inout>$label</label>
-    <input type=text id=coord-$typecoord-$value-point-$inout $disable>
+  <div $classes>
+    <label for=coord-$value-point-$inout>$label</label>
+    <input type=text id=coord-$value-point-$inout $disable>
   </div>
   ";
 }
