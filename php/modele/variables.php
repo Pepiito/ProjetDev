@@ -12,7 +12,7 @@ class Ellipse {
     $contenu = lecture_fichier("../../files/ellipsoide.txt");
 
     if (($indice = strpos($contenu, $nom)) === FALSE) {
-      exit("Erreur 121: L'éllipsoïde demandé n'existe pas");
+      exit("Erreur 121: L'Ã©llipsoÃ¯de demandÃ© n'existe pas");
     } else {
       $contenureduit = substr($contenu, $indice);
       $sortieligne = strpos($contenureduit, "\n");
@@ -31,7 +31,7 @@ class Ellipse {
   /**
  * Methode __get()
  *
- * Retourne la valeur de l'attribut appelée
+ * Retourne la valeur de l'attribut appelÃ©e
  *
  * @param string $att
  * @return mixed
@@ -48,13 +48,13 @@ class Ellipse {
     return $this->e;
   }
   elseif ('f' === $att) {
-    return $this->f;
+  return $this->f;
   }
   elseif ('nom' === $att) {
     return $this->nom;
   }
   else {
-    echo('Error 110: Unexpected Error');
+  echo('Error 110: Unexpected Error');
     exit;
   }
  }
@@ -62,7 +62,7 @@ class Ellipse {
   /**
  * Methode __set()
  *
- * Fixe la valeur de l'attribut appelée
+ * Fixe la valeur de l'attribut appelÃ©e
  *
  * @param string $att
  * @param mixed $value
@@ -109,7 +109,7 @@ class Cone_CC  {
     $contenu = lecture_fichier("../../files/cone_CC.txt");
 
     if (($indice = strpos($contenu, $nom)) === FALSE) {
-      exit("Erreur 122: La projection conique demandée n'existe pas");
+      exit("Erreur 122: La projection conique demandÃ©e n'existe pas");
     } else {
       $contenureduit = substr($contenu, $indice);
       $sortieligne = strpos($contenureduit, "\n");
@@ -138,13 +138,12 @@ class Cone_CC  {
   /**
  * Methode __get()
  *
- * Retourne la valeur de l'attribut appelée
+* Retourne la valeur de l'attribut appelÃ©e
  *
  * @param string $att
  * @return mixed
  */
  public function __get($att) {
-
   if('nom' === $att) {
     return $this->nom;
   }
@@ -173,18 +172,18 @@ class Cone_CC  {
     return $this->C;
   }
   elseif ('n' === $att) {
-    return $this->n;
+  return $this->n;
   }
   else {
     echo('Error 110: Unexpected Error');
-    exit;
+  exit;
   }
  }
 
-  /**
+/**
  * Methode __set()
  *
- * Fixe la valeur de l'attribut appelée
+ * Fixe la valeur de l'attribut appelÃ©e
  *
  * @param string $att
  * @param mixed $value
@@ -229,9 +228,9 @@ class Cone_CC  {
  }
 
  /**
- * Méthode L_CC
+ * MÃ©thode L_CC
  *
- * Retourne la donnée L en mètre obtenue à partir de la latitude géographique en radian
+ * Retourne la donnÃ©e L en mÃ¨tre obtenue Ã  partir de la latitude gÃ©ographique en radian
  *
  * @param float $phi
  * @param Ellipse $ellipse
@@ -259,7 +258,7 @@ class Cone_Lambert  {
     $contenu = lecture_fichier("../../files/cone_Lambert.txt");
 
     if (($indice = strpos($contenu, $nom)) === FALSE) {
-      exit("Erreur 122: La projection conique demandée n'existe pas");
+      exit("Erreur 122: La projection conique demandÃ©e n'existe pas");
     } else {
       $contenureduit = substr($contenu, $indice);
       $sortieligne = strpos($contenureduit, "\n");
@@ -285,7 +284,7 @@ class Cone_Lambert  {
   /**
  * Methode __get()
  *
- * Retourne la valeur de l'attribut appelée
+ * Retourne la valeur de l'attribut appelÃ©e
  *
  * @param string $att
  * @return mixed
@@ -325,7 +324,7 @@ class Cone_Lambert  {
   /**
  * Methode __set()
  *
- * Fixe la valeur de l'attribut appelée
+ * Fixe la valeur de l'attribut appelÃ©e
  *
  * @param string $att
  * @param mixed $value
@@ -362,7 +361,7 @@ class Cone_Lambert  {
   }
   else {
     echo('Error 110: Unexpected Error');
-    exit;
+  exit;
   }
  }
 
