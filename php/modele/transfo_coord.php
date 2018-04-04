@@ -328,8 +328,24 @@ for ($i=0; $i<$len; $i++) {
         // a remplir pour passer dans les systèmes altimétriques suisses
       }
     }
+
+    if ($type_plani_arr == 'NTF') {
+      $array_plani = geog_to_Lambert($array_geog[0], $array_geog[1], $cone);
+      $E_arr[i] = $array_plani[0];
+      $N_arr[i] = $array_plani[1];
+    } else if ($type_plani_arr == 'RGF93') {
+      $array_plani = proj_to_CC($array_geog[0], $array_geog[1], $cone);
+      $E_arr[i] = $array_plani[0];
+      $N_arr[i] = $array_plani[1];
+    } else if ($type_plani_arr == 'CH1903') {
+// a remplir, passer de array_geog (lambda, phi) aux coordonnées projetées
+    } else if ($type_plani_arr == 'CH1903+') {
+// a remplir, passer de array_geog (lambda, phi) aux coordonnées projetées
+    }
+
   }
 }
+echo 'test';
 ?>
 
 <?php  /* Renvoie une chaine de caractère au format var1=foo&var2=bar.
@@ -339,4 +355,4 @@ for ($i=0; $i<$len; $i++) {
        Ce fichier sert de boite de réception / d'envoi de la couche modèle : ne pas le renommer.
        Le contenu pourra être contenu dans des fichiers externes reliés par un include().
        */
-       ?>
+?>

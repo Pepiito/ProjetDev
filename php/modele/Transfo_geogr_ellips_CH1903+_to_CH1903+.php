@@ -200,6 +200,4 @@ function sphere_to_ellipsoide($lambda_Berne, $alpha, $l_equatorial, $K, $Bessel_
 }
 
 list ($S_ellipsoide, $phi_ellipsoide_1)=sphere_to_ellipsoide($lambda_Berne, $alpha, $l_equatorial, $K, $Bessel_e, $b_equatorial);
-
-echo $phi_ellipsoide_1;
 ?>
