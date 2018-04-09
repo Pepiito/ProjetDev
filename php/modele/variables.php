@@ -12,7 +12,7 @@ class Ellipse {
     $contenu = lecture_fichier("../../files/ellipsoide.txt");
 
     if (($indice = strpos($contenu, $nom)) === FALSE) {
-      exit("Erreur 121: L'éllipsoÃ¯de demandé n'existe pas");
+      exit("Erreur 121: L'ellipsoide demandé n'existe pas");
     } else {
       $contenureduit = substr($contenu, $indice);
       $sortieligne = strpos($contenureduit, "\n");
