@@ -1,27 +1,27 @@
 <fieldset id=fichier-de-depart>
   <legend>Fichier de départ</legend>
   <div id='container-input-file' style="display:flex;flex-direction:row;">
-    <input id="inputfile" type="file"/>
-    <label for="inputfile"><button type="button">Parcourir</button></label>
-    <label for="inputfile"><button type="button">Déposer ici</button></label>
+    <input id="input-file-out" type="file"/>
+    <label for="input-file-out"><button type="button">Parcourir</button></label>
+    <label for="input-file-out"><button type="button">Déposer ici</button></label>
   </div>
   <div style=display:flex;flex-direction:row;align-items:center;>
     <label for="separateur-file-in">Séparateur: </label>
     <input type="text" id=separateur-file-in class=input-transfo-fichier value=";" maxlength="2">
     <div style="margin-left:30px;display:flex;flex-direction:row;">
-      <select id="selection-formatage-in" class=input-transfo-fichier>
+      <select id="selection-formatage-file-in" class=input-transfo-fichier>
         <!-- n : nom; E: est, N: nord; H: Altitude; h: hauteur; l: longitude; p: latitude; X; Y; Z-->
         <?php echo AfficheFileConfigs('in'); ?>
       </select>
-      <select id="selection-formatage-deviation-in" class="proj-file-in input-transfo-fichier">
+      <select id="selection-formatage-deviation-file-in" class="proj-file-in input-transfo-fichier">
         <!-- c: eta; x: xi -->
-        <option selected disabled>Déviation de la verticale</option>
+        <option value=false selected disabled>Déviation de la verticale</option>
         <option value="cx">&eta;  &xi;</option>
         <option value="xc">&eta;  &xi;</option>
         <option value="">Aucun</option>
       </select>
-      <label for="ligne-start" style="position:relative;top:3px;">Début à la ligne: </label>
-      <input type="number" id="ligne-start" value="0" maxlength="3" class="input-transfo-fichier">
+      <label for="ligne-start-file-in" style="position:relative;top:3px;">Début à la ligne: </label>
+      <input type="number" id="ligne-start-file-in" value="0" maxlength="3" class="input-transfo-fichier">
     </div>
   </div>
 </fieldset>
@@ -55,7 +55,7 @@
     <div class="proj-file-in">
       <label for="projecion-file-in">projection choisie</label>
       <select id=projection-file-in>
-        <?php echo Afficheprojections(); ?>
+        <?php echo Afficheprojections('file', 'in'); ?>
       </select>
     </div>
   </div>
@@ -90,7 +90,7 @@
     <div class="proj-file-out">
       <label for="projecion-file-out">projection choisie</label>
       <select id=projection-file-out>
-        <?php echo Afficheprojections(); ?>
+        <?php echo Afficheprojections('file', 'out'); ?>
       </select>
     </div>
     <div class="proj-file-out">
@@ -116,13 +116,13 @@
     <label for="separateur-file-out">Séparateur: </label>
     <input type="text" id=separateur-file-out class=input-transfo-fichier value=";" maxlength="2">
     <div style="margin-left:30px;display:flex;flex-direction:row;">
-      <select id="selection-formatage-out" class=input-transfo-fichier>
+      <select id="selection-formatage-file-out" class=input-transfo-fichier>
         <!-- n : nom; E: est, N: nord; H: Altitude; h: hauteur; l: longitude; p: latitude; X; Y; Z-->
         <?php echo AfficheFileConfigs('out'); ?>
       </select>
-      <select id="selection-formatage-deviation-out" class="proj-file-out input-transfo-fichier">
+      <select id="selection-formatage-deviation-file-out" class="proj-file-out input-transfo-fichier">
         <!-- c: eta; x: xi -->
-        <option selected disabled>Déviation de la verticale</option>
+        <option value=false selected disabled>Déviation de la verticale</option>
         <option value="cx">&eta;  &xi;</option>
         <option value="xc">&eta;  &xi;</option>
         <option value="">Aucun</option>

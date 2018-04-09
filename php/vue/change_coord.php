@@ -3,8 +3,8 @@
 		<span class="close">&times;</span>
 		<div id="pop_body">
 			<div id="pop_header">
-				<p id="head1">Transformation de coordonnées</p>
-				<p id="head2">Transformation via fichier</p>
+				<p id="head_trans_coord">Transformation de coordonnées</p>
+				<p id="head_trans_fichier">Transformation via fichier</p>
 			</div>
 			<div id="trans_coord" class="form_transfo">
 				<fieldset>
@@ -28,23 +28,23 @@
 					<div style="display:flex;align-items:center;margin:15px 0;">
 
 						<div id="type-alti-point-in" class='type-alti proj-point-in geog-point-in'>
-							<input type="radio" id="type-alti-point-in-altitude" name="altimetrie_depart" value="altitude">
-							<label for="type-alti-point-in-altitude" style="margin:auto 10px auto 0;">Altitude</label>
-							<input type="radio" id="type-alti-point-in-hauteur" name="altimetrie_depart" value="hauteur" checked>
-							<label for="type-alti-point-in-hauteur" style="margin:auto 10px auto 0;" >Hauteur ellipsoïdale</label>
+							<input type="radio" id="type-alti-altitude-point-in" name="altimetrie_depart" checked>
+							<label for="type-alti-altitude-point-in" style="margin:auto 10px auto 0;">Altitude</label>
+							<input type="radio" id="type-alti-hauteur-point-in" name="altimetrie_depart">
+							<label for="type-alti-hauteur-point-in" style="margin:auto 10px auto 0;" >Hauteur ellipsoïdale</label>
 						</div>
 
-						<div>
-							<label for="systeme-alti-point-in" >Système altimétrique</label>
-							<select id="systeme-alti-point-in" class="systeme-alti">
+						<div class="proj-point-in geog-point-in">
+							<label for="systeme-alti-point-in" class="systeme-alti-point-in proj-alti-point-in geog-alti-point-in">Système altimétrique</label>
+							<select id="systeme-alti-point-in" class="systeme-alti-point-in proj-alti-point-in geog-alti-point-in">
 								<?php echo AfficheSystemesAlti(); ?>
 							</select>
 						</div>
 
 						<div class="proj-point-in">
-							<label for="projecion-point-in">Projection choisie</label>
-							<select id=projection-point-in >
-								<?php echo Afficheprojections(); ?>
+							<label for=projection-point-in>Projection choisie</label>
+							<select id=projection-point-in>
+								<?php echo Afficheprojections('point', 'in'); ?>
 							</select>
 						</div>
 					</div>
@@ -62,22 +62,22 @@
 							</select>
 						</div>
 						<div>
-							<label for="systeme-plani-point-in">Système</label>
-							<select id="systeme-plani-point-in" style="width:150px";>
+							<label for="systeme-plani-point-out">Système</label>
+							<select id="systeme-plani-point-out" style="width:150px";>
 								<?php echo AfficheSystemesPlani(); ?>
 							</select>
 						</div>
 					</div>
 					<div style="display:flex;align-items:center;margin:15px 0;">
 						<div id="type-alti-point-out" class='type-alti proj-point-out geog-point-out'>
-							<input type="radio" id="type-alti-point-out-altitude" name="altimetrie_arrivee" value="altitude">
-							<label for="type-alti-point-out-altitude">Altitude</label>
-							<input type="radio" id="type-alti-point-out-hauteur" name="altimetrie_arrivee" value="hauteur" checked>
-							<label for="type-alti-point-out-altitude">Hauteur ellipsoïdale</label>
+							<input type="radio" id="type-alti-altitude-point-out" name="altimetrie_arrivee" checked>
+							<label for="type-alti-altitude-point-out">Altitude</label>
+							<input type="radio" id="type-alti-hauteur-point-out" name="altimetrie_arrivee">
+							<label for="type-alti-hauteur-point-out-">Hauteur ellipsoïdale</label>
 						</div>
-						<div>
-							<label for="systeme-alti-point-out">Système altimétrique</label>
-							<select id="systeme-alti-point-out" class="systeme-alti">
+						<div class='proj-point-out geog-point-out'>
+							<label for="systeme-alti-point-out" class="systeme-alti-point-out proj-alti-point-out geog-alti-point-out">Système altimétrique</label>
+							<select id="systeme-alti-point-out" class="systeme-alti-point-out proj-alti-point-out geog-alti-point-out">
 								<?php echo AfficheSystemesAlti(); ?>
 							</select>
 						</div>
@@ -85,7 +85,7 @@
 						<div class="proj-point-out">
 							<label for="projecion-point-out">Projection choisie</label>
 							<select id=projection-point-out >
-								<?php echo Afficheprojections(); ?>
+								<?php echo Afficheprojections('point', 'out'); ?>
 							</select>
 						</div>
 					</div>

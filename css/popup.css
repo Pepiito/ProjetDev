@@ -35,26 +35,31 @@
 #pop_header {
 	display: flex;
   cursor: pointer;
+  height: 45px;
 }
 div#pop_header p {
 	width: 50%;
 	text-align:center;
-	padding:10px 0 10px 0;
+	padding:10px 0;
 	margin: 0;
+  position: relative;
+  top: -2px;
   transition: .5s;
 }
-div#pop_header p#head1 {
+#pop_header #head_trans_coord {
 	border-style: solid;
-	border-width: 0px 1px 0px 0px;
+	border-width: 2px 2px 0 0px;
+  border-top-right-radius: 200px;
 }
-div#pop_header p#head2 {
+#pop_header #head_trans_fichier {
 	border-style: solid;
-	border-width: 0px 0px 2px 1px;
+  border-width: 0 0 2px 0;
+  border-top-left-radius: 200px;
 }
-div#pop_header p:hover{
+#pop_header p:hover{
 	background-color: #8f8f8f;
 }
-div#pop_body {
+#pop_body {
 	border-width: 2px 2px 2px 2px;
 	border-style: solid;
   height:550px;
@@ -63,8 +68,12 @@ div#pop_body {
 }
 
 .form_transfo{
-	margin: 20px;
+	margin: 10px;
 	font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 485px;
 }
 
 div#trans_fichier{
@@ -73,8 +82,8 @@ div#trans_fichier{
 div#pop_body form {
 }
 div#pop_body fieldset {
-	padding:10px 20px 20px 20px;
-	margin-bottom:10px;
+	padding:10px;
+	margin-bottom:15px;
 	border:1px solid black;
 }
 div#pop_body legend {
@@ -88,9 +97,7 @@ div#pop_body label.inline {
 	display:inline;
 	margin-right:50px;
 }
-div#pop_body select {
-	margin-top: 0;
-}
+
 #pop_body select {
   background-color:#ffffff;
   padding:3px;
@@ -135,11 +142,11 @@ div#pop_body select {
   margin: 5px 20px;
 }
 
-div#pop_body input[type="text"]:disabled {
+#pop_body input[type="text"]:disabled {
 	background-color: rgb(180, 180, 180);
 }
 
-#inputfile {
+#input-file-out {
   position: absolute;
   opacity: 0;
 }
@@ -148,7 +155,7 @@ div#pop_body input[type="text"]:disabled {
   margin: 10px 20px;
 }
 
-#separateur-file-in, #separateur-file-out, #ligne-start {
+#separateur-file-in, #separateur-file-out, #ligne-start-file-in {
   width: 30px;
   text-align: center;
   font-weight: bold;
