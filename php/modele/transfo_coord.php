@@ -167,9 +167,9 @@ for ($i=0; $i<$len; $i++) {
         $h0 = $h[$i];
       }
 
-    } else if ($type_plani_dep == 'CH1903') {
-// a remplir, passer de E, N à lambda, phi et changer l'alti en hauteur si il faut
-    } else if ($type_plani_dep == 'CH1903+') {
+    } else if ($type_plani_dep == 'MN95') {
+      MN95_to_geog($E0, $N0, )
+    } else if ($type_plani_dep == 'MN03') {
 // a remplir, passer de E, N à lambda, phi et changer l'alti en hauteur si il faut
     }
 
