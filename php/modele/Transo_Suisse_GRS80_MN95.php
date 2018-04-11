@@ -1,36 +1,4 @@
 <?php
-#Variables pour controler les calculs
-
-$lambda=6.60472222;
-$phi=46.80277778;
-$h=510.4000;
-
-# D�finition des variables
-
-# Demi grand axe de l'ellipso�de de Bessel
-
-$Bessel_a=6377397.155;
-
-# Carr� de la premi�re excentricit� num�rique de l'ellipso�de de Bessel
-$Bessel_e=0.006674372230614;
-
-# Demi grand axe de l'ellipso�de du GRS80
-$GRS80_a=6378137;
-
-# Carr� de la premi�re excentricit� num�rique du GRS80
-$GRS80_e=0.006694380023011;
-
-# Latitude g�ographique de l'origine � Berne [radians]
-$phi_Berne=0.819474068676122;
-
-# Latitude g�ographique de l'origine � Berne [radians]
-$lambda_Berne=0.129845224143161;
-
-$Bessel_dx=-674.374;
-$Bessel_dy=-15.056;
-$Bessel_dz=-405.346;
-
-$Epsilon=0.0000000001;
 
 # D�finition des calculs
 
@@ -102,48 +70,6 @@ function geogGRS80_to_geogCH1903plus($lambda, $phi, $h, $GRS80_a, $GRS80_e,$Bess
 #echo $lambda;
 
 # Transformation coordonnees geographiques CH1903+ (ellipso�dales) --> coordonnees suisse en projection y, x (formules rigoureuses)
-
-# Calcul de valeurs auxiliaires
-
-# Rayon de la sph�re de projection [m�tre]
-/*
-function rayon_sphere_projection($phi_Berne, $Bessel_e, $Bessel_a){
-	$R=($Bessel_a*sqrt(1-$Bessel_e))/(1-$Bessel_e*sin($phi_Berne)**2);
-	return array($R);
-}
-*/
-#list($R)=rayon_sphere_projection($phi_Berne, $Bessel_e, $Bessel_a);
-#echo $R;
-
-#Rapport des longitudes (de la sph�re � l'ellipso�de)
-/*
-function rapport_longitude($phi_Berne, $Bessel_e){
-	$alpha=sqrt(1+$Bessel_e/(1-$Bessel_e)*cos($phi_Berne)**4);
-	return array($alpha);
-}
-*/
-#list($alpha)=rapport_longitude($phi_Berne, $Bessel_e);
-#echo $alpha;
-
-# Latitude de l'origine sur la sph�re [degr� decimal]
-/*
-function latitude_origine_sphere($phi_Berne, $alpha){
-	$b0=asin(sin($phi_Berne)/$alpha);
-	return array($b0);
-}
-*/
-#list($b0)=latitude_origine_sphere($phi_Berne, $alpha);
-#echo $b0;
-
-#Constante de la formule des latitudes
-/*
-function constante_formule_latitudes($b0, $alpha, $phi_Berne, $Bessel_e){
-	$K=log(tan(pi()/4+$b0/2))-$alpha*log(tan(pi()/4+$phi_Berne/2))+$alpha*sqrt($Bessel_e)/2*log((1+sqrt($Bessel_e)*sin($phi_Berne))/(1-sqrt($Bessel_e)*sin($phi_Berne)));
-	return array($K);
-}
-*/
-#list($K)=constante_formule_latitudes($b0, $alpha, $phi_Berne, $Bessel_e);
-#echo $K;
 
 # Ellipso�de (phi, lambda) ? Sph�re (b, l) (projection de Gauss)
 

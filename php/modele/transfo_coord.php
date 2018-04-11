@@ -6,6 +6,9 @@ include('fonctions_fr.php');
 include('alti_fr.php');
 include('variables.php');
 include('lecture_fichier.php');
+
+include('variables_suisses.php');
+include('fonctions_suisses');
 include('Deviation_verticale.php');
 include('Transo_Suisse_GRS80_MN95.php');
 include('Transo_Suisse_MN95_GRS80.php');
