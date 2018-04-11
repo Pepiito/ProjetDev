@@ -359,12 +359,42 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
 }
 ?>
 
-<?php  /* Renvoie une chaine de caractère au format var1=foo&var2=bar.
+<?php
+// Je fais un array avec tous les cas possibles
+$coord = array('cart', 'geog', 'proj');
+$plani = array('RGF93', 'NTF', 'ETRS89', 'CH1903+');
+$alti = array('a', 'h');
+$sys_alti = array('IGN69');
+$proj = array('RGF93' => array('CC42', 'CC43', 'CC44', 'CC45', 'CC46'))
+
+$echo = array('cart', 'geog', 'proj');
+
+foreach($coord as $cas_coord) {
+  foreach($plani as $cas_plani) {
+    if (!($cas_coord == 'cart')) {
+      foreach($alti as $cas_alti)  {
+        if ($cas_alti == 'a') {
+          foreach ($sys_alti as $cas_sys) {
+
+          }
+        } else {
+
+        }
+      }
+    } else {
+        $echo[$cas_coord][$cas_plani] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $cas_coord, $cas_plani, 0, 0, 0;
+    }
+  }
+}
+?>
+
+<?php  /* Renvoie une chaine de caractère au format json.
        L'ajax récupèrera le contenu intégral de ce qui est renvoyé,
-       au format "Error XXX: description" si erreur ou "var1=foo&var2=bar" si ok.
+       au format "Error XXX: description" si erreur ou un json si ok.
 
        Ce fichier sert de boite de réception / d'envoi de la couche modèle : ne pas le renommer.
        Le contenu pourra être contenu dans des fichiers externes reliés par un include().
        */
+
 echo json_encode($echo);
 ?>
