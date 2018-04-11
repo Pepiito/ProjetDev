@@ -3,8 +3,8 @@
 <?php
 include('fonctions_fr.php');
 include('Deviation_verticale.php');
-include('Transfo_Suisse_carthesien_geographique.php');
-include('Transfo_Suisse_geographique_CH1903+.php');
+include('Transo_Suisse_GRS80_MN95.php');
+include('Transo_Suisse_MN95_GRS80.php');
 ?>
 
 <?php
