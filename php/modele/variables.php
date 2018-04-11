@@ -1,5 +1,4 @@
 <?php
-include("lecture_fichier.php");
 
 class Ellipse {
   private $nom;

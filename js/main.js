@@ -58,7 +58,7 @@ function receiveDataFromModel(reponse) {
   else {
     // Instruction si tout va bien
     coordonnees = JSON.parse(reponse)
-    console.log(coordonnees);
+    console.log('t'+coordonnees);
   }
 
 }
