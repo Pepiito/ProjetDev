@@ -117,7 +117,7 @@ function addInput($typecoord, $value, $label, $inout, $addedclasses="") {
   return "
   <div $classes>
     <label for=coord-$value-point-$inout>$label</label>
-    <input type=text id=coord-$value-point-$inout $disable>
+    <input type=text id=coord-$typecoord-$value-point-$inout $disable>
   </div>
   ";
 }
