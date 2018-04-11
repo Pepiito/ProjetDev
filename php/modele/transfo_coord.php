@@ -2,9 +2,9 @@
 
 <?php
 include('fonctions_fr.php');
-include('Deviation_verticale.php');
-include('Transo_Suisse_GRS80_MN95.php');
-include('Transo_Suisse_MN95_GRS80.php');
+//include('Deviation_verticale.php');
+//include('Transo_Suisse_GRS80_MN95.php');
+//include('Transo_Suisse_MN95_GRS80.php');
 ?>
 
 <?php
@@ -14,21 +14,28 @@ et de les transformer dans le type demandé.
 On doit donc prévoir tous les cas de figure.
 */
 
+$association_ellipse = array("NTF" => "Clarke_1880", "RGF93" => "IAG_GRS_1980", "ETRS89" => "IAG_GRS_1980", "CH1903" => "Bessel_1841", "CH1903+" => "Bessel_1841");
+
 // Récupère les variables AJAX dans la variable $_POST au format convenu
 // Le recapitulatif des appelations est dans le document /docs/formatage_transfert_donnees.docx
 $type_coord_dep = $_POST['t'];
 $type_plani_dep = $_POST['P'];
-$type_alti_dep = $_POST['T'];
+if (!($type_coord_dep == 'cart')) {
+  $type_alti_dep = $_POST['T'];
+}
 
 $type_coord_arr = $_POST['_t'];
 $type_plani_arr = $_POST['_P'];
-$type_alti_arr = $_POST['_T'];
+if (!($type_coord_arr == 'cart')) {
+  $type_alti_arr = $_POST['_T'];
+  if ($type_alti_arr == 'a') {
+    $sys_alti_arr = $_POST['_A'];
+  }
+}
 if ($type_coord_arr == 'proj') {
   $type_proj_arr = $_POST['_p'];
 }
-if ($type_alti_arr == 'a') {
-  $sys_alti_arr = $_POST['_A'];
-}
+
 
 // cas où les coordonnées sont planimétriques
 if ($type_coord_dep == 'proj') {
@@ -49,18 +56,11 @@ if ($type_coord_dep == 'proj') {
 
 // on récupère l'éllipsoïde et le cone
 // de projection correspondant pour les projections françaises
+  $ellipse = new Ellipse($association_ellipse[$type_plani_dep]);
   if ($type_plani_dep == 'NTF') {
-    $ellipse = new Ellipse('Clarke_1880');
     $cone = new Cone_Lambert($type_proj_dep);
   } else if ($type_plani_dep == 'RGF93') {
-    $ellipse = new Ellipse('IAG_GRS_1980');
     $cone = new Cone_CC($type_proj_dep);
-  } else if ($type_plani_dep == 'ETRS89') {
-    $ellipse = new Ellipse('IAG_GRS_1980');
-  } else if ($type_plani_dep == 'CH1903') {
-    $ellipse = new Ellipse('Bessel_1841');
-  } else if ($type_plani_dep == 'CH1903+') {
-    $ellipse = new Ellipse('Bessel_1841');
   }
 
 //cas où les coordonnées sont géographiques
@@ -78,17 +78,7 @@ if ($type_coord_dep == 'proj') {
   $len = count($lambda);
 
 // de plus on récupère aussi l'éllipsoïde correspondant au système
-  if ($type_plani_dep == 'RGF') {
-    $ellipse = new Ellipse('IAG_GRS_1980');
-  } else if ($type_plani_dep == 'NTF') {
-    $ellipse = new Ellipse('Clarke_1880');
-  } else if ($type_plani_dep == 'ETRS89') {
-    $ellipse = new Ellipse('IAG_GRS_1980');
-  } else if ($type_plani_dep == 'CH1903') {
-    $ellipse = new Ellipse('Bessel_1841');
-  } else if ($type_plani_dep == 'CH1903+') {
-    $ellipse = new Ellipse('Bessel_1841');
-  }
+  $ellipse = new Ellipse($association_ellipse[$type_plani_dep]);
 
 //dernier cas, coordonnées carthésiens
 } else if ($type_coord_dep == 'cart') {
@@ -101,33 +91,15 @@ if ($type_coord_dep == 'proj') {
 // on récupère les informations d'éllipsoïde et de projection si il le faut
 // pour savoir comment on doit transformer les données
 if ($type_coord_arr == 'proj') {
-    if ($type_plani_arr == 'NTF') {
-    $ellipse_arr = new Ellipse('Clarke_1880');
+  $ellipse_arr = new Ellipse($association_ellipse[$type_plani_arr]);
+  if ($type_plani_arr == 'NTF') {
     $cone = new Cone_Lambert($type_proj_arr);
   }  else if ($type_plani_arr == 'RGF93') {
-    $ellipse_arr = new Ellipse('IAG_GRS_1980');
     $cone = new Cone_CC($type_proj_arr);
-  } else if ($type_plani_arr == 'ETRS89') {
-    $ellipse_arr = new Ellipse('IAG_GRS_1980');
-  } else if ($type_plani_arr == 'CH1903') {
-    $ellipse_arr = new Ellipse('Bessel_1841');
-  } else if ($type_plani_arr == 'CH1903+') {
-    $ellipse_arr = new Ellipse('Bessel_1841');
   }
 
 } else if ($type_coord_arr == 'geog') {
-  if ($type_plani_arr == 'RGF') {
-    $ellipse_arr = new Ellipse('IAG_GRS_1980');
-  } else if ($type_plani_arr == 'NTF') {
-    $ellipse_arr = new Ellipse('Clarke_1880');
-  } else if ($type_plani_arr == 'ETRS89') {
-    $ellipse_arr = new Ellipse('IAG_GRS_1980');
-  } else if ($type_plani_arr == 'CH1903') {
-    $ellipse_arr = new Ellipse('Bessel_1841');
-  } else if ($type_plani_arr == 'CH1903+') {
-    $ellipse_arr = new Ellipse('Bessel_1841');
-  }
-
+  $ellipse_arr = new Ellipse($association_ellipse[$type_plani_arr]);
 }
 ?>
 
@@ -154,7 +126,7 @@ for ($i=0; $i<$len; $i++) {
         $h0 = $h[$i];
       }
 
-    } else if ($type_plani_dep == 'RGF') {
+    } else if ($type_plani_dep == 'RGF93') {
       $array_geog = CC_to_geog($E0, $N0, $cone);
       $lambda0 = $array_geog[0];
       $phi0 = $array_geog[1];
@@ -168,7 +140,7 @@ for ($i=0; $i<$len; $i++) {
       }
 
     } else if ($type_plani_dep == 'MN95') {
-      MN95_to_geog($E0, $N0, )
+      //
     } else if ($type_plani_dep == 'MN03') {
 // a remplir, passer de E, N à lambda, phi et changer l'alti en hauteur si il faut
     }
@@ -191,7 +163,7 @@ for ($i=0; $i<$len; $i++) {
     $lambda0 = $lambda[$i];
     $phi0 = $phi[$i];
 
-    if ($type_plani_dep == 'RGF') {
+    if ($type_plani_dep == 'RGF93') {
       // passage en hauteur si nécéssaire pour le système altimétrique IGN69
       if ($type_alti_dep == 'a' && $sys_alti_dep == 'IGN69') {
         $H0 = $H[$i];
@@ -222,7 +194,7 @@ for ($i=0; $i<$len; $i++) {
     if ($type_plani_dep == 'CH1903+' || $type_plani_dep == 'CH1903') {
       $array_cart = carthesienne_CH1903plus_to_carthesienne_ETRS89($array_cart[0], $array_cart[1], $array_cart[2], $Bessel_dx, $Bessel_dy, $Bessel_dz);
     } else if ($type_plani_dep == 'NTF') {
-      $array_cart = NTF_to_RGF($array_cart[0], $array_cart[1], $array_cart[2]);
+      $array_cart = NTF_to_RGF93($array_cart[0], $array_cart[1], $array_cart[2]);
     }
 
     $X0 = $array_cart[0];
@@ -257,7 +229,7 @@ for ($i=0; $i<$len; $i++) {
     if ($type_plani_arr == 'CH1903+' || $type_plani_arr == 'CH1903') {
       $array_cart = carthesienne_ETRS89_to_carthesienne_CH1903plus($X_arr[$i], $Y_arr[$i], $Z_arr[$i], $Bessel_dx, $Bessel_dy, $Bessel_dz);
     } else if ($type_plani_arr == 'NTF') {
-      $array_cart = RGF_to_NTF($X_arr[$i], $Y_arr[$i], $Z_arr[$i]);
+      $array_cart = RGF_to_NTF($X_tmp[$i], $Y_tmp[$i], $Z_tmp[$i]);
     } else {
       $array_cart = array($X_tmp[$i], $Y_tmp[$i], $Z_tmp[$i]);
     }
@@ -288,7 +260,7 @@ for ($i=0; $i<$len; $i++) {
       $h_arr['h'.$i] = $array_geog[2];
 
     } else if ($type_alti_arr == 'a') {
-      if ($type_plani_arr == 'RGF') {
+      if ($type_plani_arr == 'RGF93') {
         $H_arr['H'.$i] = h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]);
       } else if ($type_plani_arr == 'NTF') {
         $cst = alti_to_h(48.846211, 2.346199, 0);
@@ -317,7 +289,7 @@ for ($i=0; $i<$len; $i++) {
       $h_arr['h'.$i] = $array_geog[2];
 
     } else if ($type_alti_arr == 'a' && $sys_alti_arr == 'IGN69') {
-      if ($type_plani_arr == 'RGF') {
+      if ($type_plani_arr == 'RGF93') {
         $H_arr['H'.$i] = h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]);
       } else if ($type_plani_arr == 'NTF') {
         $cst = alti_to_h(48.846211, 2.346199, 0);
@@ -347,18 +319,23 @@ for ($i=0; $i<$len; $i++) {
 }
 
 if ($type_coord_arr == 'cart') {
-  $echo['cart'] = array('X' => $X_arr, 'Y' => $Y_arr, 'Z' => $Z_arr);
+  $echo['cart'] = array($type_plani_arr => array('X' => $X_arr, 'Y' => $Y_arr, 'Z' => $Z_arr));
+
 } else if ($type_coord_arr == 'geog') {
-  if ($type_alti_arr == 'h') {
-    $echo['geog'] = array('lambda' => $lambda_arr, 'phi' => $phi_arr, 'h' => $h_arr);
+  $echo['geog'] = array($type_plani_arr => array($type_alti_arr => 0));
+    if ($type_alti_arr == 'h') {
+    $echo['geog'][$type_plani_arr][$type_alti_arr] = array('lambda' => $lambda_arr, 'phi' => $phi_arr, 'h' => $h_arr);
   } else if ($type_alti_arr == 'a') {
-    $echo['geog'] = array('lambda' => $lambda_arr, 'phi' => $phi_arr, 'H' => $H_arr);
+    $echo['geog'][$type_plani_arr][$type_alti_arr] = array($sys_alti_arr => 0);
+    $echo['geog'][$type_plani_arr][$type_alti_arr][$sys_alti_arr] = array('lambda' => $lambda_arr, 'phi' => $phi_arr, 'H' => $H_arr);
   }
 } else if ($type_coord_arr == 'proj') {
+  $echo['proj'] = array($type_plani_arr => array($type_proj_arr => array($type_alti_arr => 0)));
   if ($type_alti_arr == 'h') {
-    $echo['proj'] = array('E' => $E_arr, 'N' => $N_arr, 'h' => $h_arr);
+    $echo['proj'][$type_plani_arr][$type_proj_arr][$type_alti_arr] = array('E' => $E_arr, 'N' => $N_arr, 'h' => $h_arr);
   } else if ($type_alti_arr == 'a') {
-    $echo['proj'] = array('E' => $E_arr, 'N' => $N_arr, 'H' => $H_arr);
+    $echo['proj'][$type_plani_arr][$type_proj_arr][$type_alti_arr] = array($sys_alti_arr => 0);
+    $echo['proj'][$type_plani_arr][$type_proj_arr][$type_alti_arr][$sys_alti_arr] = array('E' => $E_arr, 'N' => $N_arr, 'H' => $H_arr);
   }
 }
 ?>

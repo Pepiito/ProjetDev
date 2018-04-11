@@ -4,14 +4,14 @@ include("variables.php");
 /**
 * Fonction cartesien_to_geographic
 *
-* Transforme des coordonnÃ©es cartÃ©siennes en coordonnÃ©es gÃ©ographiques associÃ©es Ã  un Ã©llipsoÃ¯de
-* Les coordonnÃ©es sont entrÃ©es en mÃ¨tres et sont donnÃ©es en radians et en mÃ¨tres
+* Transforme des coordonnées cartésiennes en coordonnées géographiques associées Ã  un éllipsoÃ¯de
+* Les coordonnées sont entrées en mètres et sont données en radians et en mètres
 *
-* @param float $X premiÃ¨re coordonnÃ©es cartÃ©sienne
-* @param float $Y deuxiÃ¨me coordonnÃ©es cartÃ©sienne
-* @param float $Z troisiÃ¨me coordonnÃ©es cartÃ©sienne
+* @param float $X première coordonnées cartésienne
+* @param float $Y deuxième coordonnées cartésienne
+* @param float $Z troisième coordonnées cartésienne
 * @param Ellipse $ellipse
-* @return array avec les trois coordonnÃ©es gÃ©ographiques
+* @return array avec les trois coordonnées géographiques
 */
 function cartesien_to_geographic($X, $Y, $Z, $ellipse) {
   $a = $ellipse->__get('a');
@@ -32,14 +32,14 @@ function cartesien_to_geographic($X, $Y, $Z, $ellipse) {
 /**
 * Fonction geographic_to_cartesien
 *
-* Transforme des coordonnÃ©es gÃ©ographiques associÃ©es Ã  un Ã©llipsoÃ¯de en coordonnÃ©es cartÃ©siennes associÃ©es Ã  un Ã©llipsoÃ¯de
-* Les coordonnÃ©es sont entrÃ©es en radians et mÃ¨tres et sont donnÃ©es en mÃ¨tres
+* Transforme des coordonnées géographiques associées Ã  un éllipsoÃ¯de en coordonnées cartésiennes associées Ã  un éllipsoÃ¯de
+* Les coordonnées sont entrées en radians et mètres et sont données en mètres
 *
-* @param float $lambda premiÃ¨re coordonnÃ©es gÃ©ographique
-* @param float $phi deuxiÃ¨me coordonnÃ©es gÃ©ographique
-* @param float $h troisiÃ¨me coordonnÃ©es gÃ©ographique
+* @param float $lambda première coordonnées géographique
+* @param float $phi deuxième coordonnées géographique
+* @param float $h troisième coordonnées géographique
 * @param Ellipse $ellipse
-* @return array avec les trois coordonnÃ©es cartÃ©siens
+* @return array avec les trois coordonnées cartésiens
 */
 function geographic_to_cartesien($lambda, $phi, $h, $ellipse) {
   $a = $ellipse->__get('a');
@@ -57,13 +57,13 @@ function geographic_to_cartesien($lambda, $phi, $h, $ellipse) {
 /**
 * Fonction RGF_to_NTF
 *
-* Transforme des coordonnÃ©es cartÃ©siennes RGF en coordonnÃ©es cartÃ©siennes NTF Ã  l'aide d'une grille de transformation
-* Les coordonnÃ©es sont entrÃ©es en mÃ¨tres et sont donnÃ©es en mÃ¨tres
+* Transforme des coordonnées cartésiennes RGF en coordonnées cartésiennes NTF Ã  l'aide d'une grille de transformation
+* Les coordonnées sont entrées en mètres et sont données en mètres
 *
-* @param float $X premiÃ¨re coordonnÃ©es cartÃ©siennes
-* @param float $Y deuxiÃ¨me coordonnÃ©es cartÃ©siennes
-* @param float $Z troisiÃ¨me coordonnÃ©es cartÃ©siennes
-* @return array avec les trois coordonnÃ©es cartÃ©siennes
+* @param float $X première coordonnées cartésiennes
+* @param float $Y deuxième coordonnées cartésiennes
+* @param float $Z troisième coordonnées cartésiennes
+* @return array avec les trois coordonnées cartésiennes
 */
 function RGF_to_NTF($X, $Y, $Z) {
   $ellipse = new Ellipse("IAG_GRS_1980");
@@ -82,13 +82,13 @@ function RGF_to_NTF($X, $Y, $Z) {
 /**
 * Fonction RGF_to_NTF
 *
-* Transforme des coordonnÃ©es cartÃ©siennes NTF en coordonnÃ©es cartÃ©siennes RGF Ã  l'aide d'une grille de transformation
-* Les coordonnÃ©es sont entrÃ©es en mÃ¨tres et sont donnÃ©es en mÃ¨tres
+* Transforme des coordonnées cartésiennes NTF en coordonnées cartésiennes RGF à l'aide d'une grille de transformation
+* Les coordonnées sont entrées en mètres et sont données en mètres
 
-* @param float $X premiÃ¨re coordonnÃ©es cartÃ©siennes
-* @param float $Y deuxiÃ¨me coordonnÃ©es cartÃ©siennes
-* @param float $Z troisiÃ¨me coordonnÃ©es cartÃ©siennes
-* @return array avec les trois coordonnÃ©es cartÃ©siennes
+* @param float $X première coordonnées cartésiennes
+* @param float $Y deuxième coordonnées cartésiennes
+* @param float $Z troisième coordonnées cartésiennes
+* @return array avec les trois coordonnées cartésiennes
 */
 function NTF_to_RGF($X, $Y, $Z)  {
   $T0 = array(-168, -60, 320);
@@ -108,20 +108,20 @@ function NTF_to_RGF($X, $Y, $Z)  {
 /**
 * Fonction lecture_grille
 
-* Lit le fichier qui donne les paramÃ¨tres de translation de la grille pour convertir du RGF vers NTF
-* S'interesse en particulier Ã  la maille de la grille correspondant aux coordonnÃ©es gÃ©ographiques recu
-* Renvoie le vecteur translation Ã  appliquer en mÃ¨tre
+* Lit le fichier qui donne les paramètres de translation de la grille pour convertir du RGF vers NTF
+* S'interesse en particulier Ã  la maille de la grille correspondant aux coordonnées géographiques recu
+* Renvoie le vecteur translation Ã  appliquer en mètre
 *
-* @param array $geog coordonnÃ©es gÃ©ographiques dans un array en radians
-* @return array avec les trois coordonnÃ©es cartÃ©siennes de la translation Ã  appliquer
+* @param array $geog coordonnées géographiques dans un array en radians
+* @return array avec les trois coordonnées cartésiennes de la translation Ã  appliquer
 */
 function lecture_grille($geog) {
-  //passage du radian au degrÃ©
+  //passage du radian au degré
   foreach ($geog as &$elem) {
     $elem = $elem/pi()*180;
   }
 
-//dÃ©termination de la maille
+//détermination de la maille
   $lambda0 = floor($geog[0]*10)/10;
   $phi0 = floor($geog[1]*10)/10;
   $lambda1 = ceil($geog[0]*10)/10;
@@ -152,7 +152,7 @@ function lecture_grille($geog) {
   $ligne3 = substr($debutligne3, 0, strpos($debutligne3, "\n"));
   $tab3 = explode("  ", $ligne3);
 
-  //calcul du vecteur de translation par interpolation bilinÃ©aire
+  //calcul du vecteur de translation par interpolation bilinéaire
   $x = ($geog[0] - $lambda0)/($lambda1 - $lambda0);
   $y = ($geog[1] - $phi0)/($phi1 - $phi0);
 

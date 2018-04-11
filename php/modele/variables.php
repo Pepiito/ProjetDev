@@ -10,7 +10,6 @@ class Ellipse {
 
   public function __construct($nom) {
     $contenu = lecture_fichier("../../files/ellipsoide.txt");
-
     if (($indice = strpos($contenu, $nom)) === FALSE) {
       exit("Erreur 121: L'ellipsoide demandé n'existe pas");
     } else {
