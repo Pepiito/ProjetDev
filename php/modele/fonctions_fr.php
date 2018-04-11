@@ -4,10 +4,10 @@ include("cartesiennes.php");
 /**
 * Fonction proj_to_CC
 *
-* Retourne les deux premiÃ¨res coordonnÃ©es projetÃ©es en reprÃ©sentation conique sur un cone donnÃ©e obtenues Ã  partir des coordonnÃ©es gÃ©ographiques
+* Retourne les deux premières coordonnées projetées en représentation conique sur un cone donnée obtenues Ã  partir des coordonnées géographiques
 *
-* @param float $lambda premiÃ¨re coordonnÃ©e gÃ©ographique
-* @param float $phi deuxiÃ¨me coordonnÃ©e gÃ©ographique
+* @param float $lambda première coordonnée géographique
+* @param float $phi deuxième coordonnée géographique
 * @param Cone_CC $cone cone de projection
 * @return array
 */
@@ -28,10 +28,10 @@ function proj_to_CC($lambda, $phi, $cone) {
 /**
 * Fonction CC_to_geog
 *
-* Retourne les deux premiÃ¨res coordonnÃ©es gÃ©ographiques obtenues Ã  partir des coordonnÃ©es projetÃ©es en reprÃ©sentation conique
+* Retourne les deux premières coordonnées géographiques obtenues Ã  partir des coordonnées projetées en représentation conique
 *
-* @param float $X premiÃ¨re coordonnÃ©e projetÃ©e
-* @param float $Y deuxiÃ¨me coordonnÃ©e projetÃ©e
+* @param float $X première coordonnée projetée
+* @param float $Y deuxième coordonnée projetée
 * @param Cone_CC $cone cone de projection
 * @return array
 */
@@ -56,10 +56,10 @@ function CC_to_geog($X, $Y, $cone) {
 /**
 * Fonction geog_to_Lambert
 
-* Retourne les deux premiÃ¨res coordonnÃ©es projetÃ©es en reprÃ©sentation conique sur un cone donnÃ©e obtenues Ã  partir des coordonnÃ©es gÃ©ographiques
+* Retourne les deux premières coordonnées projetées en représentation conique sur un cone donnée obtenues Ã  partir des coordonnées géographiques
 
-* @param float $lambda premiÃ¨re coordonnÃ©e gÃ©ographique
-* @param float $phi deuxiÃ¨me coordonnÃ©e gÃ©ographique
+* @param float $lambda première coordonnée géographique
+* @param float $phi deuxième coordonnée géographique
 * @param Cone_Lambert $cone cone de projection
 * @return array
 */
@@ -83,10 +83,10 @@ function geog_to_Lambert($lambda, $phi, $cone) {
 /**
 * Fonction Lambert_to_geog
 *
-* Retourne les deux premiÃ¨res coordonnÃ©es gÃ©ographiques obtenues Ã  partir des coordonnÃ©es projetÃ©es en reprÃ©sentation conique
+* Retourne les deux premières coordonnées géographiques obtenues Ã  partir des coordonnées projetées en représentation conique
 *
-* @param float $X premiÃ¨re coordonnÃ©e projetÃ©e
-* @param float $Y deuxiÃ¨me coordonnÃ©e projetÃ©e
+* @param float $X première coordonnée projetée
+* @param float $Y deuxième coordonnée projetée
 * @param Cone_Lambert $cone cone de projection
 * @return array
 */
@@ -114,7 +114,7 @@ function Lambert_to_geog($X, $Y, $cone) {
 /**
 * Fonction L
 *
-* Retourne la latitude isomÃ©trique en mÃ¨tres obtenue Ã  partir de la latitude gÃ©ographique en radian
+* Retourne la latitude isométrique en mètres obtenue Ã  partir de la latitude géographique en radian
 *
 * @param float $phi
 * @param Ellipse $ellipse
@@ -129,7 +129,7 @@ function L_iso($phi, $ellipse) {
 /**
 * Fonction Linverse
 *
-* Retourne la latitude gÃ©ographique en radian obtenue Ã  partir de la latitude isomÃ©trique en mÃ¨tres
+* Retourne la latitude géographique en radian obtenue Ã  partir de la latitude isométrique en mètres
 *
 * @param float $L
 * @param Ellipse $ellipse
