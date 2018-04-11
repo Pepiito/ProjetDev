@@ -4,8 +4,6 @@
 
 #Coordonn�es suisses en projection (y, x) --> coordonn�es ellipso�dales (?, f) (formules rigoureuses)
 
-#echo $K;
-
 # Plan de projection (y, x) --> sph�re ( b, l )
 # Transformation vers LV03 (600'000, 200'000)
 # LV95 = MN95 et LV03 = MN03 --> traduction fran�ais --> allemand
@@ -16,9 +14,7 @@ function MN95_to_sphere($E_MN95, $N_MN95){
     return array($Y_sphere, $X_sphere);
 }
 
-#list($Y_sphere, $X_sphere)=MN95_to_sphere($E_MN95, $N_MN95);
 
-#echo $Y_sphere;
 
 # # Calcul de valeurs auxiliaires
 
@@ -26,18 +22,13 @@ function val_aux_1($Y_sphere, $R){
     $l_3=$Y_sphere/$R;
     return array($l_3);
 }
-#list($l_3)=val_aux_1($Y_sphere, $R);
 
-#echo $l_3;
 
 function val_aux_2($X_sphere, $R){
     $b_3=2*(atan(exp($X_sphere/$R))-pi()/4);
     return array($b_3);
 }
 
-#list($b_3)=val_aux_2($X_sphere, $R);
-
-#echo $b_3;
 
 # Syst�me pseudo-�quatorial ( b, l ) --> syst�me �quatorial (b, l)
 
@@ -47,9 +38,6 @@ function pseudo_equatorial_to_equatorial($b0, $b_3, $l_3){
     return array($b_equatorial, $l_equatorial);
 }
 
-#list ($b_equatorial, $l_equatorial)=pseudo_equatorial_to_equatorial($b0, $b_3, $l_3);
-
-#echo $b_equatorial;
 
 # Sph�re (b, l) --> ellipso�de (phi, lambda)
 
@@ -70,9 +58,6 @@ function sphere_to_ellipsoide($lambda_Berne, $alpha, $l_equatorial, $K, $Bessel_
     return array($phi_ellipsoide_1, $lambda_ellipsoide);
 }
 
-#list ($phi_ellipsoide_1, $lambda_ellipsoide)=sphere_to_ellipsoide($lambda_Berne, $alpha, $l_equatorial, $K, $Bessel_e, $b_equatorial);
-
-#echo $phi_ellipsoide_1;
 
 # Fonction qui permet de passer des coordonn�es suisses en projection (y, x) --> coordonn�es ellipso�dales (?, f) (formules rigoureuses)
 
@@ -89,9 +74,6 @@ function MN95_to_geog($E_MN95, $N_MN95, $phi_Berne, $Bessel_e, $Bessel_a, $lambd
 	return array($phi_ellipsoide_1, $lambda_ellipsoide);
 }
 
-#list($phi, $lambda)=MN95_to_geog($E_MN95, $N_MN95, $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
-
-#echo $phi;
 
 # Transformation coordonnees geographiques CH1903+ (ellipso�dales) --> coordonnees carthesienne g�ocentrique CH1903+
 
@@ -103,10 +85,6 @@ function geog_CH1903plus_to_cart_CH1903plus($lambda, $phi, $h, $Bessel_a, $Besse
 	return array($Xcart_CH1903plus,$Ycart_CH1903plus,$Zcart_CH1903plus);
 }
 
-#list($Xcart_CH1903plus,$Ycart_CH1903plus,$Zcart_CH1903plus)=geog_CH1903plus_to_cart_CH1903plus($lambda, $phi, $h, $Bessel_a, $Bessel_e);
-
-#echo $Xcart_CH1903plus;
-
 
 # Transformation coordonnees carthesienne g�ocentrique CH1903+ --> coordonnees carthesienne g�ocentrique ETRS89
 
@@ -117,9 +95,6 @@ function cartCH1903plus_to_cartETRS89($Xcart_CH1903plus,$Ycart_CH1903plus,$Zcart
     return array($XcartETRS89, $YcartETRS89, $ZcartETRS89);
 }
 
-#list ($XcartETRS89, $YcartETRS89, $ZcartETRS89)=cartCH1903plus_to_cartETRS89($Xcart_CH1903plus,$Ycart_CH1903plus,$Zcart_CH1903plus, $Bessel_dx, $Bessel_dy, $Bessel_dz);
-
-#echo $XcartETRS89;
 
 # Transformation coordonnees carthesienne g�ocentrique ETRS89 --> coordonnees geographiques ETRS89
 
@@ -139,9 +114,6 @@ function cartETRS89_to_geogETRS89($XcartETRS89, $YcartETRS89, $ZcartETRS89, $GRS
     return array($lambda,$phi,$hn);
 }
 
-#list($lambda_ETRS89,$phi_ETRS89,$hn_ETRS89)=cartETRS89_to_geogETRS89($XcartETRS89, $YcartETRS89, $ZcartETRS89, $GRS80_a, $GRS80_e, $Epsilon);
-
-#echo $lambda_ETRS89;
 
 # Fonction qui permet de passer des coordonnees geographiques CH1903+ (ellipso�dales) --> coordonnees carthesienne g�ocentrique CH1903+ --> coordonnees carthesienne g�ocentrique ETRS89 --> coordonnees geographiques ETRS89
 
@@ -151,9 +123,4 @@ function geogCH1903plus_to_geogETRS89($lambda, $phi, $h, $Bessel_dx,$Bessel_dy,$
     list($lambda_ETRS89,$phi_ETRS89,$hn_ETRS89)=cartETRS89_to_geogETRS89($XcartETRS89, $YcartETRS89, $ZcartETRS89, $GRS80_a, $GRS80_e, $Epsilon);
     return array($lambda_ETRS89,$phi_ETRS89,$hn_ETRS89);
 }
-
-#list($lambda_ETRS89,$phi_ETRS89,$hn_ETRS89)=geogCH1903plus_to_geogETRS89($lambda, $phi, $h, $Bessel_dx,$Bessel_dy,$Bessel_dz, $Bessel_a, $Bessel_e, $GRS80_a, $GRS80_e, $Epsilon);
-
-#echo($lambda_ETRS89);
-
 ?>
