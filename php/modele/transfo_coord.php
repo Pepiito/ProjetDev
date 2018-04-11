@@ -12,6 +12,7 @@ include('fonctions_suisses.php');
 include('Deviation_verticale.php');
 include('Transo_Suisse_GRS80_MN95.php');
 include('Transo_Suisse_MN95_GRS80.php');
+include('Transo_Suisse_API_DLL.php');
 ?>
 
 <?php
@@ -133,10 +134,34 @@ for ($i=0; $i<$len; $i++) {
         $h0 = $h[$i];
       }
 
-    } else if ($type_plani_dep == 'MN95') {
-      MN95_to_geog($E0, $N0, $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
-    } else if ($type_plani_dep == 'MN03') {
-// a remplir, passer de E, N à lambda, phi et changer l'alti en hauteur si il faut
+    } else if ($type_plani_dep == 'CH1903+' && $type_proj_dep == 'MN95') {
+      list($phi0, $lambda0) = MN95_to_geog($E0, $N0, $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
+      if ($type_alti_dep == 'a' && $sys_alti_dep == 'RAN95') {
+        $H0 = $H[$i];
+
+        list($E_MN03, $N_MN03) = MN95_to_MN03($E0, $N0);
+        $h0 = RAN95_to_Bessel($E_MN03, $N_MN03, $H0);
+      } else if ($type_alti_dep == 'a' && $sys_alti_dep == 'NF02'){
+        $H0 = $H[$i];
+
+        list($E_MN03, $N_MN03) = MN95_to_MN03($E0, $N0);
+        $h0 = NF02_to_Bessel($E_MN03, $N_MN03, $H0);
+      } else if ($type_alti_dep == 'h') {
+        $h0 = $h[$i];
+      }
+    } else if ($type_plani_dep == 'CH1903' && $type_proj_dep == 'MN03') {
+      list($E_MN95, $N_MN95) = MN03_to_MN95($E0, $N0);
+      list($phi0, $lambda0) = MN95_to_geog($E_MN95, $N_MN95, $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
+
+      if ($type_alti_dep == 'a' && $sys_alti_dep == 'RAN95') {
+        $H0 = $H[$i];
+        $h0 = RAN95_to_Bessel($E0, $N0, $H0);
+      } else if ($type_alti_dep == 'a' && $sys_alti_dep == 'NF02'){
+        $H0 = $H[$i];
+        $h0 = NF02_to_Bessel($E0, $N0, $H0);
+      } else if ($type_alti_dep == 'h') {
+        $h0 = $h[$i];
+      }
     }
 
     // passage des coordonnées géographiques vers les coordonnées cartésiennes
@@ -175,10 +200,24 @@ for ($i=0; $i<$len; $i++) {
       } else if ($type_alti_dep == 'h') {
         $h0 = $h[$i];
       }
-    } else if ($type_plani_dep == 'CH1903') {
-// a remplir, passer de E, N à lambda, phi et changer l'alti en hauteur si il faut
-    } else if ($type_plani_dep == 'CH1903+') {
-// a remplir, passer de E, N à lambda, phi et changer l'alti en hauteur si il faut
+    } else if ($type_plani_dep == 'CH1903' || $type_plani_dep == 'CH1903+') {
+      if ($type_alti_dep == 'a' && $sys_alti_dep == 'RAN95') {
+        $H0 = $H[$i];
+
+        list($Y_LV95, $X_LV95) = geog_to_MN95($lambda0, $phi0, $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
+        list($E_MN03, $N_MN03) = MN95_to_MN03($Y_LV95, $X_LV95);
+
+        $h0 = RAN95_to_Bessel($E_MN03, $N_MN03, $H0);
+      } else if ($type_alti_dep == 'a' && $sys_alti_dep == 'NF02') {
+        $H0 = $H[$i];
+
+        list($Y_LV95, $X_LV95) = geog_to_MN95($lambda0, $phi0, $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
+        list($E_MN03, $N_MN03) = MN95_to_MN03($Y_LV95, $X_LV95);
+
+        $h0 = NF02_to_Bessel($E_MN03, $N_MN03, $H0);
+      } else if ($type_alti_dep == 'h') {
+        $h0 = $h[$i];
+      }
     }
 
     // passage des coordonnées géographiques vers les coordonnées cartésiennes
@@ -279,13 +318,17 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
       } else if ($type_alti_arr == 'a') {
         if (($type_plani_arr == 'RGF93' || $type_plani_arr == 'ETRS89') && $sys_alti_arr == 'IGN69') {
           $H_arr['H'.$i] = h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]);
-        } else if ($type_plani_arr == 'NTF') {
+        } else if ($type_plani_arr == 'NTF' && $sys_alti_arr == 'IGN69') {
           $cst = alti_to_h(2.346199*pi()/180, 48.846211*pi()/180, 0);
           $H_arr['H'.$i] = h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst;
-        } else if ($type_plani_arr == 'CH1903') {
-          // a remplir pour passer dans les systèmes altimétriques suisses
-        } else if ($type_plani_arr == 'CH1903+') {
-          // a remplir pour passer dans les systèmes altimétriques suisses
+        } else if (($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'RAN95') {
+          list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
+          list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
+          $H_arr['H'.$i] = Bessel_to_RAN95($E_MN03, $N_MN03, $array_geog[2]);
+        } else if (($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'NF02') {
+          list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
+          list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
+          $H_arr['H'.$i] = Bessel_to_NF02($E_MN03, $N_MN03, $array_geog[2]);
         }
       }
 
@@ -315,21 +358,26 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
         } else if ($type_plani_arr == 'NTF') {
           $cst = alti_to_h(2.346199*pi()/180, 48.846211*pi()/180, 0);
           $H_arr['H'.$i] = h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst;
-        } else if ($type_plani_arr == 'CH1903') {
-          // a remplir pour passer dans les systèmes altimétriques suisses
-        } else if ($type_plani_arr == 'CH1903+') {
-          // a remplir pour passer dans les systèmes altimétriques suisses
         }
+      } else if ($type_alti_arr == 'a' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'RAN95') {
+        list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
+        list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
+        $H_arr['H'.$i] = Bessel_to_RAN95($E_MN03, $N_MN03, $array_geog[2]);
+      } else if ($type_alti_arr == 'a' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'NF02') {
+        list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
+        list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
+        $H_arr['H'.$i] = Bessel_to_NF02($E_MN03, $N_MN03, $array_geog[2]);
       }
 
       if ($type_plani_arr == 'NTF') {
         $array_plani = geog_to_Lambert($array_geog[0], $array_geog[1], $cone);
       } else if ($type_plani_arr == 'RGF93') {
         $array_plani = proj_to_CC($array_geog[0], $array_geog[1], $cone);
-      } else if (($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $type_proj_arr == 'MN95') {
+      } else if ($type_plani_arr == 'CH1903' && $type_proj_arr == 'MN03') {
         $array_plani = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
-      } else if (($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $type_proj_arr == 'MN03') {
-  // a remplir, passer de array_geog (lambda, phi) aux coordonnées projetées
+        $array_plani = MN95_to_MN03($array_plani[0], $array_plani[1]);
+      } else if ($type_plani_arr == 'CH1903+' && $type_proj_arr == 'MN95') {
+        $array_plani = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
       }
       $E_arr['E'.$i] = $array_plani[0];
       $N_arr['N'.$i] = $array_plani[1];
@@ -362,8 +410,8 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
 $coord = array('cart', 'geog', 'proj');
 $plani = array('RGF93', 'NTF', 'ETRS89', 'CH1903+');
 $alti = array('a', 'h');
-$sys_alti = array('RGF93' => array('IGN69'), 'NTF' => array('IGN69'), 'ETRS89' => array(), 'CH1903+' => array(), 'CH1903' => array());
-$proj = array('RGF93' => array('CC42', 'CC43', 'CC44', 'CC45', 'CC46', 'CC47', 'CC48', 'CC49', 'CC50', 'Lambert93'), 'NTF' => array('Lambert1', 'Lambert2', 'Lambert2etendu', 'Lambert3', 'Lambert4'), 'CH1903' => array('MN95'), 'CH1903+' => array('MN95'), 'ETRS89' => array());
+$sys_alti = array('RGF93' => array('IGN69'), 'NTF' => array('IGN69'), 'ETRS89' => array(), 'CH1903+' => array('RAN95', 'NF02'), 'CH1903' => array('RAN95', 'NF02'));
+$proj = array('RGF93' => array('CC42', 'CC43', 'CC44', 'CC45', 'CC46', 'CC47', 'CC48', 'CC49', 'CC50', 'Lambert93'), 'NTF' => array('Lambert1', 'Lambert2', 'Lambert2etendu', 'Lambert3', 'Lambert4'), 'CH1903' => array('MN03'), 'CH1903+' => array('MN95'), 'ETRS89' => array());
 
 $echo = array();
 
