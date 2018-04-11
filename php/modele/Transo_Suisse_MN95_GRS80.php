@@ -217,14 +217,14 @@ function cartETRS89_to_geogETRS89($XcartETRS89, $YcartETRS89, $ZcartETRS89, $GRS
 
 # Fonction qui permet de passer des coordonnees geographiques CH1903+ (ellipsoïdales) --> coordonnees carthesienne géocentrique CH1903+ --> coordonnees carthesienne géocentrique ETRS89 --> coordonnees geographiques ETRS89
 
-function geogCG1903plus_to_geogETRS89($lambda, $phi, $h, $Bessel_dx,$Bessel_dy,$Bessel_dz, $Bessel_a, $Bessel_e, $GRS80_a, $GRS80_e, $Epsilon){
+function geogCH1903plus_to_geogETRS89($lambda, $phi, $h, $Bessel_dx,$Bessel_dy,$Bessel_dz, $Bessel_a, $Bessel_e, $GRS80_a, $GRS80_e, $Epsilon){
     list($Xcart_CH1903plus,$Ycart_CH1903plus,$Zcart_CH1903plus)=geog_CH1903plus_to_cart_CH1903plus($lambda, $phi, $h, $Bessel_a, $Bessel_e);
     list ($XcartETRS89, $YcartETRS89, $ZcartETRS89)=cartCH1903plus_to_cartETRS89($Xcart_CH1903plus,$Ycart_CH1903plus,$Zcart_CH1903plus, $Bessel_dx, $Bessel_dy, $Bessel_dz);
     list($lambda_ETRS89,$phi_ETRS89,$hn_ETRS89)=cartETRS89_to_geogETRS89($XcartETRS89, $YcartETRS89, $ZcartETRS89, $GRS80_a, $GRS80_e, $Epsilon);
     return array($lambda_ETRS89,$phi_ETRS89,$hn_ETRS89);
 }
 
-list($lambda_ETRS89,$phi_ETRS89,$hn_ETRS89)=geogCG1903plus_to_geogETRS89($lambda, $phi, $h, $Bessel_dx,$Bessel_dy,$Bessel_dz, $Bessel_a, $Bessel_e, $GRS80_a, $GRS80_e, $Epsilon);
+list($lambda_ETRS89,$phi_ETRS89,$hn_ETRS89)=geogCH1903plus_to_geogETRS89($lambda, $phi, $h, $Bessel_dx,$Bessel_dy,$Bessel_dz, $Bessel_a, $Bessel_e, $GRS80_a, $GRS80_e, $Epsilon);
 
 #echo($lambda_ETRS89);
 
