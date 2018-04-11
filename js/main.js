@@ -47,6 +47,7 @@ function sendDataToModel() {
 }
 
 function receiveDataFromModel(reponse) {
+
   if (isPHPErrorType(reponse)) {
     console.log("Erreur sur la réponse AJAX :\n" + reponse);
   }
@@ -56,8 +57,10 @@ function receiveDataFromModel(reponse) {
   }
   else {
     // Instruction si tout va bien
-    console.log(reponse);
+    coordonnees = JSON.parse(reponse)
+    console.log(coordonnees);
   }
+
 }
 
 function isErrorType(string) {
@@ -95,7 +98,7 @@ function disable(htmlCollection) {
   modify(htmlCollection, "none !important", false);
 }
 
-function adaptDisplay(array, toDisplay, data, inout, byDeleting) {
+function adaptDisplay(array, toDisplay, data, inout) {
   /*
   *
   *  toggle l'affichage pour n'afficher que les éléments de la classe souhaitée (toDisplay et caches les autres)
@@ -105,18 +108,8 @@ function adaptDisplay(array, toDisplay, data, inout, byDeleting) {
   * toDisplay : classe d'éléments à afficher (ex : 'cart')
   * data : point / file
   * inout : in / out
-  * byDeleting : si true, efface tous les éléments non concernés sans chercher à afficher tous les éléments concernés (laisse ceux déjà en place)
   *
   */
-
-  byDeleting = byDeleting || false;
-
-  if (byDeleting) {
-    for (elem in array) {
-      if (elem != toDisplay) disable(array[elem][data][inout]);
-    }
-    return;
-  }
 
   for (elem in array) {
     disable(array[elem][data][inout]);
