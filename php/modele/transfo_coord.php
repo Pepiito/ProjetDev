@@ -32,19 +32,6 @@ if (!($type_coord_dep == 'cart')) {
   $type_alti_dep = $_POST['T'];
 }
 
-$type_coord_arr = $_POST['_t'];
-$type_plani_arr = $_POST['_P'];
-if (!($type_coord_arr == 'cart')) {
-  $type_alti_arr = $_POST['_T'];
-  if ($type_alti_arr == 'a') {
-    $sys_alti_arr = $_POST['_A'];
-  }
-}
-if ($type_coord_arr == 'proj') {
-  $type_proj_arr = $_POST['_p'];
-}
-
-
 // cas où les coordonnées sont planimétriques
 if ($type_coord_dep == 'proj') {
   $type_proj_dep = $_POST['p'];
