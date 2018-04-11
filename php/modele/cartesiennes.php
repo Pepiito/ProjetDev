@@ -1,5 +1,4 @@
 <?php
-include("variables.php");
 
 /**
 * Fonction cartesien_to_geographic

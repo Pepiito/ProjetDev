@@ -1,5 +1,4 @@
 <?php
-include("cartesiennes.php");
 
 /**
 * Fonction proj_to_CC

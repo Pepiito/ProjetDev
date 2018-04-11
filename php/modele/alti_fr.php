@@ -1,14 +1,13 @@
 <?php
-include("lecture_fichier.php");
 
 /**
 * Fonction h_to_alti
 *
-* Retourne un altitude par rapport aux coordonnÃ©es gÃ©ographique donnÃ©es en radian et mÃ¨tre
+* Retourne un altitude par rapport aux coordonnées géographique données en radian et mètre
 *
-* @param float $lambda premiÃ¨re coordonnÃ©e gÃ©ographique
-* @param float $phi deuxiÃ¨me coordonnÃ©e gÃ©ographique
-* @param float $h troisiÃ¨me coordonnÃ©e gÃ©ographique
+* @param float $lambda première coordonnée géographique
+* @param float $phi deuxième coordonnée géographique
+* @param float $h troisième coordonnée géographique
 * @return float
 */
 function h_to_alti($lambda, $phi, $h) {
@@ -19,10 +18,10 @@ function h_to_alti($lambda, $phi, $h) {
 /**
 * Fonction h_to_alti
 *
-* Retourne un hauteur par rapport aux coordonnÃ©es gÃ©ographique et une altitude donnÃ©es en radian et mÃ¨tre
+* Retourne un hauteur par rapport aux coordonnées géographique et une altitude données en radian et mètre
 *
-* @param float $lambda premiÃ¨re coordonnÃ©e gÃ©ographique
-* @param float $phi deuxiÃ¨me coordonnÃ©e gÃ©ographique
+* @param float $lambda première coordonnée géographique
+* @param float $phi deuxième coordonnée géographique
 * @param float $H altitude
 * @return float
 */
@@ -34,10 +33,10 @@ function alti_to_h($lambda, $phi, $H) {
 /**
 * Fonction lecture_grille_alti
 *
-* Retourne l'ondulation du gÃ©oÃ¯de Ã  une position donnÃ©e en coordonnÃ©es gÃ©ographiques
+* Retourne l'ondulation du géoïde Ã  une position donnée en coordonnées géographiques
 *
-* @param float $lambda premiÃ¨re coordonnÃ©e gÃ©ographique
-* @param float $phi deuxiÃ¨me coordonnÃ©e gÃ©ographique
+* @param float $lambda première coordonnée géographique
+* @param float $phi deuxième coordonnée géographique
 * @return float
 */
 function lecture_grille_alti($lambda, $phi) {
