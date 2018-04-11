@@ -33,7 +33,7 @@ function alti_to_h($lambda, $phi, $H) {
 /**
 * Fonction lecture_grille_alti
 *
-* Retourne l'ondulation du géoïde Ã  une position donnée en coordonnées géographiques
+* Retourne l'ondulation du géoïde à une position donnée en coordonnées géographiques
 *
 * @param float $lambda première coordonnée géographique
 * @param float $phi deuxième coordonnée géographique
@@ -42,6 +42,13 @@ function alti_to_h($lambda, $phi, $H) {
 function lecture_grille_alti($lambda, $phi) {
   $lambda = $lambda*180/pi();
   $phi = $phi*180/pi();
+
+  //verification de la localisation dans la grille
+  if ($lambda > 8.5 || $lambda < -5.5 || $phi > 51.5 || $phi < 42) {
+    echo("Error 119: Localisation hors de l'emprise de la grille RAF09");
+    exit;
+  }
+
   //lecture du contenu de la grille
   $grille = lecture_fichier("../../files/RAF09.mnt");
   $tab = explode(" ", $grille);

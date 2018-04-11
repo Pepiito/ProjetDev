@@ -1,6 +1,7 @@
 100: Echec lors de l'ouverture du flux vers l'URL
 101: Unexpected Error
 110: Attribut de Ellipse invalide
+119: Localisation hors de l'emprise de la grille RAF09
 120: Localisation hors de l'emprise de la grille de transformation RGF93/NTF
 121: L'éllipsoïde demandé n'existe pas
 122: La projection conique demandée n'existe pas

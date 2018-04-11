@@ -89,9 +89,9 @@ function MN95_to_geog($E_MN95, $N_MN95, $phi_Berne, $Bessel_e, $Bessel_a, $lambd
 	return array($phi_ellipsoide_1, $lambda_ellipsoide);
 }
 
-list($phi, $lambda)=MN95_to_geog($E_MN95, $N_MN95, $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
+#list($phi, $lambda)=MN95_to_geog($E_MN95, $N_MN95, $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
 
-echo $phi;
+#echo $phi;
 
 # Transformation coordonnees geographiques CH1903+ (ellipso�dales) --> coordonnees carthesienne g�ocentrique CH1903+
 
@@ -152,7 +152,7 @@ function geogCH1903plus_to_geogETRS89($lambda, $phi, $h, $Bessel_dx,$Bessel_dy,$
     return array($lambda_ETRS89,$phi_ETRS89,$hn_ETRS89);
 }
 
-list($lambda_ETRS89,$phi_ETRS89,$hn_ETRS89)=geogCH1903plus_to_geogETRS89($lambda, $phi, $h, $Bessel_dx,$Bessel_dy,$Bessel_dz, $Bessel_a, $Bessel_e, $GRS80_a, $GRS80_e, $Epsilon);
+#list($lambda_ETRS89,$phi_ETRS89,$hn_ETRS89)=geogCH1903plus_to_geogETRS89($lambda, $phi, $h, $Bessel_dx,$Bessel_dy,$Bessel_dz, $Bessel_a, $Bessel_e, $GRS80_a, $GRS80_e, $Epsilon);
 
 #echo($lambda_ETRS89);
 
