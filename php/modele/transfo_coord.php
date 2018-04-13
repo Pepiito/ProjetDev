@@ -102,7 +102,7 @@ for ($i=0; $i<$len; $i++) {
       // passage en hauteur si nécéssaire pour le système altimétrique IGN69
       if ($type_alti_dep == 'a' && $sys_alti_dep == 'IGN69') {
         $H0 = $H[$i];
-        $cst = alti_to_h(48.846211, 2.346199, 0); //N croix du pantheon
+        $cst = alti_to_h(48.846211*pi()/180, 2.346199*pi()/180, 0); //N croix du pantheon
         $h0 = alti_to_h($lambda0, $phi0, $H0) + $cst;
       } else if ($type_alti_dep == 'h') {
         $h0 = $h[$i];
@@ -182,7 +182,7 @@ for ($i=0; $i<$len; $i++) {
       // passage en hauteur si nécéssaire pour le système altimétrique IGN69
       if ($type_alti_dep == 'a' && $sys_alti_dep == 'IGN69') {
         $H0 = $H[$i];
-        $cst = alti_to_h(48.846211, 2.346199, 0); //N croix du pantheon
+        $cst = alti_to_h(48.846211*pi()/180, 2.346199*pi()/180, 0); //N croix du pantheon
         $h0 = alti_to_h($lambda0, $phi0, $H0) + $cst;
       } else if ($type_alti_dep == 'h') {
         $h0 = $h[$i];
