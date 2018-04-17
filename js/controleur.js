@@ -36,13 +36,11 @@ window.addEventListener('load', (event) => {
   registerAllData();
 
   allHTMLElem.forEach( (data) => {
-    data.addEventListener('input', (event) => {
-      registerAllData();
-      validAndSetData();
+    data.addEventListener('change', (event) => {
+    //  validAndSetData();
     }, false);
     data.addEventListener('click', (event) => {
-      registerAllData();
-      validAndSetData();
+    //  validAndSetData();
     }, false);
   });
 
@@ -87,6 +85,11 @@ Ecouteurs
 
   });
 });
+
+document.getElementById('calcul-point').addEventListener('click', (event) => {
+  var errordata = validAndSetData();
+  if (errordata != 'Success') console.log(errordata);
+}, false);
 
 document.getElementById('head_trans_coord').addEventListener('click', (event) => {
 	toggleHead('left');

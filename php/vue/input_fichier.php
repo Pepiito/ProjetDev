@@ -39,17 +39,7 @@
     <div>
       <label for="systeme-plani-file-in">Systèmes</label>
       <select id="systeme-plani-file-in" style="width:150px";>
-        <optgroup label="Europe">
-          <option value="ETRS89">ETRS89/CHTRF95</option>
-        </optgroup>
-        <optgroup label="Suisse">
-          <option value="CH1903+">CH1903+</option>
-          <option value="CH1903">CH1903</option>
-        </optgroup>
-        <optgroup label="France">
-          <option value="RGF93">RGF93</option>
-          <option value="NTF">NTF</option>
-        </optgroup>
+        <?php echo AfficheSystemesPlani(); ?>
       </select>
     </div>
     <div class="proj-file-in">
@@ -57,6 +47,15 @@
       <select id=projection-file-in>
         <?php echo Afficheprojections('file', 'in'); ?>
       </select>
+    </div>
+    <div class="proj-file-in">
+        <div style="margin-left: 60px;">
+          <label for="systeme-alti-file-in">Système altimétrique (si altitude)</label>
+          <select id="systeme-alti-file-in" style="width:150px";>
+            <option value="false">--</option>
+            <?php echo AfficheSystemesAlti('file', 'in'); ?>
+          </select>
+      </div>
     </div>
   </div>
 </fieldset>
@@ -74,17 +73,7 @@
     <div>
       <label for="systeme-plani-file-out">Système</label>
       <select id="systeme-plani-file-out" style="width:150px";>
-        <optgroup label="Europe">
-          <option value="ETRS89">ETRS89/CHTRF95</option>
-        </optgroup>
-        <optgroup label="Suisse">
-          <option value="CH1903+">CH1903+</option>
-          <option value="CH1903">CH1903</option>
-        </optgroup>
-        <optgroup label="France">
-          <option value="RGF93">RGF93</option>
-          <option value="NTF">NTF</option>
-        </optgroup>
+          <?php echo AfficheSystemesPlani(); ?>
       </select>
     </div>
     <div class="proj-file-out">
@@ -98,7 +87,7 @@
           <label for="systeme-alti-file-out">Système altimétrique (si altitude)</label>
           <select id="systeme-alti-file-out" style="width:150px";>
             <option value="false">--</option>
-            <?php echo AfficheSystemesAlti(); ?>
+            <?php echo AfficheSystemesAlti('file', 'out'); ?>
           </select>
       </div>
     </div>

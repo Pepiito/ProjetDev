@@ -40,15 +40,17 @@ function AfficheSystemesPlani() {
   </optgroup>";
 }
 
-function AfficheSystemesAlti() {
+function AfficheSystemesAlti($type, $inout) {
   return "
-  <optgroup label=Suisse>
-    <option value=RAN95>RAN95</option>
-    <option value=NF02>NF02</option>
+  <optgroup label=Suisse class='CH1903-$type-$inout CH1903+-$type-$inout'>
+    <option value=RAN95 class='CH1903-$type-$inout CH1903+-$type-$inout'>RAN95</option>
+    <option value=NF02 class='CH1903-$type-$inout CH1903+-$type-$inout'>NF02</option>
   </optgroup>
-  <optgroup label=France>
-    <option value=IGN69>IGN69</option>
-  </optgroup>";
+  <optgroup label=France class='RGF93-$type-$inout NTF-$type-$inout'>
+    <option value=IGN69 class='RGF93-$type-$inout NTF-$type-$inout'>IGN69</option>
+  </optgroup>
+  <option value=false class='ETRS89-$type-$inout' disabled>Pas de système altimétrique</option>
+  ";
 }
 
 function AfficheCoord($inout) {

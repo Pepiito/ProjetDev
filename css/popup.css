@@ -108,7 +108,7 @@ div#pop_body label.inline {
 	margin: 3px 25px;
   max-height: 25px;
   min-width: 150px;
-  max-width: 170px;
+  max-width: 200px;
 }
 
 #pop_body input[type="number"], input[type="text"] {
@@ -143,7 +143,10 @@ div#pop_body label.inline {
 }
 
 #pop_body input[type="text"]:disabled {
-	background-color: rgb(180, 180, 180);
+	background-color: rgb(220, 220, 200);
+  font-size: 1.05em;
+  width: 120px;
+  max-width: 120px;
 }
 
 #input-file-out {

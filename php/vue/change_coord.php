@@ -37,7 +37,7 @@
 						<div class="proj-point-in geog-point-in">
 							<label for="systeme-alti-point-in" class="systeme-alti-point-in proj-alti-point-in geog-alti-point-in">Système altimétrique</label>
 							<select id="systeme-alti-point-in" class="systeme-alti-point-in proj-alti-point-in geog-alti-point-in">
-								<?php echo AfficheSystemesAlti(); ?>
+								<?php echo AfficheSystemesAlti('point', 'in'); ?>
 							</select>
 						</div>
 
@@ -78,7 +78,7 @@
 						<div class='proj-point-out geog-point-out'>
 							<label for="systeme-alti-point-out" class="systeme-alti-point-out proj-alti-point-out geog-alti-point-out">Système altimétrique</label>
 							<select id="systeme-alti-point-out" class="systeme-alti-point-out proj-alti-point-out geog-alti-point-out">
-								<?php echo AfficheSystemesAlti(); ?>
+								<?php echo AfficheSystemesAlti('point', 'out'); ?>
 							</select>
 						</div>
 

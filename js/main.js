@@ -57,53 +57,53 @@ function receiveDataFromModel(reponse) {
   }
   else {
     // Instruction si tout va bien
-    window.coordonnees = JSON.parse(reponse)
+    window.coordonnees = JSON.parse(reponse);
 
     if (allVar['type-transfo-selected'] == 'point') {
+
       var t_out = allVar['point']['out']['type-coord'];
-      var P_out = allVar['point']['out']['systeme_plani'];
-      var T_out = allVar[data]['out']['type-alti-altitude'];
-      var A_out =  allVar['point']['out']['systeme_alti'];
+      var P_out = allVar['point']['out']['systeme-plani'];
+      var T_out = allVar['point']['out']['type-alti-altitude'];
+      var A_out =  allVar['point']['out']['systeme-alti'];
       var p_out = allVar['point']['out']['projection'];
+
+      var unite_out = allVar['point']['out']['geog-unite'];
+
+      console.log(coordonnees);
 
       switch (t_out) {
         case 'cart':
-          setCoordValue(t_out, 'x', coordonnees[t_out][P_out]['X']);
-          setCoordValue(t_out, 'y', coordonnees[t_out][P_out]['Y']);
-          setCoordValue(t_out, 'z', coordonnees[t_out][P_out]['Z'])
+          setCoordValue(t_out, 'x', coordonnees[t_out][P_out]['X']['X0']);
+          setCoordValue(t_out, 'y', coordonnees[t_out][P_out]['Y']['Y0']);
+          setCoordValue(t_out, 'z', coordonnees[t_out][P_out]['Z']['Z0'])
           break;
         case 'geog':
           if (T_out) { // cas alti
 
-              setCoordValue(t_out, 'lng', coordonnees[t_out][P_out][T_out][A_out]['lambda']);
-              setCoordValue(t_out, 'lat', coordonnees[t_out][P_out][T_out][A_out]['phi']);
-              setCoordValue(t_out, 'altitude', coordonnees[t_out][P_out][T_out][A_out]['H']);
+              setCoordValue(t_out, 'lng', coordonnees[t_out][P_out]['a'][A_out]['lambda']['lambda0']);
+              setCoordValue(t_out, 'lat', coordonnees[t_out][P_out]['a'][A_out]['phi']['phi0']);
+              setCoordValue(t_out, 'altitude', coordonnees[t_out][P_out]['a'][A_out]['H']['H0']);
           }
           else {  // cas hauteur
-            setCoordValue(t_out, 'lng', coordonnees[t_out][P_out][T_out]['lambda'], unite_out);
-            setCoordValue(t_out, 'lat', coordonnees[t_out][P_out][T_out]['phi'], unite_out);
-            setCoordValue(t_out, 'hauteur', coordonnees[t_out][P_out][T_out]['h']);
+            setCoordValue(t_out, 'lng', coordonnees[t_out][P_out]['h']['lambda']['lambda0'], unite_out);
+            setCoordValue(t_out, 'lat', coordonnees[t_out][P_out]['h']['phi']['phi0'], unite_out);
+            setCoordValue(t_out, 'hauteur', coordonnees[t_out][P_out]['h']['h']['h0']);
           }
           break;
         case 'proj':
           if (T_out) { // cas alti
 
-              setCoordValue(t_out, 'est', coordonnees[t_out][P_out][p_out][T_out][A_out]['E']);
-              setCoordValue(t_out, 'nord', coordonnees[t_out][P_out][p_out][T_out][A_out]['N']);
-              setCoordValue(t_out, 'altitude', coordonnees[t_out][P_out][p_out][T_out][A_out]['H']);
+              setCoordValue(t_out, 'est', coordonnees[t_out][P_out][p_out][T_out][A_out]['E']['E0']);
+              setCoordValue(t_out, 'nord', coordonnees[t_out][P_out][p_out][T_out][A_out]['N']['N0']);
+              setCoordValue(t_out, 'altitude', coordonnees[t_out][P_out][p_out][T_out][A_out]['H']['H0']);
           }
           else { // cas hauteur
-            setCoordValue(t_out, 'est', coordonnees[t_out][P_out][p_out][T_out]['E']);
-            setCoordValue(t_out, 'nord', coordonnees[t_out][P_out][p_out][T_out]['N']);
-            setCoordValue(t_out, 'hauteur', coordonnees[t_out][P_out][p_out][T_out]['h']);
+            setCoordValue(t_out, 'est', coordonnees[t_out][P_out][p_out][T_out]['E']['E0']);
+            setCoordValue(t_out, 'nord', coordonnees[t_out][P_out][p_out][T_out]['N']['N0']);
+            setCoordValue(t_out, 'hauteur', coordonnees[t_out][P_out][p_out][T_out]['h']['h0']);
           }
 
-
-
       }
-
-
-
 
     }
     else {
@@ -114,11 +114,19 @@ function receiveDataFromModel(reponse) {
 }
 
 function isErrorType(string) {
-  return string.substr(0,5) == "Error"
+  return /Error /.test(string)
 }
 
 function isPHPErrorType(string) {
   return /<b>/.test(string)
+}
+
+function setCoordValue(type, coord, value, unite) {
+  unite = unite || 'none';
+  if (unite == 'grad') value = radToAngle(value, 400);
+  else if (unite == 'deg') value = radToAngle(value, 360);
+
+  document.getElementById('coord-' + type + '-' + coord + '-point-out').value = value;
 }
 
 
@@ -203,14 +211,6 @@ function toggleAltiHauteur(inout) {
   });
 }
 
-function setCoordValue(type, coord, value, unite) {
-  unite = unite || 'none';
-  if (unite == 'grad') value = radToAngle(value, 400);
-  else if (unite == 'deg') value = radToAngle(value, 360);
-  
-  document.getElementById('coord' + type + '-' + coord + '-point-out').value = parseFloat(value);
-}
-
 function registerAllData() {
 
   allVar['file'] = new Array();
@@ -279,8 +279,13 @@ function inArray(elem, arr) {
   return (arr.indexOf(elem) != -1);
 }
 
-function validAndSetData(asked) {
+function validAndSetData() {
+
+  registerAllData();
+
   data = allVar['type-transfo-selected'];
+
+  invalide_data = "";
 
   allVar['data'] = '';
   allVar['head_data'] = new Array;
@@ -301,14 +306,14 @@ function validAndSetData(asked) {
       T = 'a'
       var H = validateCoord(allVar[data]['in']['coord-' + t + '-altitude']);
       if (H) addToData('H', H);
-      else return false;
+      else invalide_data += '&' + 'coord-' + t + '-altitude';
       addToData('A', allVar[data]['in']['systeme-alti']);
     }
     else {
       T = 'h'
-      var h = validateCoord(allVar[data]['in']['coord-' + t + 'hauteur']);
+      var h = validateCoord(allVar[data]['in']['coord-' + t + '-hauteur']);
       if (h) addToData('h', h);
-      else return false;
+      else invalide_data += '&' + 'coord-' + t + '-hauteur';
     }
     addToData('T', T);
   }
@@ -318,42 +323,51 @@ function validAndSetData(asked) {
     switch (t) {
       case 'cart':
         var X = validateCoord(allVar[data]['in']['coord-cart-x']);
+        if (X) addToData('X', X);
+        else invalide_data += '&' + 'coord-cart-x';
+
         var Y = validateCoord(allVar[data]['in']['coord-cart-y']);
+        if (Y) addToData('Y', Y);
+        else invalide_data += '&' + 'coord-cart-y';
+
         var Z = validateCoord(allVar[data]['in']['coord-cart-z']);
-        if (X && Y && Z) {
-          addToData('X', X);
-          addToData('Y', Y);
-          addToData('Z', Z);
-        }
-        else return false;
+        if (Z) addToData('Z', Z);
+        else invalide_data += '&' + 'coord-cart-z';
+
         break;
 
       case 'geog':
         var l = validateCoord(allVar[data]['in']['coord-geog-lng'], unite_in);
+        if (l) addToData('l', l);
+        else invalide_data += '&' + 'coord-geog-lng';
+
         var f = validateCoord(allVar[data]['in']['coord-geog-lat'], unite_in);
-        if (l && f) {
-          addToData('l', l);
-          addToData('f', f);
-        }
-        else return false;
+        if (f) addToData('f', f);
+        else invalide_data += '&' + 'coord-geog-lat';
+
         break;
 
       case 'proj':
         var p = allVar[data]['in']['projection'];
+        if (p) addToData('p', p);
+        else invalide_data += '&' + 'projection';
+
         var E = validateCoord(allVar[data]['in']['coord-proj-est']);
+        if (E) addToData('E', E);
+        else invalide_data += '&' + 'coord-proj-est';
+
         var N = validateCoord(allVar[data]['in']['coord-proj-nord']);
+        if (N) addToData('N', N);
+        else invalide_data += '&' + 'coord-proj-nord';
+
         var c = validateCoord(allVar[data]['in']['coord-proj-eta']);
         var x = validateCoord(allVar[data]['in']['coord-proj-xi']);
         var C = validateCoord(allVar[data]['in']['coord-proj-cote']);
-        if (p && E && N) {
-          addToData('p', p);
-          addToData('E', E);
-          addToData('N', N);
-          addToData('c', c);
-          addToData('x', x);
-          addToData('C', C);
-        }
-        else return false;
+
+        addToData('c', c);
+        addToData('x', x);
+        addToData('C', C);
+
         break;
     }
 
@@ -363,8 +377,11 @@ function validAndSetData(asked) {
     addToData('_P', allVar[data]['out']['systeme-plani']);
 
   }
-  sendDataToModel();
-  return true;
+  if (invalide_data == "") {
+    sendDataToModel();
+    return "Success";
+  }
+  else return invalide_data;
 }
 
 function validateCoord(coord, unite) {
@@ -382,7 +399,7 @@ function validateCoord(coord, unite) {
   if (unite == 'grad') return angleToRad(coord, 400);
   else if (unite == 'deg') return angleToRad(coord, 360);
   else if (unite == 'rad') return angleToRad(coord, 2*Math.PI);
-  else return coord;
+  else return parseFloat(coord);
 }
 
 function angleToRad(alpha, nb) {
