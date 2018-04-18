@@ -1,9 +1,11 @@
+// HEIG-VD
+
 
 //Chargement de vecteur de GeoServer en GeoJSON
 var proxyUrl = "http://localhost/cgi-bin/proxy.cgi?url=";
 
 
-	var pfp1Url = "http://localhost:8080/geoserver/cite/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=cite:PFP1&maxFeatures=50&outputFormat=application%2Fjson";
+	var pfp1Url = "http://localhost:8080/geoserver/cite/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=cite:PFP1&outputFormat=application%2Fjson";
 	var encodedUrlpfp1 = encodeURIComponent(pfp1Url);
 	var wfsPFP1 = new ol.layer.Vector({
 		source: new ol.source.Vector({
@@ -18,12 +20,26 @@ var proxyUrl = "http://localhost/cgi-bin/proxy.cgi?url=";
 	});
 			
 
-	var pfa1Url = "http://localhost:8080/geoserver/cite/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=cite:PFA1&maxFeatures=50&outputFormat=application%2Fjson";
+	var pfa1Url = "http://localhost:8080/geoserver/cite/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=cite:PFA1&outputFormat=application%2Fjson";
 	var encodedUrlpfa1 = encodeURIComponent(pfa1Url);
 	var wfsPFA1 = new ol.layer.Vector({
 		source: new ol.source.Vector({
 			format: new ol.format.GeoJSON(),
 			url: proxyUrl + encodedUrlpfa1
+		}),
+		style: new ol.style.Style({
+			image: new ol.style.Icon({
+				src: 'icon_map/PFA1.svg'
+			})
+		}),
+	});
+	
+	var ptsessionUrl = "http://localhost:8080/geoserver/cite/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=cite:Points_session&outputFormat=application%2Fjson";
+	var encodedUrlptsession = encodeURIComponent(ptsessionUrl);
+	var wfsPtSession = new ol.layer.Vector({
+		source: new ol.source.Vector({
+			format: new ol.format.GeoJSON(),
+			url: proxyUrl + encodedUrlptsession
 		}),
 		style: new ol.style.Style({
 			image: new ol.style.Icon({
@@ -94,7 +110,7 @@ document.getElementById('point_fixe_map').addEventListener('click', (event) => {
 	};
 	
 });
-
+map.addLayer(wfsPtSession);
 
 map.on('click', function(e) {
               
@@ -140,6 +156,9 @@ map.on('click', function(e) {
 				var alt_RAN95 = features[0].N.alt_RAN95;
 				var alt_IGN69 = features[0].N.alt_IGN69;
 				
+				var hbessel_map = features[0].N.h_CH1903plus;
+				var hgrs80_map = features[0].N.h_ETRS89;
+				
 				var description = '<h4><u>Coordonnées du points '+num_pf+'</u></h4>';
 				if(document.getElementById('ch1903_proj_map').checked == true || document.getElementById('ch1903plus_proj_map').checked == true || document.getElementById('rgf_proj_map').checked == true || document.getElementById('ntf_proj_map').checked == true){
 					description+='<u>Coordonnées projetées [m]</u>';
@@ -156,7 +175,7 @@ map.on('click', function(e) {
 						description +='<p>RGF: ' + E_RGF + ' / '+N_RGF + '   Lambert '+num_NTF+'</p>';
 					};
 				};
-				if(document.getElementById('etrs89_geog_map').checked == true || document.getElementById('ch1903_geog_map').checked == true || document.getElementById('rgf_geog_map').checked == true || document.getElementById('ntf_geog_map').checked == true){
+				if(document.getElementById('etrs89_geog_map').checked == true || document.getElementById('ch1903_geog_map').checked == true || document.getElementById('ntf_geog_map').checked == true){
 					description+='<u>Coordonnées géographiques [degrés]</u>';
 					if(document.getElementById('etrs89_geog_map').checked == true){
 						description +='<p>ETRS89: ' + long_ETRS89 + ' / '+lat_ETRS89 + '</p>';
@@ -167,11 +186,11 @@ map.on('click', function(e) {
 					if(document.getElementById('ntf_geog_map').checked == true){
 						description +='<p>NTF: ' + long_NTF + ' / '+lat_NTF + '</p>';
 					};
-					if(document.getElementById('rgf_geog_map').checked == true){
-						description +='<p>RGF: ' + long_RGF + ' / '+lat_RGF + '</p>';
-					};
+					// if(document.getElementById('rgf_geog_map').checked == true){
+						// description +='<p>RGF: ' + long_RGF + ' / '+lat_RGF + '</p>';
+					// };
 				};
-				if(document.getElementById('etrs89_cart_map').checked == true || document.getElementById('ch1903_cart_map').checked == true || document.getElementById('rgf_cart_map').checked == true || document.getElementById('ntf_cart_map').checked == true){
+				if(document.getElementById('etrs89_cart_map').checked == true || document.getElementById('ch1903_cart_map').checked == true || document.getElementById('ntf_cart_map').checked == true){
 					description+='<u>Coordonnées cartésiennes [m]</u>';
 					if(document.getElementById('etrs89_cart_map').checked == true){
 						description +='<p>ETRS89: ' + X_ETRS89 + ' / '+ Y_ETRS89 +' / '+ Z_ETRS89 +  '</p>';
@@ -182,21 +201,32 @@ map.on('click', function(e) {
 					if(document.getElementById('ntf_cart_map').checked == true){
 						description +='<p>NTF: ' + X_NTF + ' / '+Y_NTF + ' / '+Z_NTF + '</p>';
 					};
-					if(document.getElementById('rgf_cart_map').checked == true){
-						description +='<p>RGF: ' + X_RGF + ' / '+Y_RGF + ' / '+Z_RGF + '</p>';
-					};
+					// if(document.getElementById('rgf_cart_map').checked == true){
+						// description +='<p>RGF: ' + X_RGF + ' / '+Y_RGF + ' / '+Z_RGF + '</p>';
+					// };
 				};
 				if(document.getElementById('ign69_map').checked == true || document.getElementById('ran95_map').checked == true || document.getElementById('nf02_map').checked == true){
 					description+='<u>Altitudes [m]</u>';
 					if(document.getElementById('nf02_map').checked == true){
-						description +='<p>IGN69: ' + alt_NF02 + '</p>';
+						description +='<p>NF02: ' + alt_NF02 + '</p>';
 					};
 					if(document.getElementById('ran95_map').checked == true){
-						description +='<p>IGN69: ' + alt_RAN95 + '</p>';
+						description +='<p>RAN95: ' + alt_RAN95 + '</p>';
 					};
 					if(document.getElementById('ign69_map').checked == true){
 						description +='<p>IGN69: ' + alt_IGN69 + '</p>';
 					};
+					
+				};
+				if(document.getElementById('hgrs80_map').checked == true || document.getElementById('hbessel_map').checked == true){
+					description+='<u>Hauteur [m]</u>';
+					if(document.getElementById('hbessel_map').checked == true){
+						description +='<p>Ellipsoïde de Bessel: ' + hbessel_map + '</p>';
+					};
+					if(document.getElementById('hgrs80_map').checked == true){
+						description +='<p>Ellipsoïde de GRS80: ' + hgrs80_map + '</p>';
+					};
+
 					
 				};
 				

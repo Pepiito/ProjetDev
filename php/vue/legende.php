@@ -1,3 +1,4 @@
+<!-- HEIG-vd -->
 <input class="recherche" type="search" placeholder="Recherche par points"/>
 	<form>
 	<div id="point_fixe_map">
@@ -18,14 +19,14 @@
 	   <div><input type="checkbox" name="rgf_proj_map" id="rgf_proj_map" /> <label for="rgf_proj_map">RGF</label></div>
 	   <div><input type="checkbox" name="ntf_proj_map" id="ntf_proj_map" /> <label for="ntf_proj_map">NTF</label></div>
 	   <p><u>Coordonnées géographiques</u></p>
-       <div><input type="checkbox" name="etrs89_geog_map" id="etrs89_geog_map"/> <label for="etrs89_geog_map">ETRS89</label></div>
+       <div><input type="checkbox" name="etrs89_geog_map" id="etrs89_geog_map"/> <label for="etrs89_geog_map">ETRS89/RGF/CHTRS95/~WGS84</label></div>
 	   <div><input type="checkbox" name="ch1903_geog_map" id="ch1903_geog_map" /> <label for="ch1903_geog_map">CH1903+</label></div>
-	   <div><input type="checkbox" name="rgf_geog_map" id="rgf_geog_map" /> <label for="rgf_geog_map">RGF</label></div>
+	   <!--<div><input type="checkbox" name="rgf_geog_map" id="rgf_geog_map" /> <label for="rgf_geog_map">RGF</label></div>-->
 	   <div><input type="checkbox" name="ntf_geog_map" id="ntf_geog_map" /> <label for="ntf_geog_map">NTF</label></div>
 	   <p><u>Coordonnées cartésiennes</u></p>
-       <div><input type="checkbox" name="etrs89_cart_map" id="etrs89_cart_map"/> <label for="etrs89_cart_map">ETRS89</label></div>
+       <div><input type="checkbox" name="etrs89_cart_map" id="etrs89_cart_map"/> <label for="etrs89_cart_map">ETRS89/RGF/CHTRS95</label></div>
 	   <div><input type="checkbox" name="ch1903_cart_map" id="ch1903_cart_map" /> <label for="ch1903_cart_map">CH1903+</label></div>
-	   <div><input type="checkbox" name="rgf_cart_map" id="rgf_cart_map" /> <label for="rgf_cart_map">RGF</label></div>
+	   <!--<div><input type="checkbox" name="rgf_cart_map" id="rgf_cart_map" /> <label for="rgf_cart_map">RGF</label></div>-->
 	   <div><input type="checkbox" name="ntf_cart_map" id="ntf_cart_map" /> <label for="ntf_cart_map">NTF</label></div>
 	   
 	   
