@@ -73,7 +73,7 @@ $matrice_vecteur_france[2]=array($matrice_produit_matriciel[2][0]*$vecteur_suiss
 #	--> Résultat du produit matriciel des Matrice GRS80 de rotation repère local géodésique --> repère carthésien géodésique et Matrice Bessel de rotation transposé repère terrestre géodésique --> repère local géodésique
 #	--> Vecteur eta, ksi et zéta francais
 
-$matrice_vecteur_france=array($matrice_produit_matriciel_transpose, $vecteur_france_eta, $vecteur_france_ksi, $vecteur_france_zeta);
+$matrice_vecteur_suisse=array($matrice_produit_matriciel_transpose, $vecteur_france_eta, $vecteur_france_ksi, $vecteur_france_zeta);
 $matrice_vecteur_suisse[0]=array($matrice_produit_matriciel_transpose[0][0]*$vecteur_france_eta+$matrice_produit_matriciel_transpose[0][1]*$vecteur_france_ksi+$matrice_produit_matriciel_transpose[0][2]*$vecteur_france_zeta);
 $matrice_vecteur_suisse[1]=array($matrice_produit_matriciel_transpose[1][0]*$vecteur_france_eta+$matrice_produit_matriciel_transpose[1][1]*$vecteur_france_ksi+$matrice_produit_matriciel_transpose[1][2]*$vecteur_france_zeta);
 $matrice_vecteur_suisse[2]=array($matrice_produit_matriciel_transpose[2][0]*$vecteur_france_eta+$matrice_produit_matriciel_transpose[2][1]*$vecteur_france_ksi+$matrice_produit_matriciel_transpose[2][2]*$vecteur_france_zeta);
