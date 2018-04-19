@@ -1,4 +1,6 @@
 <?php
+# Définition des calculs
+
 # Déviation de la verticale
 
 # Matrice Bessel de rotation repère terrestre géodésique --> repère local géodésique
@@ -28,13 +30,13 @@ $matrice_GRS80_lg_to_cg[2]=array(cos($GRS80_phi)*cos($GRS80_lambda),cos($GRS80_p
 
 #echo $matrice_GRS80_lg_to_cg[0][1];
 
-# Matrice du résultat du produit matriciel
+# Matrice du résultat du produit matriciel 
 #	--> Matrice GRS80 de rotation repère local géodésique --> repère carthésien géodésique
 #	--> Matrice Bessel de rotation transposé repère terrestre géodésique --> repère local géodésique
 
 $matrice_produit_matriciel=array($matrice_GRS80_lg_to_cg, $matrice_Bessel_tg_to_lg_transpose);
 $matrice_produit_matriciel[0]=array($matrice_GRS80_lg_to_cg[0][0]*$matrice_Bessel_tg_to_lg_transpose[0][0]+$matrice_GRS80_lg_to_cg[0][1]*$matrice_Bessel_tg_to_lg_transpose[1][0]+$matrice_GRS80_lg_to_cg[0][2]*$matrice_Bessel_tg_to_lg_transpose[2][0],
-									$matrice_GRS80_lg_to_cg[0][0]*$matrice_Bessel_tg_to_lg_transpose[0][1]+$matrice_GRS80_lg_to_cg[0][1]*$matrice_Bessel_tg_to_lg_transpose[1][1]+$matrice_GRS80_lg_to_cg[0][2]*$matrice_Bessel_tg_to_lg_transpose[2][1],
+									$matrice_GRS80_lg_to_cg[0][0]*$matrice_Bessel_tg_to_lg_transpose[0][1]+$matrice_GRS80_lg_to_cg[0][1]*$matrice_Bessel_tg_to_lg_transpose[1][1]+$matrice_GRS80_lg_to_cg[0][2]*$matrice_Bessel_tg_to_lg_transpose[2][1], 
 									$matrice_GRS80_lg_to_cg[0][0]*$matrice_Bessel_tg_to_lg_transpose[0][2]+$matrice_GRS80_lg_to_cg[0][1]*$matrice_Bessel_tg_to_lg_transpose[1][2]+$matrice_GRS80_lg_to_cg[0][2]*$matrice_Bessel_tg_to_lg_transpose[2][2]);
 $matrice_produit_matriciel[1]=array($matrice_GRS80_lg_to_cg[1][0]*$matrice_Bessel_tg_to_lg_transpose[0][0]+$matrice_GRS80_lg_to_cg[1][1]*$matrice_Bessel_tg_to_lg_transpose[1][0]+$matrice_GRS80_lg_to_cg[1][2]*$matrice_Bessel_tg_to_lg_transpose[2][0],
 									$matrice_GRS80_lg_to_cg[1][0]*$matrice_Bessel_tg_to_lg_transpose[0][1]+$matrice_GRS80_lg_to_cg[1][1]*$matrice_Bessel_tg_to_lg_transpose[1][1]+$matrice_GRS80_lg_to_cg[1][2]*$matrice_Bessel_tg_to_lg_transpose[2][1],
@@ -44,6 +46,17 @@ $matrice_produit_matriciel[2]=array($matrice_GRS80_lg_to_cg[2][0]*$matrice_Besse
 									$matrice_GRS80_lg_to_cg[2][0]*$matrice_Bessel_tg_to_lg_transpose[0][2]+$matrice_GRS80_lg_to_cg[2][1]*$matrice_Bessel_tg_to_lg_transpose[1][2]+$matrice_GRS80_lg_to_cg[2][2]*$matrice_Bessel_tg_to_lg_transpose[2][2]);
 
 #echo $matrice_produit_matriciel[0][0];
+
+# Matrice transpose du résultat du produit matriciel 
+#	--> Matrice GRS80 de rotation repère local géodésique --> repère carthésien géodésique
+#	--> Matrice Bessel de rotation transposé repère terrestre géodésique --> repère local géodésique
+
+$matrice_produit_matriciel_transpose=array($matrice_produit_matriciel);
+$matrice_produit_matriciel_transpose[0]=array($matrice_produit_matriciel[0][0],$matrice_produit_matriciel[1][0],$matrice_produit_matriciel[2][0]);
+$matrice_produit_matriciel_transpose[1]=array($matrice_produit_matriciel[0][1],$matrice_produit_matriciel[1][1],$matrice_produit_matriciel[2][1]);
+$matrice_produit_matriciel_transpose[2]=array($matrice_produit_matriciel[0][2],$matrice_produit_matriciel[1][2],$matrice_produit_matriciel[2][2]);
+
+#echo $matrice_produit_matriciel_transpose[0][0];
 
 # Matrice du résultat du produit matriciel qui donne le vecteur eta,ksi et zéta de la france en radians
 #	--> Résultat du produit matriciel des Matrice GRS80 de rotation repère local géodésique --> repère carthésien géodésique et Matrice Bessel de rotation transposé repère terrestre géodésique --> repère local géodésique
@@ -56,4 +69,14 @@ $matrice_vecteur_france[2]=array($matrice_produit_matriciel[2][0]*$vecteur_suiss
 
 #echo $matrice_vecteur_france[0][0];
 
+# Matrice du résultat du produit matriciel qui donne le vecteur eta,ksi et zéta de la suisse en radians
+#	--> Résultat du produit matriciel des Matrice GRS80 de rotation repère local géodésique --> repère carthésien géodésique et Matrice Bessel de rotation transposé repère terrestre géodésique --> repère local géodésique
+#	--> Vecteur eta, ksi et zéta francais
+
+$matrice_vecteur_france=array($matrice_produit_matriciel_transpose, $vecteur_france_eta, $vecteur_france_ksi, $vecteur_france_zeta);
+$matrice_vecteur_suisse[0]=array($matrice_produit_matriciel_transpose[0][0]*$vecteur_france_eta+$matrice_produit_matriciel_transpose[0][1]*$vecteur_france_ksi+$matrice_produit_matriciel_transpose[0][2]*$vecteur_france_zeta);
+$matrice_vecteur_suisse[1]=array($matrice_produit_matriciel_transpose[1][0]*$vecteur_france_eta+$matrice_produit_matriciel_transpose[1][1]*$vecteur_france_ksi+$matrice_produit_matriciel_transpose[1][2]*$vecteur_france_zeta);
+$matrice_vecteur_suisse[2]=array($matrice_produit_matriciel_transpose[2][0]*$vecteur_france_eta+$matrice_produit_matriciel_transpose[2][1]*$vecteur_france_ksi+$matrice_produit_matriciel_transpose[2][2]*$vecteur_france_zeta);
+
+#echo $matrice_vecteur_suisse[0][0];
 ?>
