@@ -129,3 +129,11 @@ SELECT row_to_json(fc)
     , row_to_json((SELECT l FROM (SELECT id_ptsess, "X_CH1903plus") As l
       )) As properties
    FROM "Points_session" As lg   ) As f )  As fc;
+   
+   
+SELECT jsonb_build_object(
+    'type',       'Feature',
+    'id',         id_ptsess,
+    'geometry',   ST_AsGeoJSON(geom)::jsonb,
+    'properties', to_jsonb(row) - 'geom'
+) FROM (SELECT * FROM "Points_session") row;

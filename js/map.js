@@ -25,6 +25,7 @@ var proxyUrl = "http://localhost/cgi-bin/proxy.cgi?url=";
 	var wfsPFA1 = new ol.layer.Vector({
 		source: new ol.source.Vector({
 			format: new ol.format.GeoJSON(),
+			
 			url: proxyUrl + encodedUrlpfa1
 		}),
 		style: new ol.style.Style({
@@ -33,7 +34,11 @@ var proxyUrl = "http://localhost/cgi-bin/proxy.cgi?url=";
 			})
 		}),
 	});
-	
+	var format = new ol.Format.CQL();
+	var rule = new ol.Rule({
+		filter =  format.read("id_ptsess:'1'")
+		
+	});
 	var ptsessionUrl = "http://localhost:8080/geoserver/cite/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=cite:Points_session&outputFormat=application%2Fjson";
 	var encodedUrlptsession = encodeURIComponent(ptsessionUrl);
 	var wfsPtSession = new ol.layer.Vector({
@@ -41,9 +46,14 @@ var proxyUrl = "http://localhost/cgi-bin/proxy.cgi?url=";
 			format: new ol.format.GeoJSON(),
 			url: proxyUrl + encodedUrlptsession
 		}),
+		styleMap: new ol.StyleMap({
+            'default': new Ol.Style(null, {
+                rules: [rule]
+            })
+        }),
 		style: new ol.style.Style({
 			image: new ol.style.Icon({
-				src: 'icon_map/PFA1.svg'
+				src: 'icon_map/Pt_session.svg'
 			})
 		}),
 	});
@@ -119,7 +129,7 @@ map.on('click', function(e) {
               if (features) {
 				console.log(features)
                 var coords = e.coordinate;
-				var num_pf = features[0].N.num_pf;
+				var num_pt = features[0].N.num_pt;
 				var E_CH1903 = features[0].N.E_CH1903;
 				var N_CH1903 = features[0].N.N_CH1903;
 				var E_CH1903plus = features[0].N.E_CH1903plus;
@@ -159,7 +169,7 @@ map.on('click', function(e) {
 				var hbessel_map = features[0].N.h_CH1903plus;
 				var hgrs80_map = features[0].N.h_ETRS89;
 				
-				var description = '<h4><u>Coordonnées du points '+num_pf+'</u></h4>';
+				var description = '<h4><u>Coordonnées du points '+num_pt+'</u></h4>';
 				if(document.getElementById('ch1903_proj_map').checked == true || document.getElementById('ch1903plus_proj_map').checked == true || document.getElementById('rgf_proj_map').checked == true || document.getElementById('ntf_proj_map').checked == true){
 					description+='<u>Coordonnées projetées [m]</u>';
 					if(document.getElementById('ch1903_proj_map').checked == true){

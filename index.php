@@ -2,6 +2,7 @@
 <?php
 include("./php/vue/head.php");
 include("./php/vue/data_functions.php"); 
+include("./php/vue/connexion_postgis.php");
 ?>
 
 
