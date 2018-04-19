@@ -3,6 +3,7 @@
 include("./php/vue/head.php");
 include("./php/vue/data_functions.php"); 
 include("./php/vue/connexion_postgis.php");
+include("./php/vue/postgis_to_geojson.php");
 ?>
 
 

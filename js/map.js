@@ -34,23 +34,11 @@ var proxyUrl = "http://localhost/cgi-bin/proxy.cgi?url=";
 			})
 		}),
 	});
-	var format = new ol.Format.CQL();
-	var rule = new ol.Rule({
-		filter =  format.read("id_ptsess:'1'")
-		
-	});
-	var ptsessionUrl = "http://localhost:8080/geoserver/cite/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=cite:Points_session&outputFormat=application%2Fjson";
-	var encodedUrlptsession = encodeURIComponent(ptsessionUrl);
+
 	var wfsPtSession = new ol.layer.Vector({
 		source: new ol.source.Vector({
-			format: new ol.format.GeoJSON(),
-			url: proxyUrl + encodedUrlptsession
+			features: (new ol.format.GeoJSON()).readFeatures({"id": 1, "type": "Feature", "geometry": {"type": "Point", "coordinates": [741297.639895659, 5906129.20063417]}, "properties": {"E_NTF": 36.000, "E_RGF": 28.000, "N_NTF": 37.000, "N_RGF": 29.000, "X_NTF": 30.000, "Y_NTF": 31.000, "Z_NTF": 32.000, "h_NTF": 35.000, "num_pt": "1", "id_sess": null, "lat_NTF": 34.000000, "num_NTF": 38, "E_CH1903": 525731.170, "N_CH1903": 180593.680, "X_ETRS89": 4.000, "Y_ETRS89": 5.000, "Z_ETRS89": 6.000, "alt_NF02": 1587.050, "chantier": null, "h_ETRS89": 9.000, "id_aleat": 2, "long_NTF": 33.000000, "aleatoire": "'alet'", "alt_IGN69": 39.000, "alt_RAN95": 1587.000, "id_ptsess": 1, "lat_ETRS89": 8.000000, "long_ETRS89": 7.000000, "E_CH1903plus": 2525730.890, "N_CH1903plus": 1180594.340, "X_CH1903plus": 10.000, "Y_CH1903plus": 11.000, "Z_CH1903plus": 12.000, "h_CH1903plus": 15.000, "lat_CH1903plus": 14.000000, "long_CH1903plus": 13.000000}}),
 		}),
-		styleMap: new ol.StyleMap({
-            'default': new Ol.Style(null, {
-                rules: [rule]
-            })
-        }),
 		style: new ol.style.Style({
 			image: new ol.style.Icon({
 				src: 'icon_map/Pt_session.svg'
