@@ -32,6 +32,7 @@ if (!($type_coord_dep == 'cart')) {
   $type_alti_dep = $_POST['T'];
 }
 
+
 // cas où les coordonnées sont planimétriques
 if ($type_coord_dep == 'proj') {
   $type_proj_dep = $_POST['p'];
@@ -83,6 +84,14 @@ if ($type_coord_dep == 'proj') {
   $len = count($X);
 }
 
+if (isset ($_POST['n'])) {
+  $nom = explode(';', $_POST['n']);
+} else {
+  $nom = array();
+  for ($i=0; $i<$len;$i++) {
+    $nom[$i] = '';
+  }
+}
 ?>
 
 <?php
@@ -388,6 +397,9 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
       $echo = array('E' => $E_arr, 'N' => $N_arr, 'H' => $H_arr);
     }
   }
+
+  $echo['nom'] = $nom;
+
   return $echo;
 }
 ?>
