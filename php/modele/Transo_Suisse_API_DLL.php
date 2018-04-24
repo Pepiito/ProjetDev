@@ -1,4 +1,22 @@
 <?php
+function urlExists($url=NULL)  
+{  
+    if($url == NULL) return false;  
+    $ch = curl_init($url);  
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);  
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);  
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  
+    $data = curl_exec($ch);  
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);  
+    curl_close($ch);  
+    if($httpcode>=200 && $httpcode<300){  
+        return 'true';  
+    } else {  
+        return 'false';  
+    }  
+}  
+
+
 function MN95_to_MN03($E_MN95, $N_MN95){
 	$url = 'http://geodesy.geo.admin.ch/reframe/lv95tolv03?easting='.$E_MN95.'&northing='.$N_MN95.'&format=json';
 	$json = file_get_contents($url);
@@ -26,14 +44,24 @@ function MN03_to_MN95($E_MN03, $N_MN03){
 
 function NF02_to_RAN95($E_MN03, $N_MN03, $H_NF02){
 	$url = 'http://geodesy.geo.admin.ch/reframe/ln02tolhn95?easting='.$E_MN03.'&northing='.$N_MN03.'&altitude='.$H_NF02.'&format=json';
-	$json = file_get_contents($url);
-	$json_dec=json_decode($json, true);
-	$H_RAN95 = $json_dec['altitude'];
-	return $H_RAN95;
+	$test=urlExists($url);
+	
+	if($test=='true'){
+		$json = file_get_contents($url);
+		$json_dec=json_decode($json, true);
+		$H_RAN95 = $json_dec['altitude'];
+		return $H_RAN95;
+	}else{
+		echo 'erreur API - Server is not not available right now.';
+		return 'erreur 400';
+	}
 }
 
-$H_RAN95 = NF02_to_RAN95(2571223.223, 1220294.333, 550);
 
+// $a =urlExists('http://geodesy.geo.admin.ch/reframe/ln02tolhn95?easting=500000&northing=200000&altitude=500&format=json');
+$H_RAN95 = NF02_to_RAN95(2571223.223, 1220294.333, 550);
+echo $H_RAN95;
+// echo $a;
 
 function RAN95_to_NF02($E_MN03, $N_MN03, $H_RAN95){
 	$url = 'http://geodesy.geo.admin.ch/reframe/lhn95toln02?easting='.$E_MN03.'&northing='.$N_MN03.'&altitude='.$H_RAN95.'&format=json';
