@@ -9,12 +9,7 @@ function urlExists($url=NULL)
     $data = curl_exec($ch);  
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);  
     curl_close($ch);  
-    if($httpcode>=200 && $httpcode<300){  
-        return 'true';  
-    } else {  
-        return 'false'; 
-    }  
-}  
+    return($httpcode>=200 && $httpcode<300);
 
 function testTransfoPlani_MN95_to_MN03($e, $n, $e2, $n2){
     $de =abs($e-$e2-2000000);
@@ -70,20 +65,19 @@ function MN03_to_MN95($E_MN03, $N_MN03){
 
 function NF02_to_RAN95($E_MN03, $N_MN03, $H_NF02){
 	$url = 'http://geodesy.geo.admin.ch/reframe/ln02tolhn95?easting='.$E_MN03.'&northing='.$N_MN03.'&altitude='.$H_NF02.'&format=json';
-	$test=urlExists($url);
-	
-	if($test=='true'){
+
+	if(urlExists($url)){
 		$json = file_get_contents($url);
 		$json_dec=json_decode($json, true);
 		if(isset($json_dec['altitude'])){
 			$H_RAN95 = $json_dec['altitude'];
 			return $H_RAN95;
 		}else{
-			echo 'erreur - coordonnées en dehors de la grille';
+			// echo 'erreur - coordonnées en dehors de la grille';
 			return 'error 500';
 		}
 	}else{
-		echo 'erreur API - Server is not not available right now.';
+		// echo 'erreur API - Server is not not available right now.';
 		return 'erreur 400';
 	}
 }
@@ -95,20 +89,19 @@ function NF02_to_RAN95($E_MN03, $N_MN03, $H_NF02){
 
 function RAN95_to_NF02($E_MN03, $N_MN03, $H_RAN95){
 	$url = 'http://geodesy.geo.admin.ch/reframe/lhn95toln02?easting='.$E_MN03.'&northing='.$N_MN03.'&altitude='.$H_RAN95.'&format=json';
-	$test=urlExists($url);
     
-    if($test=='true'){
+    if(urlExists($url)){
         $json = file_get_contents($url);
         $json_dec=json_decode($json, true);
         if(isset($json_dec['altitude'])){
 			$H_NF02 = $json_dec['altitude'];
 			return $H_NF02;
 		}else{
-			echo 'erreur - coordonnées en dehors de la grille';
+			// echo 'erreur - coordonnées en dehors de la grille';
 			return 'error 500';
 		}
 	}else{
-		echo 'erreur API - Server is not not available right now.';
+		// echo 'erreur API - Server is not not available right now.';
 		return 'erreur 400';
 	}
 }
@@ -118,20 +111,19 @@ function RAN95_to_NF02($E_MN03, $N_MN03, $H_RAN95){
 
 function RAN95_to_Bessel($E_MN03, $N_MN03, $H_RAN95){
 	$url = 'http://geodesy.geo.admin.ch/reframe/lhn95tobessel?easting='.$E_MN03.'&northing='.$N_MN03.'&altitude='.$H_RAN95.'&format=json';
-	$test=urlExists($url);
     
-    if($test=='true'){
+    if(urlExists($url)){
         $json = file_get_contents($url);
         $json_dec=json_decode($json, true);
         if(isset($json_dec['altitude'])){
 			$H_bessel = $json_dec['altitude'];
 			return $H_bessel;
 		}else{
-			echo 'erreur - coordonnées en dehors de la grille';
+			// echo 'erreur - coordonnées en dehors de la grille';
 			return 'error 500';
 		}
 	}else{
-		echo 'erreur API - Server is not not available right now.';
+		// echo 'erreur API - Server is not not available right now.';
 		return 'erreur 400';
 	}
 }
@@ -141,20 +133,19 @@ function RAN95_to_Bessel($E_MN03, $N_MN03, $H_RAN95){
 
 function Bessel_to_RAN95($E_MN03, $N_MN03, $H_bessel){
 	$url = 'http://geodesy.geo.admin.ch/reframe/besseltolhn95?easting='.$E_MN03.'&northing='.$N_MN03.'&altitude='.$H_bessel.'&format=json';
-	$test=urlExists($url);
     
-    if($test=='true'){
+    if(urlExists($url)){
         $json = file_get_contents($url);
         $json_dec=json_decode($json, true);
         if(isset($json_dec['altitude'])){
 			$H_RAN95 = $json_dec['altitude'];
 			return $H_RAN95;
 		}else{
-			echo 'erreur - coordonnées en dehors de la grille';
+			// echo 'erreur - coordonnées en dehors de la grille';
 			return 'error 500';
 		}
 	}else{
-		echo 'erreur API - Server is not not available right now.';
+		// echo 'erreur API - Server is not not available right now.';
 		return 'erreur 400';
 	}
 }
@@ -164,20 +155,19 @@ function Bessel_to_RAN95($E_MN03, $N_MN03, $H_bessel){
 
 function NF02_to_Bessel($E_MN03, $N_MN03, $H_NF02){
 	$url = 'http://geodesy.geo.admin.ch/reframe/ln02tobessel?easting='.$E_MN03.'&northing='.$N_MN03.'&altitude='.$H_NF02.'&format=json';
-	$test=urlExists($url);
     
-    if($test=='true'){
+    if(urlExists($url)){
         $json = file_get_contents($url);
         $json_dec=json_decode($json, true);
         if(isset($json_dec['altitude'])){
 			$H_bessel = $json_dec['altitude'];
 			return $H_bessel;
 		}else{
-			echo 'erreur - coordonnées en dehors de la grille';
+			// echo 'erreur - coordonnées en dehors de la grille';
 			return 'error 500';
 		}
 	}else{
-		echo 'erreur API - Server is not not available right now.';
+		// echo 'erreur API - Server is not not available right now.';
 		return 'erreur 400';
 	}
 }
@@ -187,20 +177,19 @@ function NF02_to_Bessel($E_MN03, $N_MN03, $H_NF02){
 
 function Bessel_to_NF02($E_MN03, $N_MN03, $H_bessel){
 	$url = 'http://geodesy.geo.admin.ch/reframe/besseltoln02?easting='.$E_MN03.'&northing='.$N_MN03.'&altitude='.$H_bessel.'&format=json';
-	$test=urlExists($url);
     
-    if($test=='true'){
+    if(urlExists($url)){
         $json = file_get_contents($url);
         $json_dec=json_decode($json, true);
         if(isset($json_dec['altitude'])){
 			$H_NF02 = $json_dec['altitude'];
 			return $H_NF02;
 		}else{
-			echo 'erreur - coordonnées en dehors de la grille';
+			// echo 'erreur - coordonnées en dehors de la grille';
 			return 'error 500';
 		}
 	}else{
-		echo 'erreur API - Server is not not available right now.';
+		// echo 'erreur API - Server is not not available right now.';
 		return 'erreur 400';
 	}
 }
