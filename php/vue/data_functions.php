@@ -95,7 +95,7 @@ function AfficheCoord($inout) {
       <label for=geog-unite-point-$inout>Unité</label>
       <select id=geog-unite-point-$inout style=width:150px;>
         <option value=grad>Grades</option>
-        <option value=deg>Degrés centésimaux - décimaux</option>
+        <option value=deg selected>Degrés centésimaux - décimaux</option>
         <option value=rad>Radians</option>
       </select>
     </div>
@@ -135,14 +135,14 @@ function AfficheFileConfigs($inout) {
   <option value=nENh class=proj-file-$inout>Nom Est  Nord Hauteur</option>
   <option value=nNEH class=proj-file-$inout>Nom Nord Est  Altitude</option>
   <option value=nNEh class=proj-file-$inout>Nom Nord Est  Hauteur</option>
-  <option value=lph class=geog-file-$inout>Longitude Latitude  Hauteur</option>
-  <option value=lpH class=geog-file-$inout>Longitude Latitude  Altitude</option>
-  <option value=plh class=geog-file-$inout>Latitude  Longitude Hauteur</option>
-  <option value=plH class=geog-file-$inout>Latitude  Longitude Altitude</option>
-  <option value=nlph class=geog-file-$inout>Nom Longitude Latitude  Hauteur</option>
-  <option value=nlpH class=geog-file-$inout>Nom Longitude Latitude  Altitude</option>
-  <option value=nplh class=geog-file-$inout>Nom Latitude  Longitude Hauteur</option>
-  <option value=nplH class=geog-file-$inout>Nom Latitude  Longitude Altitude</option>
+  <option value=lfh class=geog-file-$inout>Longitude Latitude  Hauteur</option>
+  <option value=lfH class=geog-file-$inout>Longitude Latitude  Altitude</option>
+  <option value=flh class=geog-file-$inout>Latitude  Longitude Hauteur</option>
+  <option value=flH class=geog-file-$inout>Latitude  Longitude Altitude</option>
+  <option value=nlfh class=geog-file-$inout>Nom Longitude Latitude  Hauteur</option>
+  <option value=nlfH class=geog-file-$inout>Nom Longitude Latitude  Altitude</option>
+  <option value=nflh class=geog-file-$inout>Nom Latitude  Longitude Hauteur</option>
+  <option value=nflH class=geog-file-$inout>Nom Latitude  Longitude Altitude</option>
   <option value=XYZ class=cart-file-$inout>X Y Z</option>
   <option value=nXYZ class=cart-file-$inout>Nom X Y Z</option>
   ";

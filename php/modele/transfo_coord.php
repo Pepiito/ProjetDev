@@ -89,7 +89,7 @@ if (isset ($_POST['n'])) {
 } else {
   $nom = array();
   for ($i=0; $i<$len;$i++) {
-    $nom[$i] = '';
+    $nom['n'.$i] = 'point'.str_pad($i.'', 4, '0', STR_PAD_LEFT);
   }
 }
 ?>
@@ -398,8 +398,6 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
     }
   }
 
-  $echo['nom'] = $nom;
-
   return $echo;
 }
 ?>
@@ -412,7 +410,7 @@ $alti = array('a', 'h');
 $sys_alti = array('RGF93' => array('IGN69'), 'NTF' => array('IGN69'), 'ETRS89' => array(), 'CH1903+' => array('RAN95', 'NF02'), 'CH1903' => array('RAN95', 'NF02'));
 $proj = array('RGF93' => array('CC42', 'CC43', 'CC44', 'CC45', 'CC46', 'CC47', 'CC48', 'CC49', 'CC50', 'Lambert93'), 'NTF' => array('Lambert1', 'Lambert2', 'Lambert2etendu', 'Lambert3', 'Lambert4'), 'CH1903' => array('MN03'), 'CH1903+' => array('MN95'), 'ETRS89' => array());
 
-$echo = array();
+$echo = array('n' => $nom);
 
 foreach($coord as $cas_coord) {
   foreach($plani as $cas_plani) {

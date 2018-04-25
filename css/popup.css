@@ -105,7 +105,7 @@ div#pop_body label.inline {
 	border-radius:5px;
 	box-shadow:1px 1px 2px #C0C0C0;
 	font-size:0.9em;
-	margin: 3px 25px;
+	margin: 3px 20px;
   max-height: 25px;
   min-width: 150px;
   max-width: 200px;
@@ -149,7 +149,7 @@ div#pop_body label.inline {
   max-width: 120px;
 }
 
-#input-file-out {
+#input-file-in {
   position: absolute;
   opacity: 0;
 }
@@ -159,7 +159,7 @@ div#pop_body label.inline {
 }
 
 #separateur-file-in, #separateur-file-out, #ligne-start-file-in {
-  width: 30px;
+  width: 50px;
   text-align: center;
   font-weight: bold;
 }
