@@ -26,12 +26,17 @@ include("./php/vue/postgis_to_geojson.php");
       <div id="popup-map-content"></div>
     </div>
 	<?php include("./php/vue/change_coord.php"); ?>
+	<script type="text/javascript">
+	var geojson_pfp1=<?php echo $geojson_pfp1; ?>;
+	var geojson_pfa1=<?php echo $geojson_pfa1; ?>;
+	var geojson_ptsess=<?php echo $geojson_ptsess; ?>;
+	</script>
+	<script src="js/map.js"></script>
 	<script src="lib/proj4.js"></script>
     <script src="lib/proj4-epsg21781.js"></script>
     <script src="lib/proj4-epsg2056.js"></script>
 	<script src="lib/proj4-epsg2154.js"></script>
 	<script src="lib/proj4-epsg4275.js"></script>
-    <?php include("./js/map.php"); ?>
     <script type="text/javascript" src="./js/controleur.js"></script>
   </body>
 </html>

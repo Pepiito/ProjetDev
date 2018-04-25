@@ -101,6 +101,8 @@ document.getElementById('head_trans_fichier').addEventListener('click', (event) 
   allVar['type-transfo-selected'] = 'file';
 }, false);
 
+
+
 function toggleHead(side) {
   toShow = 'trans_coord';
   toHide = 'trans_fichier';

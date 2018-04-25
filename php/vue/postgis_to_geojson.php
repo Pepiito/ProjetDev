@@ -4,13 +4,14 @@
 	$conn = pg_connect("host=localhost port=5432 dbname=ProjetDEV user=postgres password=postgres");
 	
 	
+	$id_utilisateur=1;
 	$pt_session = pg_query($conn, 
 	"SELECT jsonb_build_object(
 		'type',       'Feature',
 		'id',         id_ptsess,
 		'geometry',   ST_AsGeoJSON(ST_Transform(geom,3857))::jsonb,
 		'properties', to_jsonb(row) - 'geom'
-	) FROM (SELECT * FROM \"Points_session\" WHERE id_sess=) row;");
+	) FROM (SELECT * FROM \"Points_session\" WHERE id_ptsess=".$id_utilisateur.") row;");
 	
 	function postgis_to_geojson($select_postgis){
 		$geojson='';

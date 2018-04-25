@@ -1,4 +1,4 @@
-<script type="text/javascript">
+
 // HEIG-VD
 
 
@@ -6,7 +6,7 @@
 
 	var wfsPFP1 = new ol.layer.Vector({
 		source: new ol.source.Vector({
-			features: (new ol.format.GeoJSON()).readFeatures(<?php echo $geojson_pfp1; ?>),
+			features: (new ol.format.GeoJSON()).readFeatures(geojson_pfp1),
 
 		}),
 		style: new ol.style.Style({
@@ -20,7 +20,7 @@
 
 	var wfsPFA1 = new ol.layer.Vector({
 		source: new ol.source.Vector({
-			features: (new ol.format.GeoJSON()).readFeatures(<?php echo $geojson_pfa1; ?>),
+			features: (new ol.format.GeoJSON()).readFeatures(geojson_pfp1),
 			
 		}),
 		style: new ol.style.Style({
@@ -32,7 +32,7 @@
 
 	var wfsPtSession = new ol.layer.Vector({
 		source: new ol.source.Vector({
-			features: (new ol.format.GeoJSON()).readFeatures(<?php echo $geojson_ptsess; ?>),
+			features: (new ol.format.GeoJSON()).readFeatures(geojson_ptsess),
 		}),
 		style: new ol.style.Style({
 			image: new ol.style.Icon({
@@ -269,4 +269,3 @@ window.onclick = function(event) {
 		modal.style.display = "none";
 	} 
 }
-</script>
