@@ -12,7 +12,7 @@ function urlExists($url=NULL)
     if($httpcode>=200 && $httpcode<300){  
         return 'true';  
     } else {  
-        return 'false';  
+        return 'false'; 
     }  
 }  
 
@@ -49,8 +49,13 @@ function NF02_to_RAN95($E_MN03, $N_MN03, $H_NF02){
 	if($test=='true'){
 		$json = file_get_contents($url);
 		$json_dec=json_decode($json, true);
-		$H_RAN95 = $json_dec['altitude'];
-		return $H_RAN95;
+		if(isset($json_dec['altitude'])){
+			$H_RAN95 = $json_dec['altitude'];
+			return $H_RAN95;
+		}else{
+			echo 'erreur - coordonnées en dehors de la grille';
+			return 'error 500';
+		}
 	}else{
 		echo 'erreur API - Server is not not available right now.';
 		return 'erreur 400';
@@ -58,8 +63,8 @@ function NF02_to_RAN95($E_MN03, $N_MN03, $H_NF02){
 }
 
 
-// $a =urlExists('http://geodesy.geo.admin.ch/reframe/ln02tolhn95?easting=500000&northing=200000&altitude=500&format=json');
-$H_RAN95 = NF02_to_RAN95(2571223.223, 1220294.333, 550);
+
+$H_RAN95 = NF02_to_RAN95(2476000.223, 12209500.333, 550);
 echo $H_RAN95;
 // echo $a;
 

@@ -2,7 +2,7 @@
 // HEIG-VD
 
 
-//Chargement de vecteur de GeoServer en GeoJSON
+//Chargement de vecteur GeoJSON
 
 	var wfsPFP1 = new ol.layer.Vector({
 		source: new ol.source.Vector({
