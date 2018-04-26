@@ -91,6 +91,11 @@ document.getElementById('calcul-point').addEventListener('click', (event) => {
   if (errordata != 'Success') console.log(errordata);
 }, false);
 
+document.getElementById('dl-file').addEventListener('click', (event) => {
+  var errordata = getFileContent();
+  if (errordata != 'Success') console.log(errordata);
+}, false);
+
 document.getElementById('head_trans_coord').addEventListener('click', (event) => {
 	toggleHead('left');
   allVar['type-transfo-selected'] = 'point';
@@ -100,8 +105,6 @@ document.getElementById('head_trans_fichier').addEventListener('click', (event) 
 	toggleHead('right');
   allVar['type-transfo-selected'] = 'file';
 }, false);
-
-
 
 function toggleHead(side) {
   toShow = 'trans_coord';

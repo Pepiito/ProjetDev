@@ -12,7 +12,7 @@ function Test() {
 }
 
 
-function Ajax(callback, file, data) {
+function sendAjax(callback, file, data, isFormData) {
   /*
   Requete AJAX pour ouvrir le fichier sélectionné. Prend en paramètrre :
    * function callback, exécuté avec le paramètre responsetext une fois la requete AJAX effectué correctement
@@ -21,17 +21,19 @@ function Ajax(callback, file, data) {
   */
 
   data = data || "";
+  isFormData = isFormData || false;
 
   var ajax = new XMLHttpRequest();
   ajax.open('POST', file, true);
-  ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  if (!isFormData) ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
   ajax.addEventListener('readystatechange', function(e) {
 
     // test du statut de retour de la requête AJAX
     if (ajax.readyState == 4 && (ajax.status == 200 || ajax.status == 0)) {
         // récupération du contenu du fichier et envoi de la fonction de callback
-        callback(ajax.responseText);
+        return callback(ajax.responseText);
 
     }
   });
@@ -43,7 +45,7 @@ function sendDataToModel() {
 
   data = 'formatage=' + allVar['head_data']['in'] + '-' + allVar['head_data']['out'] + allVar['data'];
   console.log(data);
-  Ajax(receiveDataFromModel, "./php/modele/transfo_coord.php", data)
+  return sendAjax(receiveDataFromModel, "./php/modele/transfo_coord.php", data)
 }
 
 function receiveDataFromModel(reponse) {
@@ -52,8 +54,7 @@ function receiveDataFromModel(reponse) {
     console.log("Erreur sur la réponse AJAX :\n" + reponse);
   }
   else if (isErrorType(reponse)) {
-    // Instruction en cas d'erreur du modèle
-    console.log('Error');
+    raiseError(reponse);
   }
   else {
     // Instruction si tout va bien
@@ -78,39 +79,119 @@ function receiveDataFromModel(reponse) {
           setCoordValue(t_out, 'z', coordonnees[t_out][P_out]['Z']['Z0'])
           break;
         case 'geog':
-          if (T_out) { // cas alti
+          var c = T_out ? coordonnees[t_out][P_out]['a'][A_out] : coordonnees[t_out][P_out]['h'];
+          setCoordValue(t_out, 'lng', c['lambda']['lambda0']);
+          setCoordValue(t_out, 'lat', c['phi']['phi0']);
+          T_out ? setCoordValue(t_out, 'altitude', c['H']['H0']) : setCoordValue(t_out, 'hauteur', c['h']['h0']);
 
-              setCoordValue(t_out, 'lng', coordonnees[t_out][P_out]['a'][A_out]['lambda']['lambda0']);
-              setCoordValue(t_out, 'lat', coordonnees[t_out][P_out]['a'][A_out]['phi']['phi0']);
-              setCoordValue(t_out, 'altitude', coordonnees[t_out][P_out]['a'][A_out]['H']['H0']);
-          }
-          else {  // cas hauteur
-            setCoordValue(t_out, 'lng', coordonnees[t_out][P_out]['h']['lambda']['lambda0'], unite_out);
-            setCoordValue(t_out, 'lat', coordonnees[t_out][P_out]['h']['phi']['phi0'], unite_out);
-            setCoordValue(t_out, 'hauteur', coordonnees[t_out][P_out]['h']['h']['h0']);
-          }
           break;
         case 'proj':
-          if (T_out) { // cas alti
-
-              setCoordValue(t_out, 'est', coordonnees[t_out][P_out][p_out][T_out][A_out]['E']['E0']);
-              setCoordValue(t_out, 'nord', coordonnees[t_out][P_out][p_out][T_out][A_out]['N']['N0']);
-              setCoordValue(t_out, 'altitude', coordonnees[t_out][P_out][p_out][T_out][A_out]['H']['H0']);
-          }
-          else { // cas hauteur
-            setCoordValue(t_out, 'est', coordonnees[t_out][P_out][p_out][T_out]['E']['E0']);
-            setCoordValue(t_out, 'nord', coordonnees[t_out][P_out][p_out][T_out]['N']['N0']);
-            setCoordValue(t_out, 'hauteur', coordonnees[t_out][P_out][p_out][T_out]['h']['h0']);
-          }
+          var c = T_out ? coordonnees[t_out][P_out][p_out]['a'][A_out] : coordonnees[t_out][P_out][p_out]['h'];
+          setCoordValue(t_out, 'est', c['E']['E0']);
+          setCoordValue(t_out, 'nord', c['N']['N0']);
+          T_out ? setCoordValue(t_out, 'altitude', c['H']['H0']) : setCoordValue(t_out, 'hauteur', c['h']['h0']);
 
       }
 
     }
-    else {
-      // cas fichier
+    else { // cas fichier
+
+      var t_out = allVar['file']['out']['type-coord'];
+      var P_out = allVar['file']['out']['systeme-plani'];
+      var T_out = allVar['file']['out']['type-alti-altitude'];
+      var A_out = allVar['file']['out']['systeme-alti'];
+      var p_out = allVar['file']['out']['projection'];
+      var format_out = allVar['file']['out']['selection-formatage'];
+
+      var unite_out = allVar['file']['out']['geog-unite'];
+
+      // truc.innerHTML = "Ecriture du fichier...";
+
+      var fileContent = fillFile(t_out, P_out, T_out, A_out, p_out, format_out, unite_out);
+      var filename = allVar['file']['out']['nom-export'] || "coordonnees_" + P_out + "_" + T_out + ".txt";
+
+      if (!/\.\w+$/.test(filename)) raiseError("Nom de fichier en sortie non valide. Vérifiez l'extension");
+
+      // truc.innerHTML = "Téléchargement en cours...";
+      download(fileContent, filename);
+
     }
   }
 
+}
+
+function fillFile(_t, _P, _T, _A, _p, format, _u) {
+
+  var explicite = {"cart":"Cartésiennes", "proj": "Projetées", "geog": "Géographiques", "H": "altitude", "h": "hauteur ellipsoïdale"}
+
+  file_content = "";
+  file_content += "#" + pad(pad("GEO FS", 46, "*", true), 99, "*") + "\r\n";
+//  file_content += "# Fichier réalisé grâce au service en ligne GEOFS retrouvable à l'adresse geofs.ign.fr . \r\n"+
+//                  "# Documentation en ligne : geofs.ign.fr/manual .\r\n";
+  file_content += "#\r\n# Coordonnées exprimées :\r\n#\r\n" ;
+  file_content += createline(["Coordonnées :", explicite[_t]], 30, "# ") + "#\r\n";
+  file_content += createline(["SYSTEME :", _P], 30, "# ") + "#\r\n";
+  if (_t == "proj") file_content += createline(["PROJECTION :", _p], 30, "# ") + "#\r\n";
+  if (_t != "cart") {
+    file_content += createline(["Coordonnées en  :", explicite[(_T ? "H" : "h")]], 30, "# ") + "#\r\n";
+    if (_T) file_content += createline(["SYSTEME ALTIMETRIQUE :", _A], 30, "# ") + "#\r\n";
+  }
+  file_content += "#" + pad("", 99, "-") + "#\r\n";
+
+  coords = coordonnees[_t][_P];
+
+  console.log(coordonnees);
+  if (_t == "cart") {
+    file_content += createline(['Nom', 'X', 'Y', 'Z'], undefined, "# ");
+
+    for (var i = 0; i < Object.keys(coords['X']).length; i++) {
+      file_content += createline([coordonnees['n']['n'+i], coords['X']['X'+i], coords['Y']['Y'+i], coords['Z']['Z'+i]]);
+    }
+  }
+  else if (_t == "geog") {
+    var c = _T ? coords['a'][_A] : coords['h'];
+    file_content += createline(['Nom', 'lambda', 'phi', (_T ? 'H' : 'h')], undefined, "# ");
+
+    for (var i = 0; i < Object.keys(c['lambda']).length; i++) {
+      file_content += createline([coordonnees['n']['n'+i], radToAngle(c['lambda']['lambda'+i], _u), radToAngle(c['phi']['phi'+i], _u), (_T ? c['H']['H'+i] : c['h']['h'+i]) ]);
+    }
+  }
+  else if (_t == "proj") {
+      var c = _T ? coords[_p]['a'][_A] : coords[_p]['h'];
+      file_content += createline(['Nom', 'E', 'N', (_T ? 'H' : 'h')], undefined, "# ");
+
+      for (var i = 0; i < Object.keys(c['E']).length; i++) {
+        file_content += createline([coordonnees['n']['n'+i], c['E']['E'+i], c['N']['N'+i], (_T ? c['H']['H'+i] : c['h']['h'+i]) ]);
+      }
+  }
+  else {
+    raiseError("Erreur inconnue");
+  }
+
+  return file_content;
+}
+
+function createline(array, largeur_colonne, line_start) {
+  var line = line_start || " ";
+  var l_colonne = largeur_colonne || 16;
+
+  for (i in array) {
+    line += pad(array[i], l_colonne, " ", true);
+  }
+  line += "\r\n";
+  return line;
+}
+
+function pad(n, width, z, bafter) {
+  /*
+  Renvoie un string comprenant l'entier ou string n précédé ou suivi d'un nombre de 0 (ou z si renseigné) de longueur width.
+  bafter: bool si false : fill avant. si true: fill après
+  */
+
+  z = z || '0';
+  n = n + '';
+  bafter = bafter || false;
+  return n.length >= width ? n : bafter ? n + new Array(width - n.length + 1).join(z) : new Array(width - n.length + 1).join(z) + n ;
 }
 
 function isErrorType(string) {
@@ -389,6 +470,7 @@ function validateCoord(coord, unite) {
   unite = unite || 'none';
 
   // Traitement dms
+  if (coord == "0") return 0;
   if (!coord) return false;
   coord = coord.replace(',', '.').replace('/\D[^\.]/', '') // Garde uniquement nombre et points
   if (isNaN(parseFloat(coord))) {
@@ -408,15 +490,136 @@ function angleToRad(alpha, nb) {
     if (alpha < 0) alpha += nb;
     else if (alpha >= nb) alpha -= nb;
   }
-  console.log(alpha*2*Math.PI/nb);
   return alpha*2*Math.PI/nb;
 }
 
 function radToAngle(alpha, nb) {
   alpha = parseFloat(alpha);
+  if (nb == "deg") nb = 360;
+  else if (nb == "grad") nb = 400;
+  else if (nb == "rad") return alpha;
   return alpha*nb/(2*Math.PI);
 }
 
-function raiseError(code) {
-  throw 'Error ' + code;
+function raiseError(code, complement) {
+  complement = complement || false;
+  /Error/.test(code) ? console.log(code) : console.log('Error ' + code)
+  return 'Error' + code;
+}
+
+function getFileContent(file) {
+
+  registerAllData();
+
+  file = file || document.getElementById("input-file-in").files[0];
+
+  var separateur = allVar['file']['in']['separateur'];
+  var start = allVar['file']['in']['ligne-start'];
+  var format = allVar['file']['in']['selection-formatage'];
+
+  if ("proj" == allVar['file']['in']['type-coord']) {
+    format += allVar['file']['in']['selection-formatage-deviation'];
+  }
+
+
+  var formdata = new FormData();
+
+  formdata.append('file', file);
+  formdata.append('separateur', separateur);
+  formdata.append('start', start);
+  formdata.append('format', format);
+
+  // Truc.innerhtml = 'chargement...'
+
+  return sendAjax(collectData, './php/vue/get_file_content.php', formdata, true);
+
+
+}
+
+function collectData(reponse) {
+
+  if (isErrorType(reponse)) raiseError(reponse);
+  else if (isPHPErrorType(reponse)) {
+
+    console.log("Erreur PHP : \n" + reponse);
+    raiseError('Erreur 200 : Une erreur inattendu est survenu.');
+  }
+  else {
+
+    // truc.innerHTML = 'traitement...'
+
+    allVar['data'] = '';
+    allVar['head_data'] = new Array;
+    allVar['head_data']['in'] = '';
+    allVar['head_data']['out'] = '';
+
+    var unite_in = (allVar['file']['in']['type-coord'] == 'geog') ? allVar['file']['in']['geog-unite'] : "none";
+    var format = allVar['file']['in']['selection-formatage'];
+
+    addToData('t', allVar['file']['in']['type-coord']);
+    addToData('P', allVar['file']['in']['systeme-plani']);
+    addToData('T', ( /H/.test(format) ? "a" : "h"));
+
+    var A = allVar['file']['in']['systeme-alti']
+    if (/H/.test(format)) {
+      if (A == "false" || !A) return "&systeme-alti";
+      addToData('A', A);
+    }
+
+    if ( /E/.test(format)) addToData('p', allVar['file']['in']['projection']);
+
+    var variables = JSON.parse(reponse);
+
+    for (type in variables) {
+
+      var values = variables[type];
+      var temp_str = "";
+
+      for (line=0; line < values.length; line++) {
+
+        value = values[line];
+
+        if (type == 'n') {
+          temp_str += value.replace(";", "_") + ';';
+        }
+        else {
+
+          var valid_value = (type == "h" || type == "H") ? validateCoord(value, "none") : validateCoord(value, unite_in);
+          if (valid_value) temp_str += valid_value + ';';
+          else return raiseError('210', 'Ligne ' + line + ", variable " + type);
+
+        }
+
+      }
+
+      str = temp_str.substr(0, temp_str.length-1);
+
+      addToData(type, str);
+
+    }
+    console.log(allVar['data']);
+    sendDataToModel();
+    return 'Success';
+  }
+
+}
+
+function download(data, filename, type) {
+
+    type = type || "text/plain";
+    var file = new Blob([data], {type: type});
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    else { // Others
+        var a = document.createElement("a"),
+                url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 0);
+    }
 }

@@ -1,9 +1,9 @@
 <fieldset id=fichier-de-depart>
   <legend>Fichier de départ</legend>
   <div id='container-input-file' style="display:flex;flex-direction:row;">
-    <input id="input-file-out" type="file"/>
-    <label for="input-file-out"><button type="button">Parcourir</button></label>
-    <label for="input-file-out"><button type="button">Déposer ici</button></label>
+    <input id="input-file-in" name=input-file-in type="file" multiple/>
+    <label for="input-file-in"><button type="button">Parcourir</button></label>
+    <label for="input-file-in"><button type="button">Déposer ici</button></label>
   </div>
   <div style=display:flex;flex-direction:row;align-items:center;>
     <label for="separateur-file-in">Séparateur: </label>
@@ -21,7 +21,7 @@
         <option value="">Aucun</option>
       </select>
       <label for="ligne-start-file-in" style="position:relative;top:3px;">Début à la ligne: </label>
-      <input type="number" id="ligne-start-file-in" value="0" maxlength="3" class="input-transfo-fichier">
+      <input type="number" id="ligne-start-file-in" value="0" maxlength="3" min=0 class="input-transfo-fichier">
     </div>
   </div>
 </fieldset>
@@ -43,19 +43,27 @@
       </select>
     </div>
     <div class="proj-file-in">
-      <label for="projecion-file-in">projection choisie</label>
+      <label for="projecion-file-in">Projection</label>
       <select id=projection-file-in>
         <?php echo Afficheprojections('file', 'in'); ?>
       </select>
     </div>
-    <div class="proj-file-in">
-        <div style="margin-left: 60px;">
+    <div class="proj-file-in geog-file-in">
+        <div>
           <label for="systeme-alti-file-in">Système altimétrique (si altitude)</label>
           <select id="systeme-alti-file-in" style="width:150px";>
             <option value="false">--</option>
             <?php echo AfficheSystemesAlti('file', 'in'); ?>
           </select>
       </div>
+    </div>
+    <div class=geog-file-in>
+      <label for=geog-unite-file-in>Unité</label>
+      <select id=geog-unite-file-in style=width:150px;>
+        <option value=grad>Grades</option>
+        <option value=deg selected>Degrés centésimaux - décimaux</option>
+        <option value=rad>Radians</option>
+      </select>
     </div>
   </div>
 </fieldset>
@@ -77,13 +85,13 @@
       </select>
     </div>
     <div class="proj-file-out">
-      <label for="projecion-file-out">projection choisie</label>
+      <label for="projecion-file-out">Projection</label>
       <select id=projection-file-out>
         <?php echo Afficheprojections('file', 'out'); ?>
       </select>
     </div>
-    <div class="proj-file-out">
-        <div style="margin-left: 60px;">
+    <div class="proj-file-out geog-file-out">
+        <div>
           <label for="systeme-alti-file-out">Système altimétrique (si altitude)</label>
           <select id="systeme-alti-file-out" style="width:150px";>
             <option value="false">--</option>
@@ -91,9 +99,16 @@
           </select>
       </div>
     </div>
+    <div class=geog-file-out>
+      <label for=geog-unite-file-out>Unité</label>
+      <select id=geog-unite-file-out style=width:150px;>
+        <option value=grad>Grades</option>
+        <option value=deg selected>Degrés centésimaux - décimaux</option>
+        <option value=rad>Radians</option>
+      </select>
+    </div>
+    <div class="cart-file-out"></div>
   </div>
-  <div class="geog-file-out"></div>
-  <div class="cart-file-out"></div>
 </fieldset>
 <fieldset id=fichier-d-arrivee>
   <legend>Fichier en sortie</legend>
