@@ -10,6 +10,7 @@ function urlExists($url=NULL)
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);  
     curl_close($ch);  
     return($httpcode>=200 && $httpcode<300);
+}
 
 function testTransfoPlani_MN95_to_MN03($e, $n, $e2, $n2){
     $de =abs($e-$e2-2000000);
