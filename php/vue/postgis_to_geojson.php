@@ -1,8 +1,7 @@
 <?php
 	//HEIG-VD
 	//connection to postgis
-	$conn = pg_connect("host=localhost port=5432 dbname=ProjetDEV user=postgres password=postgres");
-	
+	include("connexion_postgis.php");
 	
 	$id_utilisateur=1;
 	$pt_session = pg_query($conn, 

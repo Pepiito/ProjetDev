@@ -20,7 +20,7 @@
 
 	var wfsPFA1 = new ol.layer.Vector({
 		source: new ol.source.Vector({
-			features: (new ol.format.GeoJSON()).readFeatures(geojson_pfp1),
+			features: (new ol.format.GeoJSON()).readFeatures(geojson_pfa1),
 			
 		}),
 		style: new ol.style.Style({
@@ -119,9 +119,17 @@ map.on('click', function(e) {
 				var N_CH1903plus = features[0].N.N_CH1903plus;
 				var E_RGF = features[0].N.E_RGF;
 				var N_RGF = features[0].N.N_RGF;
+				var E_RGF_C46 = features[0].N.E_RGF_C46;
+				var N_RGF_C46 = features[0].N.N_RGF_C46;
+				var E_RGF_C47 = features[0].N.E_RGF_C47;
+				var N_RGF_C47 = features[0].N.N_RGF_C47;
+				var E_RGF_C48 = features[0].N.E_RGF_C48;
+				var N_RGF_C48 = features[0].N.N_RGF_C48;
 				var E_NTF = features[0].N.E_NTF;
 				var N_NTF = features[0].N.N_NTF;
-				var num_NTF = features[0].N.num_NTF;
+				var E_NTF_2 = features[0].N.E_NTF_2;
+				var N_NTF_2 = features[0].N.N_NTF_2;
+
 				
 				var long_ETRS89 = features[0].N.long_ETRS89;
 				var lat_ETRS89 = features[0].N.lat_ETRS89;
@@ -153,7 +161,7 @@ map.on('click', function(e) {
 				var hgrs80_map = features[0].N.h_ETRS89;
 				
 				var description = '<h4><u>Coordonnées du points '+num_pt+'</u></h4>';
-				if(document.getElementById('ch1903_proj_map').checked == true || document.getElementById('ch1903plus_proj_map').checked == true || document.getElementById('rgf_proj_map').checked == true || document.getElementById('ntf_proj_map').checked == true){
+				if(document.getElementById('ch1903_proj_map').checked == true || document.getElementById('ch1903plus_proj_map').checked == true || document.getElementById('rgf_proj_map').checked == true || document.getElementById('ntf_proj_Etendu_map').checked == true || document.getElementById('rgf_proj_C46_map').checked == true || document.getElementById('rgf_proj_C47_map').checked == true || document.getElementById('rgf_proj_C48_map').checked == true || document.getElementById('ntf_proj_2_map').checked == true){
 					description+='<u>Coordonnées projetées [m]</u>';
 					if(document.getElementById('ch1903_proj_map').checked == true){
 						description +='<p>CH1903: ' + E_CH1903 + ' / '+N_CH1903 + '</p>';
@@ -161,12 +169,25 @@ map.on('click', function(e) {
 					if(document.getElementById('ch1903plus_proj_map').checked == true){
 						description +='<p>CH1903+: ' + E_CH1903plus + ' / '+N_CH1903plus + '</p>';
 					};
-					if(document.getElementById('ntf_proj_map').checked == true){
+					if(document.getElementById('rgf_proj_map').checked == true){
+						description +='<p>RGF: ' + E_RGF + ' / '+N_RGF + '</p>';
+					};
+					if(document.getElementById('rgf_proj_C46_map').checked == true){
+						description +='<p>RGF: ' + E_RGF_C46 + ' / '+N_RGF_C46 + '</p>';
+					};
+					if(document.getElementById('rgf_proj_C47_map').checked == true){
+						description +='<p>RGF: ' + E_RGF_C47 + ' / '+N_RGF_C47 + '</p>';
+					};
+					if(document.getElementById('rgf_proj_C48_map').checked == true){
+						description +='<p>RGF: ' + E_RGF_C48 + ' / '+N_RGF_C48 + '</p>';
+					};
+					if(document.getElementById('ntf_proj_Etendu_map').checked == true){
 						description +='<p>NTF: ' + E_NTF + ' / '+N_NTF + '</p>';
 					};
-					if(document.getElementById('rgf_proj_map').checked == true){
-						description +='<p>RGF: ' + E_RGF + ' / '+N_RGF + '   Lambert '+num_NTF+'</p>';
+					if(document.getElementById('ntf_proj_2_map').checked == true){
+						description +='<p>NTF: ' + E_NTF_2 + ' / '+N_NTF_2 + '</p>';
 					};
+					
 				};
 				if(document.getElementById('etrs89_geog_map').checked == true || document.getElementById('ch1903_geog_map').checked == true || document.getElementById('ntf_geog_map').checked == true){
 					description+='<u>Coordonnées géographiques [degrés]</u>';

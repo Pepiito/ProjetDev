@@ -16,8 +16,14 @@
 	   <p><u>Coordonnées projetées</u></p>
 	   <div><input type="checkbox" name="ch1903_proj_map" id="ch1903_proj_map"/> <label for="ch1903_proj_map">CH1903</label></div>
 	   <div><input type="checkbox" name="ch1903plus_proj_map" id="ch1903plus_proj_map" /> <label for="ch1903plus_proj_map">CH1903+</label></div>
-	   <div><input type="checkbox" name="rgf_proj_map" id="rgf_proj_map" /> <label for="rgf_proj_map">RGF</label></div>
-	   <div><input type="checkbox" name="ntf_proj_map" id="ntf_proj_map" /> <label for="ntf_proj_map">NTF</label></div>
+	   <div><input type="checkbox" name="rgf_proj_map" id="rgf_proj_map" /> <label for="rgf_proj_map">RGF Lambert-93</label></div>
+	   <div><input type="checkbox" name="rgf_proj_C46_map" id="rgf_proj_C46_map" /> <label for="rgf_proj_C46_map">RGF C46</label></div>
+	   <div><input type="checkbox" name="rgf_proj_C47_map" id="rgf_proj_C47_map" /> <label for="rgf_proj_C47_map">RGF C47</label></div>
+	   <div><input type="checkbox" name="rgf_proj_C48_map" id="rgf_proj_C48_map" /> <label for="rgf_proj_C48_map">RGF C48</label></div>
+	   <div><input type="checkbox" name="ntf_proj_Etendu_map" id="ntf_proj_Etendu_map" /> <label for="ntf_proj_Etendu_map">NTF II Etendu</label></div>
+	   <div><input type="checkbox" name="ntf_proj_2_map" id="ntf_proj_2_map" /> <label for="ntf_proj_2_map">NTF II</label></div>
+	   
+	   
 	   <p><u>Coordonnées géographiques</u></p>
        <div><input type="checkbox" name="etrs89_geog_map" id="etrs89_geog_map"/> <label for="etrs89_geog_map">ETRS89/RGF/CHTRS95/~WGS84</label></div>
 	   <div><input type="checkbox" name="ch1903_geog_map" id="ch1903_geog_map" /> <label for="ch1903_geog_map">CH1903+</label></div>
