@@ -10,7 +10,7 @@
 		'id',         id_ptsess,
 		'geometry',   ST_AsGeoJSON(ST_Transform(geom,3857))::jsonb,
 		'properties', to_jsonb(row) - 'geom'
-	) FROM (SELECT *, max(date_chantier) FROM \"Points_session\" WHERE id_ptsess=".$id_utilisateur." AND date_chantier=(SELECT max(date_chantier) FROM \"Points_session\") row;");
+	) FROM (SELECT * FROM \"Points_session\" WHERE id_ptsess=".$id_utilisateur." AND date_chantier=(SELECT max(date_chantier) FROM \"Points_session\")) row;");
 	
 	function postgis_to_geojson($select_postgis){
 		$geojson='';
