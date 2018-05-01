@@ -10,3 +10,4 @@
 203: le fichier saisi par l'utilisateur est corrompu / illisible
 204: Erreur sur le format des données renseignés dans le fichier de l'utilisateur.
 210: Format d'une variable incompatible dans le fichier
+400: coordonnées MN95 en dehors du perimiètre de transformation vers MN03 (problème API DLL Transfo_Suisse_API_DLL.php --> ligne 21)

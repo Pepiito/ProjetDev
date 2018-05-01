@@ -18,8 +18,8 @@ function testTransfoPlani_MN95_to_MN03($e, $n, $e2, $n2){
     if($e<$de+15000 AND $e>$de-15000 AND $n<$dn+15000 AND $n>$dn-15000 ){
         return array($e2, $n2);
     }elseif($de<0.001 AND $dn<0.001){
-        //echo 'transformation hors grille';
-        return array('error 500','error 500');
+        echo 'Erreur 400: coordonnées MN95 en dehors du permiètre de transformation vers MN03';
+        exit;
     }else{
         return array($e2, $n2);
     }
@@ -52,6 +52,7 @@ function MN95_to_MN03($E_MN95, $N_MN95){
 
 function MN03_to_MN95($E_MN03, $N_MN03){
 	$url = 'http://geodesy.geo.admin.ch/reframe/lv03tolv95?easting='.$E_MN03.'&northing='.$N_MN03.'&format=json';
+	
 	$json = file_get_contents($url);
 	$json_dec=json_decode($json, true);
 	$E_lv95 = $json_dec['easting'];
