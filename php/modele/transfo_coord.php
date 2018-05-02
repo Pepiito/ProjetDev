@@ -453,6 +453,13 @@ foreach($coord as $cas_coord) {
 echo json_encode($echo);
 
 if (isset($_POST['addMap'])) {
-  if ($_POST['addMap']) include("../vue/write_to_postgis.php");
+  if (is_true($_POST['addMap'])) {
+    include("../vue/write_to_postgis.php");
+  }
+}
+
+function is_true($val, $return_null=false){
+    $boolval = ( is_string($val) ? filter_var($val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : (bool) $val );
+    return ( $boolval===null && !$return_null ? false : $boolval );
 }
 ?>

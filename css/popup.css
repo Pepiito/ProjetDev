@@ -217,7 +217,7 @@ div#pop_body label.inline {
 .loading {
   transition: .5s;
   position: fixed;
-  width: 400px;
+  width: 700px;
   min-height: 140px;
   padding: 25px;
   margin: 0;
@@ -236,8 +236,9 @@ div#pop_body label.inline {
 }
 #error-content {
   visibility: hidden;
-  opacity: 0;
   border: 3px solid #cc0000;
+  overflow-y: scroll;
+  max-height: 80%;
 }
 
 #error-message {

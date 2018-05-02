@@ -59,7 +59,13 @@ function receiveDataFromModel(reponse) {
   }
   else {
     // Instruction si tout va bien
-    window.coordonnees = JSON.parse(reponse);
+    try {
+      window.coordonnees = JSON.parse(reponse);
+    }
+    catch (e) {
+      raiseError(reponse);
+      return;
+    }
 
     if (allVar['type-transfo-selected'] == 'point') {
 
@@ -672,6 +678,7 @@ function endLoading() {
   var loaderFiltre = document.getElementById('loader-filtre');
   loaderFiltre.style.visibility = "hidden";
   loaderFiltre.style.opacity = 0;
+  loaderFiltre.style.zIndex = -10;
 }
 
 function showError(message) {
@@ -689,6 +696,7 @@ function showLoader(loadOrError) {
   if (loaderFiltre.style.visibility != "visible") {
     loaderFiltre.style.visibility = "visible";
     loaderFiltre.style.opacity = 1;
+    loaderFiltre.style.zIndex = 1000;
   }
 }
 
