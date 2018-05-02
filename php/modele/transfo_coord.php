@@ -291,9 +291,9 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
       }
 
       // arrays de sortie
-      $X_arr['X'.$i] = $array_cart[0];
-      $Y_arr['Y'.$i] = $array_cart[1];
-      $Z_arr['Z'.$i] = $array_cart[2];
+      $X_arr['X'.$i] = round($array_cart[0], 8);
+      $Y_arr['Y'.$i] = round($array_cart[1], 8);
+      $Z_arr['Z'.$i] = round($array_cart[2], 8);
 
     } else if ($type_coord_arr == 'geog') {
       // passage des coordonnées cartesiennes ETRS89 vers les systèmes cartésiens voulu
@@ -313,26 +313,26 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
       }
 
       // arrays de sortie
-      $lambda_arr['lambda'.$i] = $array_geog[0];
-      $phi_arr['phi'.$i] = $array_geog[1];
+      $lambda_arr['lambda'.$i] = round($array_geog[0], 8);
+      $phi_arr['phi'.$i] = round($array_geog[1], 8);
 
       if ($type_alti_arr == 'h') {
-        $h_arr['h'.$i] = $array_geog[2];
+        $h_arr['h'.$i] = round($array_geog[2], 8);
 
       } else if ($type_alti_arr == 'a') {
         if (($type_plani_arr == 'RGF93' || $type_plani_arr == 'ETRS89') && $sys_alti_arr == 'IGN69') {
-          $H_arr['H'.$i] = h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]);
+          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]), 8);
         } else if ($type_plani_arr == 'NTF' && $sys_alti_arr == 'IGN69') {
           $cst = alti_to_h(2.346199*pi()/180, 48.846211*pi()/180, 0);
-          $H_arr['H'.$i] = h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst;
+          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst, 8);
         } else if (($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'RAN95') {
           list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
           list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
-          $H_arr['H'.$i] = Bessel_to_RAN95($E_MN03, $N_MN03, $array_geog[2]);
+          $H_arr['H'.$i] = round(Bessel_to_RAN95($E_MN03, $N_MN03, $array_geog[2]), 8);
         } else if (($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'NF02') {
           list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
           list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
-          $H_arr['H'.$i] = Bessel_to_NF02($E_MN03, $N_MN03, $array_geog[2]);
+          $H_arr['H'.$i] = round(Bessel_to_NF02($E_MN03, $N_MN03, $array_geog[2]), 8);
         }
       }
 
@@ -354,23 +354,23 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
       }
 
       if ($type_alti_arr == 'h') {
-        $h_arr['h'.$i] = $array_geog[2];
+        $h_arr['h'.$i] = round($array_geog[2], 8);
 
       } else if ($type_alti_arr == 'a' && $sys_alti_arr == 'IGN69') {
         if ($type_plani_arr == 'RGF93') {
-          $H_arr['H'.$i] = h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]);
+          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]), 8);
         } else if ($type_plani_arr == 'NTF') {
           $cst = alti_to_h(2.346199*pi()/180, 48.846211*pi()/180, 0);
-          $H_arr['H'.$i] = h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst;
+          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst, 8);
         }
       } else if ($type_alti_arr == 'a' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'RAN95') {
         list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
         list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
-        $H_arr['H'.$i] = Bessel_to_RAN95($E_MN03, $N_MN03, $array_geog[2]);
+        $H_arr['H'.$i] = round(Bessel_to_RAN95($E_MN03, $N_MN03, $array_geog[2]), 8);
       } else if ($type_alti_arr == 'a' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'NF02') {
         list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
         list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
-        $H_arr['H'.$i] = Bessel_to_NF02($E_MN03, $N_MN03, $array_geog[2]);
+        $H_arr['H'.$i] = round(Bessel_to_NF02($E_MN03, $N_MN03, $array_geog[2]), 8);
       }
 
       if ($type_plani_arr == 'NTF') {
@@ -383,26 +383,26 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
       } else if ($type_plani_arr == 'CH1903+' && $type_proj_arr == 'MN95') {
         $array_plani = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
       }
-      $E_arr['E'.$i] = $array_plani[0];
-      $N_arr['N'.$i] = $array_plani[1];
+      $E_arr['E'.$i] = round($array_plani[0], 8);
+      $N_arr['N'.$i] = round($array_plani[1], 8);
 
     }
   }
 
   if ($type_coord_arr == 'cart') {
-    $echo = array('X' => round($X_arr, 8), 'Y' => round($Y_arr, 8), 'Z' => round($Z_arr, 8));
+    $echo = array('X' => $X_arr, 'Y' => $Y_arr, 'Z' => $Z_arr);
 
   } else if ($type_coord_arr == 'geog') {
       if ($type_alti_arr == 'h') {
-      $echo = array('lambda' => round($lambda_arr, 8), 'phi' => round($phi_arr, 8), 'h' => round($h_arr, 8));
+      $echo = array('lambda' => $lambda_arr, 'phi' => $phi_arr, 'h' => $h_arr);
     } else if ($type_alti_arr == 'a') {
-      $echo = array('lambda' => round($lambda_arr, 8), 'phi' => round($phi_arr, 8), 'H' => round($H_arr, 8));
+      $echo = array('lambda' => $lambda_arr, 'phi' => $phi_arr, 'H' => $H_arr);
     }
   } else if ($type_coord_arr == 'proj') {
     if ($type_alti_arr == 'h') {
-      $echo = array('E' => round($E_arr, 8), 'N' => round($N_arr, 8), 'h' => round($h_arr, 8));
+      $echo = array('E' => $E_arr, 'N' => $N_arr, 'h' => $h_arr);
     } else if ($type_alti_arr == 'a') {
-      $echo = array('E' => round($E_arr, 8), 'N' => round($N_arr, 8), 'H' => round($H_arr, 8));
+      $echo = array('E' => $E_arr, 'N' => $N_arr, 'H' => $H_arr);
     }
   }
 
