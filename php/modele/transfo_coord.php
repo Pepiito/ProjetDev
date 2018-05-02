@@ -1,6 +1,14 @@
-<?php if (!isset($_SESSION)) session_start(); ?>
+<?php if (!isset($_SESSION)) session_start();
 
-<?php
+/* Renvoie une chaine de caractère au format json.
+     L'ajax récupèrera le contenu intégral de ce qui est renvoyé,
+     au format "Error XXX: description" si erreur ou un json si ok.
+
+     Ce fichier sert de boite de réception / d'envoi de la couche modèle : ne pas le renommer.
+     Le contenu pourra être contenu dans des fichiers externes reliés par un include().
+     */
+
+
 include('cartesiennes.php');
 include('fonctions_fr.php');
 include('alti_fr.php');
@@ -13,11 +21,11 @@ include('Deviation_verticale.php');
 include('Transo_Suisse_GRS80_MN95.php');
 include('Transo_Suisse_MN95_GRS80.php');
 include('Transo_Suisse_API_DLL.php');
-?>
 
-<?php
+
+
 /*
-Le plan global est de recupérer les variables d'un certain type de coordonnées
+L'idée' est de recupérer les variables d'un certain type de coordonnées
 et de les transformer dans tous les types.
 On doit donc prévoir tous les cas de figure.
 */
@@ -441,15 +449,10 @@ foreach($coord as $cas_coord) {
     }
   }
 }
-?>
-
-<?php  /* Renvoie une chaine de caractère au format json.
-       L'ajax récupèrera le contenu intégral de ce qui est renvoyé,
-       au format "Error XXX: description" si erreur ou un json si ok.
-
-       Ce fichier sert de boite de réception / d'envoi de la couche modèle : ne pas le renommer.
-       Le contenu pourra être contenu dans des fichiers externes reliés par un include().
-       */
 
 echo json_encode($echo);
+
+if (isset($_POST['addMap'])) {
+  if ($_POST['addMap']) include("../vue/write_to_postgis.php");
+}
 ?>

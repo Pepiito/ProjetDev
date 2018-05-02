@@ -1,19 +1,19 @@
 <?php
 include("./php/vue/connexion_postgis.php");
 if (!isset($_SESSION)) session_start();
-if(isset($_SESSION)){
-	if(isset($_SESSION['pseudo'])){
-			$res = pg_query($conn, 'SELECT id_sess FROM session WHERE pseudo='.$_SESSION['pseudo'].';');
-			$_SESSION['id_sess'] = pg_fetch_result($res,0,0);
-		}else{
-			$res = pg_query($conn, 'SELECT max(id_aleat) FROM "Points_session";');
-			$_SESSION['id_aleat'] = pg_fetch_result($res,0,0)+1;
-		}
+
+if(isset($_SESSION['pseudo'])){
+		$res = pg_query($conn, 'SELECT id_sess FROM session WHERE pseudo='.$_SESSION['pseudo'].';');
+		$_SESSION['id_sess'] = pg_fetch_result($res,0,0);
+}
+else{
+		$res = pg_query($conn, 'SELECT max(id_aleat) FROM "Points_session";');
+		$_SESSION['id_aleat'] = pg_fetch_result($res,0,0)+1;
 }
  ?>
 <?php
 include("./php/vue/head.php");
-include("./php/vue/data_functions.php"); 
+include("./php/vue/data_functions.php");
 include("./php/vue/postgis_to_geojson.php");
 ?>
 
@@ -26,7 +26,7 @@ include("./php/vue/postgis_to_geojson.php");
 	<div style="width:100%;position:relative;">
 	<div id="map">
 	</div>
-	
+
 	<div>
 	<div class="button_transfo"><input class="button_tran" type="submit" onclick="Open_transfo()" value="Changement de coordonnées"/></div>
 	<div class="school"><img src="images/ensg-heig.png" width="350" height="81"/></div>

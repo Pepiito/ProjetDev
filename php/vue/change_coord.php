@@ -1,4 +1,25 @@
 <div id="popup" class="modal">
+	<div id=loader-filtre>
+		<div id=loader-content class=loading>
+			<div id=loader-message>
+				Message généré JS
+			</div>
+			<div id="loader-glissement">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+	     </div>
+		</div>
+		<div id=error-content class=loading>
+			<div id=error-message>
+				Message généré JS ifehogfdnj cmioh hezfdj sekhcsmjc sq^)d
+			</div>
+			<div id=error-ok>
+				OK
+			</div>
+		</div>
+	</div>
 	<center class="modal-content">
 		<span class="close">&times;</span>
 		<div id="pop_body">

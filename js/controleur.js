@@ -106,17 +106,4 @@ document.getElementById('head_trans_fichier').addEventListener('click', (event) 
   allVar['type-transfo-selected'] = 'file';
 }, false);
 
-function toggleHead(side) {
-  toShow = 'trans_coord';
-  toHide = 'trans_fichier';
-  border = "2px 2px 0 0";
-  if (side == "right") {
-    toShow = 'trans_fichier';
-    toHide = 'trans_coord';
-    border = "2px 0 0 2px";
-  }
-  document.getElementById(toShow).style.display="block";
-    document.getElementById(toHide).style.display="none";
-    document.getElementById('head_' + toHide).style.borderWidth="0 0 2px 0";
-    document.getElementById('head_' + toShow).style.borderWidth = border;
-  }
+document.getElementById("error-ok").addEventListener('click', endLoading, false);

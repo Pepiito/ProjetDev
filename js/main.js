@@ -52,6 +52,7 @@ function receiveDataFromModel(reponse) {
 
   if (isPHPErrorType(reponse)) {
     console.log("Erreur sur la réponse AJAX :\n" + reponse);
+    showError(reponse);
   }
   else if (isErrorType(reponse)) {
     raiseError(reponse);
@@ -105,14 +106,14 @@ function receiveDataFromModel(reponse) {
 
       var unite_out = allVar['file']['out']['geog-unite'];
 
-      // truc.innerHTML = "Ecriture du fichier...";
+      applyLoading("Ecriture du fichier...");
 
       var fileContent = fillFile(t_out, P_out, T_out, A_out, p_out, format_out, unite_out);
       var filename = allVar['file']['out']['nom-export'] || "coordonnees_" + P_out + "_" + T_out + ".txt";
 
       if (!/\.\w+$/.test(filename)) raiseError("Nom de fichier en sortie non valide. Vérifiez l'extension");
 
-      // truc.innerHTML = "Téléchargement en cours...";
+      applyLoading("Téléchargement en cours...");
       download(fileContent, filename);
 
     }
@@ -360,11 +361,28 @@ function inArray(elem, arr) {
   return (arr.indexOf(elem) != -1);
 }
 
-function validAndSetData() {
+function toggleHead(side) {
+  toShow = 'trans_coord';
+  toHide = 'trans_fichier';
+  border = "2px 2px 0 0";
+  if (side == "right") {
+    toShow = 'trans_fichier';
+    toHide = 'trans_coord';
+    border = "2px 0 0 2px";
+  }
+  document.getElementById(toShow).style.display="block";
+    document.getElementById(toHide).style.display="none";
+    document.getElementById('head_' + toHide).style.borderWidth="0 0 2px 0";
+    document.getElementById('head_' + toShow).style.borderWidth = border;
+  }
+
+function validAndSetData(addMap) {
+
+  addMap = addMap || false;
 
   registerAllData();
 
-  data = allVar['type-transfo-selected'];
+  data = "point";
 
   invalide_data = "";
 
@@ -458,6 +476,9 @@ function validAndSetData() {
     addToData('_P', allVar[data]['out']['systeme-plani']);
 
   }
+
+  addToData("addMap", addMap);
+
   if (invalide_data == "") {
     sendDataToModel();
     return "Success";
@@ -503,13 +524,46 @@ function radToAngle(alpha, nb) {
 
 function raiseError(code, complement) {
   complement = complement || false;
-  /Error/.test(code) ? console.log(code) : console.log('Error ' + code)
-  return 'Error' + code;
+
+  code = /Error/.test(code) ? code : 'Erreur : ' + code
+  showError(code + "<br>" + complement);
+  console.log(code + " " + complement);
+
+  return code;
 }
 
-function getFileContent(file) {
+function getFileContent(file, addMap) {
 
   registerAllData();
+
+  addMap = addMap || false;
+
+  addToData("addMap", addMap);
+
+  allVar['data'] = '';
+  allVar['head_data'] = new Array;
+  allVar['head_data']['in'] = '';
+  allVar['head_data']['out'] = '';
+
+  var unite_in = (allVar['file']['in']['type-coord'] == 'geog') ? allVar['file']['in']['geog-unite'] : "none";
+  var format = allVar['file']['in']['selection-formatage'];
+
+  addToData('t', allVar['file']['in']['type-coord']);
+  addToData('P', allVar['file']['in']['systeme-plani']);
+  addToData('T', ( /H/.test(format) ? "a" : "h"));
+
+  var A = allVar['file']['in']['systeme-alti']
+  if (/H/.test(format)) {
+    if (A == "false" || !A) return "&systeme-alti";
+    addToData('A', A);
+  }
+  if ( /E/.test(format)) {
+    if (A == "false" || !A) return "&projection";
+    addToData('p', allVar['file']['in']['projection']);
+  }
+
+
+
 
   file = file || document.getElementById("input-file-in").files[0];
 
@@ -529,7 +583,7 @@ function getFileContent(file) {
   formdata.append('start', start);
   formdata.append('format', format);
 
-  // Truc.innerhtml = 'chargement...'
+  applyLoading("Chargement du fichier...");
 
   return sendAjax(collectData, './php/vue/get_file_content.php', formdata, true);
 
@@ -546,27 +600,7 @@ function collectData(reponse) {
   }
   else {
 
-    // truc.innerHTML = 'traitement...'
-
-    allVar['data'] = '';
-    allVar['head_data'] = new Array;
-    allVar['head_data']['in'] = '';
-    allVar['head_data']['out'] = '';
-
-    var unite_in = (allVar['file']['in']['type-coord'] == 'geog') ? allVar['file']['in']['geog-unite'] : "none";
-    var format = allVar['file']['in']['selection-formatage'];
-
-    addToData('t', allVar['file']['in']['type-coord']);
-    addToData('P', allVar['file']['in']['systeme-plani']);
-    addToData('T', ( /H/.test(format) ? "a" : "h"));
-
-    var A = allVar['file']['in']['systeme-alti']
-    if (/H/.test(format)) {
-      if (A == "false" || !A) return "&systeme-alti";
-      addToData('A', A);
-    }
-
-    if ( /E/.test(format)) addToData('p', allVar['file']['in']['projection']);
+    applyLoading('Traitement des données...');
 
     var variables = JSON.parse(reponse);
 
@@ -597,6 +631,9 @@ function collectData(reponse) {
       addToData(type, str);
 
     }
+
+    addToData("addMap", addMap);
+
     console.log(allVar['data']);
     sendDataToModel();
     return 'Success';
@@ -622,4 +659,41 @@ function download(data, filename, type) {
             window.URL.revokeObjectURL(url);
         }, 0);
     }
+}
+
+function applyLoading(message) {
+
+  showLoader("loader");
+  document.getElementById("loader-message").innerHTML = message;
+}
+
+function endLoading() {
+
+  var loaderFiltre = document.getElementById('loader-filtre');
+  loaderFiltre.style.visibility = "hidden";
+  loaderFiltre.style.opacity = 0;
+}
+
+function showError(message) {
+
+  showLoader("error");
+  document.getElementById('error-message').innerHTML = message;
+}
+
+function showLoader(loadOrError) {
+
+  document.getElementById('loader-content').style.visibility = (loadOrError == "loader") ? "visible" : "hidden";
+  document.getElementById('error-content').style.visibility = (loadOrError != "loader") ? "visible" : "hidden";
+
+  var loaderFiltre = document.getElementById('loader-filtre');
+  if (loaderFiltre.style.visibility != "visible") {
+    loaderFiltre.style.visibility = "visible";
+    loaderFiltre.style.opacity = 1;
+  }
+}
+
+function showMap() {
+
+  var popup = document.getElementById("popup");
+  popup.style.display = "none";
 }
