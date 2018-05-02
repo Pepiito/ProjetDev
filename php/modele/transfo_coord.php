@@ -390,19 +390,19 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
   }
 
   if ($type_coord_arr == 'cart') {
-    $echo = array('X' => $X_arr, 'Y' => $Y_arr, 'Z' => $Z_arr);
+    $echo = array('X' => round($X_arr, 8), 'Y' => round($Y_arr, 8), 'Z' => round($Z_arr, 8));
 
   } else if ($type_coord_arr == 'geog') {
       if ($type_alti_arr == 'h') {
-      $echo = array('lambda' => $lambda_arr, 'phi' => $phi_arr, 'h' => $h_arr);
+      $echo = array('lambda' => round($lambda_arr, 8), 'phi' => round($phi_arr, 8), 'h' => round($h_arr, 8));
     } else if ($type_alti_arr == 'a') {
-      $echo = array('lambda' => $lambda_arr, 'phi' => $phi_arr, 'H' => $H_arr);
+      $echo = array('lambda' => round($lambda_arr, 8), 'phi' => round($phi_arr, 8), 'H' => round($H_arr, 8));
     }
   } else if ($type_coord_arr == 'proj') {
     if ($type_alti_arr == 'h') {
-      $echo = array('E' => $E_arr, 'N' => $N_arr, 'h' => $h_arr);
+      $echo = array('E' => round($E_arr, 8), 'N' => round($N_arr, 8), 'h' => round($h_arr, 8));
     } else if ($type_alti_arr == 'a') {
-      $echo = array('E' => $E_arr, 'N' => $N_arr, 'H' => $H_arr);
+      $echo = array('E' => round($E_arr, 8), 'N' => round($N_arr, 8), 'H' => round($H_arr, 8));
     }
   }
 
