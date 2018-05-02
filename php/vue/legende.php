@@ -3,12 +3,31 @@
 	<form>
 	<div id="point_fixe_map">
 	<h3>
-       Liste des points fixes:</h3>
+       Liste des points:</h3>
 	   <p><u>Français</u></p>
-       
+       <p>Ne sont pas encore importés</p>
 	   <p><u>Suisse</u></p>
        <div style="height:25px;"><input type="checkbox" name="PFP1" id="PFP1_leg"/> <label for="PFP1">PFP1</label><img src="icon_map/PFP1.svg">  </div>
 	   <div style="height:25px;"><input type="checkbox" name="PFP2" id="PFA1_leg"/> <label for="PFA1">PFA1</label><img src="icon_map/PFA1.svg"></div>
+	   <?php
+	   if(isset($_SESSION['pseudo'])){
+		   echo '<p><u>Points de '.$_SESSION['pseudo'].'</u></p>';
+		   echo '<select id="maListe" onchange="changeProjection(this.value)">
+                    <option value="EPSG:4326">WGS84</option>
+					<optgroup label="Coordonnées Françaises projetées">
+					<option value="EPSG:2154">RGF93</option>
+					<option value="EPSG:27572">NTF</option>
+					</optgroup>
+					<optgroup label="Coordonnées Suisse projetées">
+                    <option value="EPSG:21781">CH1903</option>
+                    <option value="EPSG:2056">CH1903+</option>
+					</optgroup>
+                </select>';
+		   
+	   }
+
+		
+		?>
 	   
 	</div> 
 	<h3>
@@ -54,13 +73,13 @@
 	</form>
 	
             <p>projection :
-                <select id="maListe" onchange="changeprojection(this.value)">
+                <select id="maListe" onchange="changeProjection(this.value)">
                     <option value="EPSG:4326">WGS84</option>
-					<optgroup label="Français">
+					<optgroup label="Coordonnées Françaises projetées">
 					<option value="EPSG:2154">RGF93</option>
-					<option value="EPSG:4275">NTF</option>
+					<option value="EPSG:27572">NTF</option>
 					</optgroup>
-					<optgroup label="Suisse">
+					<optgroup label="Coordonnées Suisse projetées">
                     <option value="EPSG:21781">CH1903</option>
                     <option value="EPSG:2056">CH1903+</option>
 					</optgroup>
