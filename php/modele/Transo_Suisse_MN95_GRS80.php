@@ -1,4 +1,4 @@
-<?php
+<?php // HEIG
 
 # D�finition des calculs
 
