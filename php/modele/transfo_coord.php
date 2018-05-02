@@ -291,9 +291,9 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
       }
 
       // arrays de sortie
-      $X_arr['X'.$i] = round($array_cart[0], 8);
-      $Y_arr['Y'.$i] = round($array_cart[1], 8);
-      $Z_arr['Z'.$i] = round($array_cart[2], 8);
+      $X_arr['X'.$i] = round($array_cart[0], 4);
+      $Y_arr['Y'.$i] = round($array_cart[1], 4);
+      $Z_arr['Z'.$i] = round($array_cart[2], 4);
 
     } else if ($type_coord_arr == 'geog') {
       // passage des coordonnées cartesiennes ETRS89 vers les systèmes cartésiens voulu
@@ -317,22 +317,22 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
       $phi_arr['phi'.$i] = round($array_geog[1], 8);
 
       if ($type_alti_arr == 'h') {
-        $h_arr['h'.$i] = round($array_geog[2], 8);
+        $h_arr['h'.$i] = round($array_geog[2], 4);
 
       } else if ($type_alti_arr == 'a') {
         if (($type_plani_arr == 'RGF93' || $type_plani_arr == 'ETRS89') && $sys_alti_arr == 'IGN69') {
-          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]), 8);
+          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]), 4);
         } else if ($type_plani_arr == 'NTF' && $sys_alti_arr == 'IGN69') {
           $cst = alti_to_h(2.346199*pi()/180, 48.846211*pi()/180, 0);
-          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst, 8);
+          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst, 4);
         } else if (($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'RAN95') {
           list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
           list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
-          $H_arr['H'.$i] = round(Bessel_to_RAN95($E_MN03, $N_MN03, $array_geog[2]), 8);
+          $H_arr['H'.$i] = round(Bessel_to_RAN95($E_MN03, $N_MN03, $array_geog[2]), 4);
         } else if (($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'NF02') {
           list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
           list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
-          $H_arr['H'.$i] = round(Bessel_to_NF02($E_MN03, $N_MN03, $array_geog[2]), 8);
+          $H_arr['H'.$i] = round(Bessel_to_NF02($E_MN03, $N_MN03, $array_geog[2]), 4);
         }
       }
 
@@ -354,23 +354,23 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
       }
 
       if ($type_alti_arr == 'h') {
-        $h_arr['h'.$i] = round($array_geog[2], 8);
+        $h_arr['h'.$i] = round($array_geog[2], 4);
 
       } else if ($type_alti_arr == 'a' && $sys_alti_arr == 'IGN69') {
         if ($type_plani_arr == 'RGF93') {
-          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]), 8);
+          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]), 4);
         } else if ($type_plani_arr == 'NTF') {
           $cst = alti_to_h(2.346199*pi()/180, 48.846211*pi()/180, 0);
-          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst, 8);
+          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst, 4);
         }
       } else if ($type_alti_arr == 'a' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'RAN95') {
         list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
         list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
-        $H_arr['H'.$i] = round(Bessel_to_RAN95($E_MN03, $N_MN03, $array_geog[2]), 8);
+        $H_arr['H'.$i] = round(Bessel_to_RAN95($E_MN03, $N_MN03, $array_geog[2]), 4);
       } else if ($type_alti_arr == 'a' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'NF02') {
         list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
         list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
-        $H_arr['H'.$i] = round(Bessel_to_NF02($E_MN03, $N_MN03, $array_geog[2]), 8);
+        $H_arr['H'.$i] = round(Bessel_to_NF02($E_MN03, $N_MN03, $array_geog[2]), 4);
       }
 
       if ($type_plani_arr == 'NTF') {
@@ -383,8 +383,8 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
       } else if ($type_plani_arr == 'CH1903+' && $type_proj_arr == 'MN95') {
         $array_plani = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
       }
-      $E_arr['E'.$i] = round($array_plani[0], 8);
-      $N_arr['N'.$i] = round($array_plani[1], 8);
+      $E_arr['E'.$i] = round($array_plani[0], 4);
+      $N_arr['N'.$i] = round($array_plani[1], 4);
 
     }
   }
