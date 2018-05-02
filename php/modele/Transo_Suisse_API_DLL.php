@@ -1,4 +1,4 @@
-<?php
+<?php //HEIG
 function urlExists($url=NULL)  
 {  
     if($url == NULL) return false;  

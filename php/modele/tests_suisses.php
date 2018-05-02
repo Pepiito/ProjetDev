@@ -1,4 +1,4 @@
-<?php
+<?php //HEIG & ENSG
 include('variables_suisses.php');
 include('fonctions_suisses.php');
 include('Transo_Suisse_GRS80_MN95.php');
