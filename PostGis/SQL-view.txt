@@ -1,0 +1,5 @@
+DROP VIEW "PFA1"; 
+CREATE VIEW "PFA1" AS
+    SELECT *
+    FROM "Points_fixes"
+    WHERE "type" = 'PFA1';

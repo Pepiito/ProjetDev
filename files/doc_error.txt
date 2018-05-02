@@ -1,0 +1,16 @@
+100: Echec lors de l'ouverture du flux vers l'URL
+101: Unexpected Error
+110: Attribut de Ellipse invalide
+119: Localisation hors de l'emprise de la grille RAF09
+120: Localisation hors de l'emprise de la grille de transformation RGF93/NTF
+121: L'éllipsoïde demandé n'existe pas
+122: La projection conique demandée n'existe pas
+200: Erreur inconnue PHP
+202: variables en post de la requête ajax main.js -> get_file_content.php ne passe pas
+203: le fichier saisi par l'utilisateur est corrompu / illisible
+204: Erreur sur le format des données renseignés dans le fichier de l'utilisateur.
+210: Format d'une variable incompatible dans le fichier
+400: Coordonnées MN95 en dehors du perimiètre de transformation vers MN03
+401: Coordonnées MN03 en dehors du permiètre de transformation vers MN95
+402: Coordonnées en dehors du modèle de géoïde suisse (altimétrie suisse)
+450: Erreur API - Server is not not available right nowe

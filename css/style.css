@@ -1,0 +1,43 @@
+.corps {
+	display: flex;
+	margin: 0% 4% 0 4%;
+	height: 100%;
+}
+.legende{
+	width: 310px;
+}
+#map {
+	width: 100%;
+}
+h3, p{
+	margin-bottom:0;
+	margin-top:8px;
+}
+.button_transfo {
+	position: absolute;
+	top: 10px;
+	right:50px;
+	transition: .3s;
+}
+.button_tran {
+	width: 280px;
+	background-color: #4CAF50;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: .3s;
+}
+.button_tran:hover {
+	background-color: #45a049;
+}
+.school {
+	position: absolute;
+	bottom: 10px;
+	right:50px;
+}
+.legende p{
+	margin-top:2px;
+}

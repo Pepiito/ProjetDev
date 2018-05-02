@@ -1,0 +1,139 @@
+CREATE TABLE public."Points_fixes"
+(
+    id_pf bigserial,
+	num_pf text,
+    type text,
+    "X_ETRS89" numeric(50, 3),
+    "Y_ETRS89" numeric(50, 3),
+    "Z_ETRS89" numeric(50, 3),
+    "long_ETRS89" numeric(50, 6),
+    "lat_ETRS89" numeric(50, 6),
+    "h_ETRS89" numeric(50, 3),
+    "X_CH1903plus" numeric(50, 3),
+    "Y_CH1903plus" numeric(50, 3),
+    "Z_CH1903plus" numeric(50, 3),
+    "long_CH1903plus" numeric(50, 6),
+    "lat_CH1903plus" numeric(50, 6),
+    "h_CH1903plus" numeric(50, 3),
+    "E_CH1903plus" numeric(50, 3),
+    "N_CH1903plus" numeric(50, 3),
+    "E_CH1903" numeric(50, 3),
+    "N_CH1903" numeric(50, 3),
+    "alt_RAN95" numeric(50, 3),
+    "alt_NF02" numeric(50, 3),
+    "E_RGF" numeric(50, 3),
+    "N_RGF" numeric(50, 3),
+	"X_NTF" numeric(50, 3),
+    "Y_NTF" numeric(50, 3),
+    "Z_NTF" numeric(50, 3),
+    "long_NTF" numeric(50, 6),
+    "lat_NTF" numeric(50, 6),
+    "h_NTF" numeric(50, 3),
+    "E_NTF" numeric(50, 3),
+    "N_NTF" numeric(50, 3),
+    "num_NTF" bigint,
+    "alt_IGN69" numeric(50, 3),
+	geom geometry(POINT,4258),
+	
+    PRIMARY KEY (id_pf)
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public."Points_fixes"
+    OWNER to postgres;
+	
+___________________________________________________	
+CREATE TABLE public."Points_session"
+(
+    id_ptsess bigserial,
+	id_aleat bigint,
+	aleatoire text,
+	id_sess bigint,
+	num_pt text,
+    type text,
+    "X_ETRS89" numeric(50, 3),
+    "Y_ETRS89" numeric(50, 3),
+    "Z_ETRS89" numeric(50, 3),
+    "long_ETRS89" numeric(50, 6),
+    "lat_ETRS89" numeric(50, 6),
+    "h_ETRS89" numeric(50, 3),
+    "X_CH1903plus" numeric(50, 3),
+    "Y_CH1903plus" numeric(50, 3),
+    "Z_CH1903plus" numeric(50, 3),
+    "long_CH1903plus" numeric(50, 6),
+    "lat_CH1903plus" numeric(50, 6),
+    "h_CH1903plus" numeric(50, 3),
+    "E_CH1903plus" numeric(50, 3),
+    "N_CH1903plus" numeric(50, 3),
+    "E_CH1903" numeric(50, 3),
+    "N_CH1903" numeric(50, 3),
+    "alt_RAN95" numeric(50, 3),
+    "alt_NF02" numeric(50, 3),
+    "E_RGF" numeric(50, 3),
+    "N_RGF" numeric(50, 3),
+	"X_NTF" numeric(50, 3),
+    "Y_NTF" numeric(50, 3),
+    "Z_NTF" numeric(50, 3),
+    "long_NTF" numeric(50, 6),
+    "lat_NTF" numeric(50, 6),
+    "h_NTF" numeric(50, 3),
+    "E_NTF" numeric(50, 3),
+    "N_NTF" numeric(50, 3),
+    "num_NTF" bigint,
+    "alt_IGN69" numeric(50, 3),
+	geom geometry(POINT,4258),
+	
+    PRIMARY KEY (id_ptsess)
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public."Points_session"
+    OWNER to postgres;
+
+___________________________________________________
+CREATE TABLE public."session"
+(
+	id_sess bigserial,
+	pseudo text,
+	password text,
+	
+    PRIMARY KEY (id_sess)
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public."id_sess"
+    OWNER to postgres;
+	
+	
+___________________________________________________
+INSERT INTO public."Points_fixes"(
+	id_pf, num_pf, type, "X_ETRS89", "Y_ETRS89", "Z_ETRS89", "long_ETRS89", "lat_ETRS89", "h_ETRS89", "X_CH1903+", "Y_CH1903+", "Z_CH1903+", "long_CH1903+", "lat_CH1903+", "h_CH1903+", "E_CH1903+", "N_CH1903+", "E_CH1903", "N_CH1903", "alt_RAN95", "alt_NF02", "X_RGF", "Y_RGF", "Z_RGF", "long_RGF", "lat_RGF", "h_RGF", "E_RGF", "N_RGF", "X_NTF", "Y_NTF", "Z_NTF", "long_NTF", "lat_NTF", "h_NTF", "E_NTF", "N_NTF", "num_NTF", "alt_IGN69", geom)
+	VALUES (1, 2, PFA1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 2524669.624, 1194445.203, 524669.624, 194445.203, 914.65, 914.656, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, ST_Transform(ST_SetSRID(ST_Point(2524669.624, 1194445.203),2056),4258));
+	
+___________________________________________________
+ALTER TABLE "Points_fixes"
+DROP COLUMN "Y_RGF", DROP COLUMN "Z_RGF", DROP COLUMN "long_RGF", DROP COLUMN "lat_RGF", DROP COLUMN "h_RGF";
+
+____________________________________________________
+
+SELECT row_to_json(fc)
+ FROM ( SELECT 'FeatureCollection' As type, array_to_json(array_agg(f)) As features
+ FROM (SELECT 'Feature' As type
+    , ST_AsGeoJSON(lg.geom)::json As geometry
+    , row_to_json((SELECT l FROM (SELECT id_ptsess, "X_CH1903plus") As l
+      )) As properties
+   FROM "Points_session" As lg   ) As f )  As fc;
+   
+   
+SELECT jsonb_build_object(
+    'type',       'Feature',
+    'id',         id_ptsess,
+    'geometry',   ST_AsGeoJSON(geom)::jsonb,
+    'properties', to_jsonb(row) - 'geom'
+) FROM (SELECT * FROM "Points_session") row;
