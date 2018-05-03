@@ -1,17 +1,29 @@
 <?php
-	//HEIG-VD
+//HEIG-VD
+if (!isset($_SESSION)) session_start();
+	
 	//connection to postgis
 	include("connexion_postgis.php");
 	
-	$id_utilisateur=1;
-	$pt_session = pg_query($conn, 
-	"SELECT jsonb_build_object(
-		'type',       'Feature',
-		'id',         id_ptsess,
-		'geometry',   ST_AsGeoJSON(ST_Transform(geom,3857))::jsonb,
-		'properties', to_jsonb(row) - 'geom'
-	) FROM (SELECT * FROM \"Points_session\" WHERE id_ptsess=".$id_utilisateur." AND date_chantier=(SELECT max(date_chantier) FROM \"Points_session\")) row;");
-	
+	if(isset($_SESSION['pseudo'])){
+		$res = pg_query($conn, "SELECT id_sess FROM session WHERE pseudo='".$_SESSION['pseudo']."';");
+		$id_sess = pg_fetch_result($res,0,0);
+		$pt_session = pg_query($conn, 
+		"SELECT jsonb_build_object(
+			'type',       'Feature',
+			'id',         id_ptsess,
+			'geometry',   ST_AsGeoJSON(ST_Transform(geom,3857))::jsonb,
+			'properties', to_jsonb(row) - 'geom'
+		) FROM (SELECT * FROM \"Points_session\" WHERE id_sess=".$id_sess." AND date_chantier=(SELECT max(date_chantier) FROM \"Points_session\" WHERE id_sess=".$id_sess.")) row;");
+	}else{
+		$pt_session = pg_query($conn, 
+		"SELECT jsonb_build_object(
+			'type',       'Feature',
+			'id',         id_ptsess,
+			'geometry',   ST_AsGeoJSON(ST_Transform(geom,3857))::jsonb,
+			'properties', to_jsonb(row) - 'geom'
+		) FROM (SELECT * FROM \"Points_session\" WHERE id_aleat=".$_SESSION['id_aleat']." AND date_chantier=(SELECT max(date_chantier) FROM \"Points_session\" WHERE id_aleat=".$_SESSION['id_aleat'].")) row;");
+	}
 	function postgis_to_geojson($select_postgis){
 		$geojson='';
 		$nb=0;
