@@ -200,3 +200,85 @@ div#pop_body label.inline {
 .button_popup_calc:hover {
 	background-color: #EE1313;
 }
+
+#loader-filtre {
+  visibility: hidden;
+  opacity: 0;
+  transition: .5s;
+  position: fixed;
+  top: 0;bottom: 0;left: 0;right: 0;
+  z-index: 1000;
+  background-color: rgba(110,100,100,.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading {
+  transition: .5s;
+  position: fixed;
+  width: 700px;
+  min-height: 140px;
+  padding: 25px;
+  margin: 0;
+  box-shadow: 0 0 5px 20px #f5eeee;
+  background-color: #f5eeee;
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.3em;
+  font-family: sans-serif;
+}
+#loader-content {
+  border: 2px solid grey;
+}
+#error-content {
+  visibility: hidden;
+  border: 3px solid #cc0000;
+  overflow-y: scroll;
+  max-height: 80%;
+}
+
+#error-message {
+  color: rgba(240, 10, 10, .9);
+}
+#error-ok {
+  font-size: 0.8em;
+  color: rgba(200, 20, 10, .8);
+  text-decoration: underline;
+  transition: .3s;
+  cursor: pointer;
+}
+#error-ok:hover {
+  text-shadow: 1px 1px 3px rgba(200, 20, 10, .6);
+}
+
+#loader-message {
+  color: rgba(200, 20, 10, .8);
+}
+
+#loader-glissement {
+  position: relative;
+  left: -25px;
+}
+
+@keyframes chargement_glissement {
+  0%{transform: translate(-60px, 0px); box-shadow: 3px 3px 3px lightgrey; background: rgb(200, 20, 10);opacity: 0;}
+  10%{transform: scale(1); transform: translate(-54px, 0px);}
+  50%{opacity: 1}
+  90%{transform: scale(1); transform: translate(54px, 0px);}
+  100%{transform: translate(60px, 0px); box-shadow: 3px 3px 3px lightgrey; background: rgb(200, 20, 10);opacity: 0;}
+}
+
+#loader-glissement div{
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  animation: chargement_glissement 2s infinite linear;
+  border-radius: 100%;
+}
+#loader-glissement div:nth-child(2){animation-delay: 0.5s}
+#loader-glissement div:nth-child(3){animation-delay: 1s}
+#loader-glissement div:last-child{animation-delay: 1.5s}

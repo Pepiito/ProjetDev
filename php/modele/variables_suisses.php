@@ -1,4 +1,4 @@
-<?php
+<?php //HEIG
 #Variables pour controler les calculs
 
 $lambda=6.60472222;

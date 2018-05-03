@@ -1,6 +1,14 @@
-<?php if (!isset($_SESSION)) session_start(); ?>
+<?php if (!isset($_SESSION)) session_start();
 
-<?php
+/* Renvoie une chaine de caractère au format json.
+     L'ajax récupèrera le contenu intégral de ce qui est renvoyé,
+     au format "Error XXX: description" si erreur ou un json si ok.
+
+     Ce fichier sert de boite de réception / d'envoi de la couche modèle : ne pas le renommer.
+     Le contenu pourra être contenu dans des fichiers externes reliés par un include().
+     */
+
+
 include('cartesiennes.php');
 include('fonctions_fr.php');
 include('alti_fr.php');
@@ -13,11 +21,11 @@ include('Deviation_verticale.php');
 include('Transo_Suisse_GRS80_MN95.php');
 include('Transo_Suisse_MN95_GRS80.php');
 include('Transo_Suisse_API_DLL.php');
-?>
 
-<?php
+
+
 /*
-Le plan global est de recupérer les variables d'un certain type de coordonnées
+L'idée' est de recupérer les variables d'un certain type de coordonnées
 et de les transformer dans tous les types.
 On doit donc prévoir tous les cas de figure.
 */
@@ -283,9 +291,9 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
       }
 
       // arrays de sortie
-      $X_arr['X'.$i] = $array_cart[0];
-      $Y_arr['Y'.$i] = $array_cart[1];
-      $Z_arr['Z'.$i] = $array_cart[2];
+      $X_arr['X'.$i] = round($array_cart[0], 4);
+      $Y_arr['Y'.$i] = round($array_cart[1], 4);
+      $Z_arr['Z'.$i] = round($array_cart[2], 4);
 
     } else if ($type_coord_arr == 'geog') {
       // passage des coordonnées cartesiennes ETRS89 vers les systèmes cartésiens voulu
@@ -305,26 +313,26 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
       }
 
       // arrays de sortie
-      $lambda_arr['lambda'.$i] = $array_geog[0];
-      $phi_arr['phi'.$i] = $array_geog[1];
+      $lambda_arr['lambda'.$i] = round($array_geog[0], 8);
+      $phi_arr['phi'.$i] = round($array_geog[1], 8);
 
       if ($type_alti_arr == 'h') {
-        $h_arr['h'.$i] = $array_geog[2];
+        $h_arr['h'.$i] = round($array_geog[2], 4);
 
       } else if ($type_alti_arr == 'a') {
         if (($type_plani_arr == 'RGF93' || $type_plani_arr == 'ETRS89') && $sys_alti_arr == 'IGN69') {
-          $H_arr['H'.$i] = h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]);
+          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]), 4);
         } else if ($type_plani_arr == 'NTF' && $sys_alti_arr == 'IGN69') {
           $cst = alti_to_h(2.346199*pi()/180, 48.846211*pi()/180, 0);
-          $H_arr['H'.$i] = h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst;
+          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst, 4);
         } else if (($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'RAN95') {
           list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
           list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
-          $H_arr['H'.$i] = Bessel_to_RAN95($E_MN03, $N_MN03, $array_geog[2]);
+          $H_arr['H'.$i] = round(Bessel_to_RAN95($E_MN03, $N_MN03, $array_geog[2]), 4);
         } else if (($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'NF02') {
           list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
           list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
-          $H_arr['H'.$i] = Bessel_to_NF02($E_MN03, $N_MN03, $array_geog[2]);
+          $H_arr['H'.$i] = round(Bessel_to_NF02($E_MN03, $N_MN03, $array_geog[2]), 4);
         }
       }
 
@@ -346,23 +354,23 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
       }
 
       if ($type_alti_arr == 'h') {
-        $h_arr['h'.$i] = $array_geog[2];
+        $h_arr['h'.$i] = round($array_geog[2], 4);
 
       } else if ($type_alti_arr == 'a' && $sys_alti_arr == 'IGN69') {
         if ($type_plani_arr == 'RGF93') {
-          $H_arr['H'.$i] = h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]);
+          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]), 4);
         } else if ($type_plani_arr == 'NTF') {
           $cst = alti_to_h(2.346199*pi()/180, 48.846211*pi()/180, 0);
-          $H_arr['H'.$i] = h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst;
+          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst, 4);
         }
       } else if ($type_alti_arr == 'a' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'RAN95') {
         list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
         list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
-        $H_arr['H'.$i] = Bessel_to_RAN95($E_MN03, $N_MN03, $array_geog[2]);
+        $H_arr['H'.$i] = round(Bessel_to_RAN95($E_MN03, $N_MN03, $array_geog[2]), 4);
       } else if ($type_alti_arr == 'a' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'NF02') {
         list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
         list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
-        $H_arr['H'.$i] = Bessel_to_NF02($E_MN03, $N_MN03, $array_geog[2]);
+        $H_arr['H'.$i] = round(Bessel_to_NF02($E_MN03, $N_MN03, $array_geog[2]), 4);
       }
 
       if ($type_plani_arr == 'NTF') {
@@ -375,8 +383,8 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
       } else if ($type_plani_arr == 'CH1903+' && $type_proj_arr == 'MN95') {
         $array_plani = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
       }
-      $E_arr['E'.$i] = $array_plani[0];
-      $N_arr['N'.$i] = $array_plani[1];
+      $E_arr['E'.$i] = round($array_plani[0], 4);
+      $N_arr['N'.$i] = round($array_plani[1], 4);
 
     }
   }
@@ -441,15 +449,17 @@ foreach($coord as $cas_coord) {
     }
   }
 }
-?>
-
-<?php  /* Renvoie une chaine de caractère au format json.
-       L'ajax récupèrera le contenu intégral de ce qui est renvoyé,
-       au format "Error XXX: description" si erreur ou un json si ok.
-
-       Ce fichier sert de boite de réception / d'envoi de la couche modèle : ne pas le renommer.
-       Le contenu pourra être contenu dans des fichiers externes reliés par un include().
-       */
 
 echo json_encode($echo);
+
+if (isset($_POST['addMap'])) {
+  if (is_true($_POST['addMap'])) {
+    include("../vue/write_to_postgis.php");
+  }
+}
+
+function is_true($val, $return_null=false){
+    $boolval = ( is_string($val) ? filter_var($val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : (bool) $val );
+    return ( $boolval===null && !$return_null ? false : $boolval );
+}
 ?>
