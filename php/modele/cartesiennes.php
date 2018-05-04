@@ -79,7 +79,7 @@ function RGF_to_NTF($X, $Y, $Z) {
 
 
 /**
-* Fonction RGF_to_NTF
+* Fonction NTF_to_RGF
 *
 * Transforme des coordonnées cartésiennes NTF en coordonnées cartésiennes RGF à l'aide d'une grille de transformation
 * Les coordonnées sont entrées en mètres et sont données en mètres
@@ -125,6 +125,13 @@ function lecture_grille($geog) {
   $phi0 = floor($geog[1]*10)/10;
   $lambda1 = ceil($geog[0]*10)/10;
   $phi1 = ceil($geog[1]*10)/10;
+
+  if ($lambda0 == $lambda1){
+    $lambda1 += 0.1;
+  }
+  if ($phi0 == $phi1) {
+    $phi1 += 0.1;
+  }
 
   //lecture du contenu de la grille
   $grille = lecture_fichier("../../files/gr3df97a.txt");
