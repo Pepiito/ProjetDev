@@ -1,4 +1,4 @@
-<?php
+<?php//HEIG
 
 include('fonctions_suisses.php');
 include('Transo_Suisse_API_DLL.php');
