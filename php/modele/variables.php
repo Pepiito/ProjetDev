@@ -107,7 +107,7 @@ class Cone_CC  {
     $contenu = lecture_fichier("../../files/cone_CC.txt");
 
     if (($indice = strpos($contenu, $nom)) === FALSE) {
-      exit("Erreur 122: La projection conique demandée n'existe pas");
+      exit("Erreur 122: La projection demandée n'existe pas");
     } else {
       $contenureduit = substr($contenu, $indice);
       $sortieligne = strpos($contenureduit, "\n");
@@ -256,7 +256,7 @@ class Cone_Lambert  {
     $contenu = lecture_fichier("../../files/cone_Lambert.txt");
 
     if (($indice = strpos($contenu, $nom)) === FALSE) {
-      exit("Erreur 122: La projection conique demandée n'existe pas");
+      exit("Erreur 122: La projection demandée n'existe pas");
     } else {
       $contenureduit = substr($contenu, $indice);
       $sortieligne = strpos($contenureduit, "\n");
