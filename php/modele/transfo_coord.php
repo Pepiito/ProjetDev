@@ -416,7 +416,7 @@ $coord = array('cart', 'geog', 'proj');
 $plani = array('RGF93', 'NTF', 'ETRS89', 'CH1903+');
 $alti = array('a', 'h');
 $sys_alti = array('RGF93' => array('IGN69'), 'NTF' => array('IGN69'), 'ETRS89' => array(), 'CH1903+' => array('RAN95', 'NF02'), 'CH1903' => array('RAN95', 'NF02'));
-$proj = array('RGF93' => array('CC42', 'CC43', 'CC44', 'CC45', 'CC46', 'CC47', 'CC48', 'CC49', 'CC50', 'Lambert93'), 'NTF' => array('Lambert1', 'Lambert2', 'Lambert2etendu', 'Lambert3', 'Lambert4'), 'CH1903' => array('MN03'), 'CH1903+' => array('MN95'), 'ETRS89' => array());
+$proj = array('RGF93' => array('CC42', 'CC43', 'CC44', 'CC45', 'CC46', 'CC47', 'CC48', 'CC49', 'CC50', 'Lambert93'), 'NTF' => array('Lambert1', 'Lambert2', 'Lambert2etendu', 'Lambert3', 'Lambert4'), 'CH1903' => array('MN03', 'MN95'), 'CH1903+' => array('MN95', 'MN03'), 'ETRS89' => array());
 
 $echo = array('n' => $nom);
 
