@@ -29,17 +29,16 @@
   <legend>Système de départ</legend>
   <div style="display:flex;">
     <div>
+      <label for="systeme-plani-file-in">Systèmes</label>
+      <select id="systeme-plani-file-in" style="width:150px";>
+        <?php echo AfficheSystemesPlani(); ?>
+      </select>
+    </div>7<div>
       <label for="type-coord-file-in">Type de coordonnées</label>
       <select id="type-coord-file-in" style="margin-right:20px;">
         <option value="proj">Projetées</option>
         <option value="geog" selected>Géographiques</option>
         <option value="cart">Cartésiennes</option>
-      </select>
-    </div>
-    <div>
-      <label for="systeme-plani-file-in">Systèmes</label>
-      <select id="systeme-plani-file-in" style="width:150px";>
-        <?php echo AfficheSystemesPlani(); ?>
       </select>
     </div>
     <div class="proj-file-in">
@@ -71,17 +70,17 @@
   <legend>Système d'arrivée</legend>
   <div style="display:flex;">
     <div>
+      <label for="systeme-plani-file-out">Système</label>
+      <select id="systeme-plani-file-out" style="width:150px";>
+          <?php echo AfficheSystemesPlani(); ?>
+      </select>
+    </div>
+    <div>
       <label for="type-coord-file-out">Type de coordonnées</label>
       <select id="type-coord-file-out" style="margin-right:20px;">
         <option value="proj">Projetées</option>
         <option value="geog" selected>Géographiques</option>
         <option value="cart">Cartésiennes</option>
-      </select>
-    </div>
-    <div>
-      <label for="systeme-plani-file-out">Système</label>
-      <select id="systeme-plani-file-out" style="width:150px";>
-          <?php echo AfficheSystemesPlani(); ?>
       </select>
     </div>
     <div class="proj-file-out">
