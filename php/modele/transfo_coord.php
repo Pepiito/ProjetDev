@@ -30,7 +30,7 @@ et de les transformer dans tous les types.
 On doit donc prévoir tous les cas de figure.
 */
 
-$association_ellipse = array("NTF" => "Clarke_1880", "RGF93" => "IAG_GRS_1980", "ETRS89" => "IAG_GRS_1980", "CH1903" => "Bessel_1841", "CH1903+" => "Bessel_1841");
+$association_ellipse = array("NTF" => "Clarke_1880", "RGF93" => "IAG_GRS_1980", "ETRS89" => "IAG_GRS_1980", "CH1903" => "Bessel_1841", "CH1903 " => "Bessel_1841"); //en raison de l'encodage, le + devient " "
 
 // Récupère les variables AJAX dans la variable $_POST au format convenu
 // Le recapitulatif des appelations est dans le document /docs/formatage_transfert_donnees.docx
