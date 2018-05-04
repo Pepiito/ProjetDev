@@ -21,7 +21,9 @@
 .close {
     color: #aaaaaa;
     float: right;
-    font-size: 28px;
+    position: relative;
+    right: -20px; top: -20px;
+    font-size: 40px;
     font-weight: bold;
 }
 
@@ -143,10 +145,12 @@ div#pop_body label.inline {
 }
 
 #pop_body input[type="text"]:disabled {
-	background-color: rgb(220, 220, 200);
-  font-size: 1.05em;
-  width: 120px;
-  max-width: 120px;
+	background-color: rgb(240, 230, 230);
+  font-family: sans-serif;
+  font-weight: bold;
+  width: 100px;
+  max-width: 100px;
+  text-align: center;
 }
 
 #input-file-in {
@@ -214,6 +218,11 @@ div#pop_body label.inline {
   align-items: center;
 }
 
+.loader-close {
+  position: absolute;
+  top: -10px;right:-10px;
+}
+
 .loading {
   transition: .5s;
   position: fixed;
@@ -221,7 +230,7 @@ div#pop_body label.inline {
   min-height: 140px;
   padding: 25px;
   margin: 0;
-  box-shadow: 0 0 5px 20px #f5eeee;
+  box-shadow: 0 0 15px 35px #f5eeee;
   background-color: #f5eeee;
   border-radius: 3px;
   display: flex;
@@ -237,12 +246,13 @@ div#pop_body label.inline {
 #error-content {
   visibility: hidden;
   border: 3px solid #cc0000;
-  overflow-y: scroll;
   max-height: 80%;
 }
 
 #error-message {
   color: rgba(240, 10, 10, .9);
+  overflow-y: scroll;
+  max-height: 90%;
 }
 #error-ok {
   font-size: 0.8em;

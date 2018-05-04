@@ -10,14 +10,20 @@
           <div></div>
           <div></div>
 	     </div>
+			 <div class=loader-close>
+ 				<span class="close">&times;</span>
+ 			</div>
 		</div>
 		<div id=error-content class=loading>
 			<div id=error-message>
-				Message généré JS ifehogfdnj cmioh hezfdj sekhcsmjc sq^)d
+				Message généré JS
 			</div>
 			<div id=error-ok>
 				OK
 			</div>
+			<div class=loader-close>
+			 <span class="close">&times;</span>
+		 </div>
 		</div>
 	</div>
 	<center class="modal-content">
@@ -32,6 +38,12 @@
 					<legend>Système de départ:</legend>
 					<div style="display:flex;">
 						<div>
+							<label for="systeme-plani-point-in">Systèmes</label>
+							<select name="systeme-plani-point-in" id="systeme-plani-point-in" style="width:150px";>
+								<?php echo AfficheSystemesPlani(); ?>
+							</select>
+						</div>
+						<div>
 							<label for="type-coord-point-in">Type de coordonnées</label>
 							<select name="type-coord-point-in" id="type-coord-point-in" style="margin-right:20px;">
 							<option value="proj">Projetées</option>
@@ -39,10 +51,10 @@
 								<option value="cart">Cartésiennes</option>
 							</select>
 						</div>
-						<div>
-							<label for="systeme-plani-point-in">Systèmes</label>
-							<select name="systeme-plani-point-in" id="systeme-plani-point-in" style="width:150px";>
-								<?php echo AfficheSystemesPlani(); ?>
+						<div class="proj-point-in">
+							<label for=projection-point-in>Projection choisie</label>
+							<select id=projection-point-in>
+								<?php echo Afficheprojections('point', 'in'); ?>
 							</select>
 						</div>
 					</div>
@@ -61,19 +73,18 @@
 								<?php echo AfficheSystemesAlti('point', 'in'); ?>
 							</select>
 						</div>
-
-						<div class="proj-point-in">
-							<label for=projection-point-in>Projection choisie</label>
-							<select id=projection-point-in>
-								<?php echo Afficheprojections('point', 'in'); ?>
-							</select>
-						</div>
 					</div>
 					<?php echo AfficheCoord("in"); ?>
 				</fieldset>
 				<fieldset>
 					<legend>Système d'arrivée:</legend>
 					<div style="display:flex;">
+						<div>
+							<label for="systeme-plani-point-out">Système</label>
+							<select id="systeme-plani-point-out" style="width:150px";>
+								<?php echo AfficheSystemesPlani(); ?>
+							</select>
+						</div>
 						<div>
 							<label for="type-coord-point-out">Type de coordonnées</label>
 							<select name="type-coord-point-out" id="type-coord-point-out" style="margin-right:20px;">
@@ -82,10 +93,10 @@
 								<option value="cart">Cartésiennes</option>
 							</select>
 						</div>
-						<div>
-							<label for="systeme-plani-point-out">Système</label>
-							<select id="systeme-plani-point-out" style="width:150px";>
-								<?php echo AfficheSystemesPlani(); ?>
+						<div class="proj-point-out">
+							<label for="projecion-point-out">Projection choisie</label>
+							<select id=projection-point-out >
+								<?php echo Afficheprojections('point', 'out'); ?>
 							</select>
 						</div>
 					</div>
@@ -100,13 +111,6 @@
 							<label for="systeme-alti-point-out" class="systeme-alti-point-out proj-alti-point-out geog-alti-point-out">Système altimétrique</label>
 							<select id="systeme-alti-point-out" class="systeme-alti-point-out proj-alti-point-out geog-alti-point-out">
 								<?php echo AfficheSystemesAlti('point', 'out'); ?>
-							</select>
-						</div>
-
-						<div class="proj-point-out">
-							<label for="projecion-point-out">Projection choisie</label>
-							<select id=projection-point-out >
-								<?php echo Afficheprojections('point', 'out'); ?>
 							</select>
 						</div>
 					</div>
