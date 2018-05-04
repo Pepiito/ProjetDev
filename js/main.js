@@ -122,7 +122,10 @@ function receiveDataFromModel(reponse) {
       applyLoading("Téléchargement en cours...");
       download(fileContent, filename);
 
+
     }
+
+    endLoading();
   }
 
 }
@@ -133,8 +136,8 @@ function fillFile(_t, _P, _T, _A, _p, format, _u) {
 
   file_content = "";
   file_content += "#" + pad(pad("GEO FS", 46, "*", true), 99, "*") + "\r\n";
-//  file_content += "# Fichier réalisé grâce au service en ligne GEOFS retrouvable à l'adresse geofs.ign.fr . \r\n"+
-//                  "# Documentation en ligne : geofs.ign.fr/manual .\r\n";
+  file_content += "# Fichier réalisé grâce au service en ligne GEOFS retrouvable à l'adresse geofs.ensg.eu . \r\n"+
+                  "# Ce site a été réalisé dans le cadre d'un projet en partenariat entre l'ENSG Paris et HEIG Canton de Vaud (Suisse) .\r\n";
   file_content += "#\r\n# Coordonnées exprimées :\r\n#\r\n" ;
   file_content += createline(["Coordonnées :", explicite[_t]], 30, "# ") + "#\r\n";
   file_content += createline(["SYSTEME :", _P], 30, "# ") + "#\r\n";
@@ -143,7 +146,7 @@ function fillFile(_t, _P, _T, _A, _p, format, _u) {
     file_content += createline(["Coordonnées en  :", explicite[(_T ? "H" : "h")]], 30, "# ") + "#\r\n";
     if (_T) file_content += createline(["SYSTEME ALTIMETRIQUE :", _A], 30, "# ") + "#\r\n";
   }
-  file_content += "#" + pad("", 99, "-") + "#\r\n";
+  file_content += "#" + pad("", 99, "-") + "\r\n";
 
   coords = coordonnees[_t][_P];
 
@@ -339,7 +342,8 @@ function registerAllData() {
 
     if (input.type == "checkbox" | input.type == "radio") allVar[data][inout][id] = input.checked;
     else {
-      allVar[data][inout][id] = input.value || false;
+      var val = input.value
+      allVar[data][inout][id] = (val == "0") ? "0" : (val || false);
     }
   });
 
@@ -386,6 +390,8 @@ function validAndSetData(addMap) {
 
   addMap = addMap || false;
 
+  applyLoading("Chargement...");
+
   registerAllData();
 
   data = "point";
@@ -411,14 +417,14 @@ function validAndSetData(addMap) {
       T = 'a'
       var H = validateCoord(allVar[data]['in']['coord-' + t + '-altitude']);
       if (H) addToData('H', H);
-      else invalide_data += '&' + 'coord-' + t + '-altitude';
+      else invalide_data += '   Altitude [m]  ';
       addToData('A', allVar[data]['in']['systeme-alti']);
     }
     else {
       T = 'h'
       var h = validateCoord(allVar[data]['in']['coord-' + t + '-hauteur']);
       if (h) addToData('h', h);
-      else invalide_data += '&' + 'coord-' + t + '-hauteur';
+      else invalide_data += '   Hauteur [m]  ';
     }
     addToData('T', T);
   }
@@ -429,41 +435,41 @@ function validAndSetData(addMap) {
       case 'cart':
         var X = validateCoord(allVar[data]['in']['coord-cart-x']);
         if (X) addToData('X', X);
-        else invalide_data += '&' + 'coord-cart-x';
+        else invalide_data += '   X [m] ';
 
         var Y = validateCoord(allVar[data]['in']['coord-cart-y']);
         if (Y) addToData('Y', Y);
-        else invalide_data += '&' + 'coord-cart-y';
+        else invalide_data += '   Y [m] ';
 
         var Z = validateCoord(allVar[data]['in']['coord-cart-z']);
         if (Z) addToData('Z', Z);
-        else invalide_data += '&' + 'coord-cart-z';
+        else invalide_data += '   Z [m] ';
 
         break;
 
       case 'geog':
         var l = validateCoord(allVar[data]['in']['coord-geog-lng'], unite_in);
         if (l) addToData('l', l);
-        else invalide_data += '&' + 'coord-geog-lng';
+        else invalide_data += '   Longtiude  ';
 
         var f = validateCoord(allVar[data]['in']['coord-geog-lat'], unite_in);
         if (f) addToData('f', f);
-        else invalide_data += '&' + 'coord-geog-lat';
+        else invalide_data += '   Latitude  ';
 
         break;
 
       case 'proj':
         var p = allVar[data]['in']['projection'];
         if (p) addToData('p', p);
-        else invalide_data += '&' + 'projection';
+        else invalide_data += '    Projection  ';
 
         var E = validateCoord(allVar[data]['in']['coord-proj-est']);
         if (E) addToData('E', E);
-        else invalide_data += '&' + 'coord-proj-est';
+        else invalide_data += '   E [m]  ';
 
         var N = validateCoord(allVar[data]['in']['coord-proj-nord']);
         if (N) addToData('N', N);
-        else invalide_data += '&' + 'coord-proj-nord';
+        else invalide_data += '   N [m]  ';
 
         var c = validateCoord(allVar[data]['in']['coord-proj-eta']);
         var x = validateCoord(allVar[data]['in']['coord-proj-xi']);
@@ -497,11 +503,11 @@ function validateCoord(coord, unite) {
   unite = unite || 'none';
 
   // Traitement dms
-  if (coord == "0") return 0;
+  if (coord == "0") return "0";
   if (!coord) return false;
   coord = coord.replace(',', '.').replace('/\D[^\.]/', '') // Garde uniquement nombre et points
   if (isNaN(parseFloat(coord))) {
-    raiseError('600');
+    raiseError("Erreur 206: Le paramètre suivant n'est pas valide : ", coord);
     return false;
   }
 
@@ -529,11 +535,10 @@ function radToAngle(alpha, nb) {
 }
 
 function raiseError(code, complement) {
-  complement = complement || false;
+  complement = complement || "";
 
-  code = /Error/.test(code) ? code : 'Erreur : ' + code
-  showError(code + "<br>" + complement);
-  console.log(code + " " + complement);
+  code = /Err[euo]+r/.test(code) ? code : 'Erreur : ' + code
+  showError(code + "<br><center>" + complement + "</center>");
 
   return code;
 }
@@ -544,14 +549,13 @@ function getFileContent(file, addMap) {
 
   addMap = addMap || false;
 
-  addToData("addMap", addMap);
-
   allVar['data'] = '';
   allVar['head_data'] = new Array;
   allVar['head_data']['in'] = '';
   allVar['head_data']['out'] = '';
 
-  var unite_in = (allVar['file']['in']['type-coord'] == 'geog') ? allVar['file']['in']['geog-unite'] : "none";
+  addToData("addMap", addMap);
+
   var format = allVar['file']['in']['selection-formatage'];
 
   addToData('t', allVar['file']['in']['type-coord']);
@@ -606,9 +610,12 @@ function collectData(reponse) {
   }
   else {
 
-    applyLoading('Traitement des données...');
+    applyLoading('Traitement des données. Ceci peut prendre un moment...');
 
     var variables = JSON.parse(reponse);
+
+    var unite_in = (allVar['file']['in']['type-coord'] == 'geog') ? allVar['file']['in']['geog-unite'] : "none";
+
 
     for (type in variables) {
 
@@ -638,8 +645,6 @@ function collectData(reponse) {
 
     }
 
-    addToData("addMap", addMap);
-
     console.log(allVar['data']);
     sendDataToModel();
     return 'Success';
@@ -667,10 +672,21 @@ function download(data, filename, type) {
     }
 }
 
-function applyLoading(message) {
+async function applyLoading(message) {
 
   showLoader("loader");
   document.getElementById("loader-message").innerHTML = message;
+  await sleep(800);
+  return;
+}
+
+function sleep(ms) {
+  /*
+  Temporisation de la durée souhaité (ms).
+  Correctif de 4ms correspondant approximativement au temps d'éxécution propre
+  */
+
+  return new Promise(resolve => setTimeout(resolve, Math.max(1, ms-4)));
 }
 
 function endLoading() {

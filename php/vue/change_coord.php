@@ -10,14 +10,20 @@
           <div></div>
           <div></div>
 	     </div>
+			 <div class=loader-close>
+ 				<span class="close">&times;</span>
+ 			</div>
 		</div>
 		<div id=error-content class=loading>
 			<div id=error-message>
-				Message généré JS ifehogfdnj cmioh hezfdj sekhcsmjc sq^)d
+				Message généré JS
 			</div>
 			<div id=error-ok>
 				OK
 			</div>
+			<div class=loader-close>
+			 <span class="close">&times;</span>
+		 </div>
 		</div>
 	</div>
 	<center class="modal-content">

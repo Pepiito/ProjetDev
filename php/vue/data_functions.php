@@ -16,9 +16,8 @@ function Afficheprojections($type, $inout) {
     <option value=CC48 class='RGF93-$type-$inout'>CC48</option>
     <option value=CC49 class='RGF93-$type-$inout'>CC49</option>
     <option value=CC50 class='RGF93-$type-$inout'>CC50</option>
-    <option value=CC51 class='RGF93-$type-$inout'>CC51</option>
   </optgroup>
-  <optgroup label=Suisse class='CH1903+-$type-$inout ETRS89-$type-$inout'>
+  <optgroup label=Suisse class='CH1903+-$type-$inout ETRS89-$type-$inout CH1903-$type-$inout'>
     <option value=MN95 class='CH1903+-$type-$inout'>MN95</option>
     <option value=MN03 class='CH1903-$type-$inout'>MN03</option>
     <option value=false class='ETRS89-$type-$inout' disabled>Pas de projection</option>
@@ -70,7 +69,7 @@ function AfficheCoord($inout) {
     .
     addInput('proj', 'hauteur', 'Hauteur [m]', $inout, "proj-hauteur-point-".$inout)
     .
-    addInput('proj', 'altitude', 'Alitude [m]', $inout, "proj-alti-point-".$inout)
+    addInput('proj', 'altitude', 'Altitude [m]', $inout, "proj-alti-point-".$inout)
     . "
     <div class=proj-point-$inout>
       <label>Déviation de la véritcale &eta; - &xi;</label>
@@ -89,7 +88,7 @@ function AfficheCoord($inout) {
     .
     addInput('geog', 'hauteur', 'Hauteur [m]', $inout, "geog-hauteur-point-".$inout)
     .
-    addInput('geog', 'altitude', 'Alitude [m]', $inout, "geog-alti-point-".$inout)
+    addInput('geog', 'altitude', 'Altitude [m]', $inout, "geog-alti-point-".$inout)
     . "
     <div $hide class=geog-point-$inout>
       <label for=geog-unite-point-$inout>Unité</label>

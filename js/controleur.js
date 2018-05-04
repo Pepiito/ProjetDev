@@ -88,12 +88,11 @@ Ecouteurs
 
 document.getElementById('calcul-point').addEventListener('click', (event) => {
   var errordata = validAndSetData();
-  if (errordata != 'Success') console.log(errordata);
+  if (errordata != 'Success') raiseError("Erreur 205 : Les informations suivantes sont manquantes pour la compilation : ", errordata);
 }, false);
 
 document.getElementById('dl-file').addEventListener('click', (event) => {
-  var errordata = getFileContent();
-  if (errordata != 'Success') console.log(errordata);
+  getFileContent();
 }, false);
 
 document.getElementById('head_trans_coord').addEventListener('click', (event) => {
@@ -107,3 +106,7 @@ document.getElementById('head_trans_fichier').addEventListener('click', (event) 
 }, false);
 
 document.getElementById("error-ok").addEventListener('click', endLoading, false);
+
+Array.from(document.getElementById('loader-filtre').getElementsByClassName('close')).forEach (function (close) {
+  close.addEventListener('click', endLoading, false);
+});
