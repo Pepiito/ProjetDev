@@ -114,11 +114,8 @@ for ($i = 0; $i<$nb_pt;$i++){
 		
 	}
 }
-
+$echo['geojson_ptsess'] = $geojson_ptsess
 
 
 
 ?>
-<script type="text/javascript">
-var geojson_ptsess=<?php echo $geojson_ptsess; ?>;
-</script>
