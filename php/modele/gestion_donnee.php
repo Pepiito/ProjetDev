@@ -1,7 +1,7 @@
 <?php
 function traitement_vers_milieu($POST) {
   $association_ellipse = array("NTF" => "Clarke_1880", "RGF93" => "IAG_GRS_1980", "ETRS89" => "IAG_GRS_1980", "CH1903" => "Bessel_1841", "CH1903 " => "Bessel_1841"); //en raison de l'encodage, le + devient " "
-  
+
   // Récupère les variables AJAX dans la variable $POST au format convenu
   // Le recapitulatif des appelations est dans le document /docs/formatage_transfert_donnees.docx
   $type_coord_dep = $POST['t'];
@@ -79,7 +79,7 @@ function traitement_vers_milieu($POST) {
         if ($type_alti_dep == 'a' && $sys_alti_dep == 'IGN69') {
           $H0 = $H[$i];
           $cst = alti_to_h(48.846211*pi()/180, 2.346199*pi()/180, 0); //N croix du pantheon
-          $h0 = alti_to_h($lambda0, $phi0, $H0) + $cst;
+          $h0 = alti_to_h($lambda0, $phi0, $H0) - $cst;
         } else if ($type_alti_dep == 'h') {
           $h0 = $h[$i];
         }
@@ -159,7 +159,7 @@ function traitement_vers_milieu($POST) {
         if ($type_alti_dep == 'a' && $sys_alti_dep == 'IGN69') {
           $H0 = $H[$i];
           $cst = alti_to_h(48.846211*pi()/180, 2.346199*pi()/180, 0); //N croix du pantheon
-          $h0 = alti_to_h($lambda0, $phi0, $H0) + $cst;
+          $h0 = alti_to_h($lambda0, $phi0, $H0) - $cst;
         } else if ($type_alti_dep == 'h') {
           $h0 = $h[$i];
         }
@@ -285,7 +285,7 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
           $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]), 4);
         } else if ($type_plani_arr == 'NTF' && $sys_alti_arr == 'IGN69') {
           $cst = alti_to_h(2.346199*pi()/180, 48.846211*pi()/180, 0);
-          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst, 4);
+          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) + $cst, 4);
         } else if (($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'RAN95') {
           list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
           list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
@@ -322,7 +322,7 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
           $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]), 4);
         } else if ($type_plani_arr == 'NTF') {
           $cst = alti_to_h(2.346199*pi()/180, 48.846211*pi()/180, 0);
-          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) - $cst, 4);
+          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) + $cst, 4);
         }
       } else if ($type_alti_arr == 'a' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903+') && $sys_alti_arr == 'RAN95') {
         list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
