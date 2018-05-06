@@ -15,13 +15,13 @@
 			})
 		}),
 	});
-			
+
 
 
 	var wfsPFA1 = new ol.layer.Vector({
 		source: new ol.source.Vector({
 			features: (new ol.format.GeoJSON()).readFeatures(geojson_pfa1),
-			
+
 		}),
 		style: new ol.style.Style({
 			image: new ol.style.Icon({
@@ -41,12 +41,12 @@
 		}),
 	});
 
-//Variable de la popup			
+//Variable de la popup
 var container = document.getElementById('popup-map');
 var content = document.getElementById('popup-map-content');
 var closer = document.getElementById('popup-map-closer');
-	  
-	  
+
+
 var popup_map = new ol.Overlay(({
 	element: document.getElementById("popup-map"),
 	autoPan: true
@@ -56,7 +56,7 @@ closer.onclick = function() {
 	closer.blur();
 	return false;
 };
-	  
+
 var map = new ol.Map({
 	target: "map",
 
@@ -89,7 +89,7 @@ ol.proj.get("EPSG:21781");
 ol.proj.get("EPSG:2056");
 ol.proj.get("EPSG:2154");
 ol.proj.get("EPSG:4275");
-			
+
 //Ajouter à la carte les points fixes
 document.getElementById('point_fixe_map').addEventListener('click', (event) => {
 	console.log('points_to_map');
@@ -101,14 +101,14 @@ document.getElementById('point_fixe_map').addEventListener('click', (event) => {
 	if (document.getElementById('PFA1_leg').checked == true){
 	map.addLayer(wfsPFA1);
 	};
-	
+
 });
 map.addLayer(wfsPtSession);
 
 map.on('click', function(e) {
-              
+
               var features = map.getFeaturesAtPixel(e.pixel);
-			  
+
               if (features) {
 				console.log(features)
                 var coords = e.coordinate;
@@ -130,7 +130,7 @@ map.on('click', function(e) {
 				var E_NTF_2 = features[0].N.E_NTF_2;
 				var N_NTF_2 = features[0].N.N_NTF_2;
 
-				
+
 				var long_ETRS89 = features[0].N.long_ETRS89;
 				var lat_ETRS89 = features[0].N.lat_ETRS89;
 				var long_CH1903plus = features[0].N.long_CH1903plus;
@@ -139,7 +139,7 @@ map.on('click', function(e) {
 				var lat_RGF = features[0].N.lat_RGF;
 				var long_NTF = features[0].N.long_NTF;
 				var lat_NTF = features[0].N.lat_NTF;
-				
+
 				var X_ETRS89 = features[0].N.X_ETRS89;
 				var Y_ETRS89 = features[0].N.Y_ETRS89;
 				var Z_ETRS89 = features[0].N.Z_ETRS89;
@@ -152,14 +152,14 @@ map.on('click', function(e) {
 				var X_NTF = features[0].N.X_NTF;
 				var Y_NTF = features[0].N.Y_NTF;
 				var Z_NTF = features[0].N.Z_NTF;
-				
+
 				var alt_NF02 = features[0].N.alt_NF02;
 				var alt_RAN95 = features[0].N.alt_RAN95;
 				var alt_IGN69 = features[0].N.alt_IGN69;
-				
+
 				var hbessel_map = features[0].N.h_CH1903plus;
 				var hgrs80_map = features[0].N.h_ETRS89;
-				
+
 				var description = '<h4><u>Coordonnées du points '+num_pt+'</u></h4>';
 				if(document.getElementById('ch1903_proj_map').checked == true || document.getElementById('ch1903plus_proj_map').checked == true || document.getElementById('rgf_proj_map').checked == true || document.getElementById('ntf_proj_Etendu_map').checked == true || document.getElementById('rgf_proj_C46_map').checked == true || document.getElementById('rgf_proj_C47_map').checked == true || document.getElementById('rgf_proj_C48_map').checked == true || document.getElementById('ntf_proj_2_map').checked == true){
 					description+='<u>Coordonnées projetées [m]</u>';
@@ -187,7 +187,7 @@ map.on('click', function(e) {
 					if(document.getElementById('ntf_proj_2_map').checked == true){
 						description +='<p>NTF: ' + E_NTF_2 + ' / '+N_NTF_2 + '</p>';
 					};
-					
+
 				};
 				if(document.getElementById('etrs89_geog_map').checked == true || document.getElementById('ch1903_geog_map').checked == true || document.getElementById('ntf_geog_map').checked == true){
 					description+='<u>Coordonnées géographiques [degrés]</u>';
@@ -230,7 +230,7 @@ map.on('click', function(e) {
 					if(document.getElementById('ign69_map').checked == true){
 						description +='<p>IGN69: ' + alt_IGN69 + '</p>';
 					};
-					
+
 				};
 				if(document.getElementById('hgrs80_map').checked == true || document.getElementById('hbessel_map').checked == true){
 					description+='<u>Hauteur [m]</u>';
@@ -241,9 +241,9 @@ map.on('click', function(e) {
 						description +='<p>Ellipsoïde de GRS80: ' + hgrs80_map + '</p>';
 					};
 
-					
+
 				};
-				
+
                 content.innerHTML = description;
 				console.log(coords);
 				popup_map.setPosition(coords);
@@ -272,21 +272,26 @@ function changeProjection(code) {
 	mousePositionControl.setProjection(projection);
 	mousePositionControl.setCoordinateFormat(ol.coordinate.createStringXY(digit));
 }
-			
+
 var modal = document.getElementById('popup');
-var span = document.getElementsByClassName("close")[0];
+var span = document.getElementsByClassName("modal-content")[0].getElementsByClassName("close")[0];
 
 function Open_transfo() {
-	modal.style.display="flex";
+	modal.style.visibility="visible";
+	modal.style.opacity = 1;
+	modal.style.zIndex = 100;
 }
-span.onclick = function() {
-	modal.style.display = "none";
-}
+span.onclick = close_popup;
+
 function close_popup() {
-	modal.style.display = "none";
+	modal.style.visibility = "hidden";
+	modal.style.opacity = 0;
+	modal.style.zIndex = -10;
 }
 window.onclick = function(event) {
 	if (event.target == modal) {
-		modal.style.display = "none";
-	} 
+		close_popup();
+	}
 }
+
+document.getElementById("button_tran").addEventListener('click', Open_transfo, false);
