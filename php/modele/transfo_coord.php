@@ -31,7 +31,7 @@ On doit donc prévoir tous les cas de figure.
 */
 
 if (isset($_POST['addMap'])) {
-  $addmap = $_POST['addMap'];
+  $addmap = is_true($_POST['addMap']);
   if (is_true($_POST['addMap'])) {
     include("../vue/write_to_postgis.php");
   }
@@ -52,7 +52,7 @@ list($X_tmp, $Y_tmp, $Z_tmp) = traitement_vers_milieu($_POST);
 
 $echo = array('n' => $nom);
 
-if ($addmap == TRUE) {
+if ($addmap) {
   // Je fais des arrays pour tous les cas possibles
   $coord = array('cart', 'geog', 'proj');
   $plani = array('RGF93', 'NTF', 'ETRS89', 'CH1903+');
