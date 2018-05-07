@@ -350,9 +350,11 @@ function registerAllData() {
     }
     else {console.log(input.id + " non traité");return;}
 
-    if (input.tagName == "SELECT" & input.value == 'false'){
-      allVar[data][inout][id] = false;
-      return;
+    if (input.tagName == "SELECT"){
+      if (input.options[input.selectedIndex].value) {
+        allVar[data][inout][id] = false;
+        return;
+      }
     }
 
     if (input.type == "checkbox" | input.type == "radio") allVar[data][inout][id] = input.checked;
