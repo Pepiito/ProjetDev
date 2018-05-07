@@ -435,8 +435,13 @@ function validAndSetData(addMap) {
   var t = allVar[data]['in']['type-coord'];
   var T = allVar[data]['in']['type-alti-altitude'];
   var p = allVar[data]['in']['projection'];
+  var P = allVar[data]['in']['systeme-plani'];
 
-  set_tPTAp('t', t, 'P', allVar[data]['in']['systeme-plani'], 'T', T, 'A', allVar[data]['in']['systeme-alti'], 'p', p)
+  if (P == 'CH1903+') {
+    P = 'CH1903plus'
+  }
+
+  set_tPTAp('t', t, 'P', P, 'T', T, 'A', allVar[data]['in']['systeme-alti'], 'p', p)
 
   var unite_in = allVar[data]['in']['geog-unite'];
 

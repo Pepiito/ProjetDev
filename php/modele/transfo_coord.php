@@ -73,10 +73,10 @@ if ($type_coord_arr == 'proj') {
 if ($addmap) {
   // Je fais des arrays pour tous les cas possibles
   $coord = array('cart', 'geog', 'proj');
-  $plani = array('RGF93', 'NTF', 'ETRS89', 'CH1903 ');
+  $plani = array('RGF93', 'NTF', 'ETRS89', 'CH1903plus');
   $alti = array('a', 'h');
-  $sys_alti = array('RGF93' => array('IGN69'), 'NTF' => array('IGN69'), 'ETRS89' => array(), 'CH1903 ' => array('RAN95', 'NF02'), 'CH1903' => array('RAN95', 'NF02'));
-  $proj = array('RGF93' => array('CC42', 'CC43', 'CC44', 'CC45', 'CC46', 'CC47', 'CC48', 'CC49', 'CC50', 'Lambert93'), 'NTF' => array('Lambert1', 'Lambert2', 'Lambert2etendu', 'Lambert3', 'Lambert4'), 'CH1903' => array('MN03', 'MN95'), 'CH1903 ' => array('MN95', 'MN03'), 'ETRS89' => array());
+  $sys_alti = array('RGF93' => array('IGN69'), 'NTF' => array('IGN69'), 'ETRS89' => array(), 'CH1903plus' => array('RAN95', 'NF02'), 'CH1903' => array('RAN95', 'NF02'));
+  $proj = array('RGF93' => array('CC42', 'CC43', 'CC44', 'CC45', 'CC46', 'CC47', 'CC48', 'CC49', 'CC50', 'Lambert93'), 'NTF' => array('Lambert1', 'Lambert2', 'Lambert2etendu', 'Lambert3', 'Lambert4'), 'CH1903' => array('MN03', 'MN95'), 'CH1903plus' => array('MN95', 'MN03'), 'ETRS89' => array());
 
 
   foreach($coord as $cas_coord) {
@@ -134,10 +134,10 @@ if (isset($_POST['c']) && isset($_POST['x'])) {
   if ($_POST['c'] != 'false' && $_POST['x'] != 'false') {
     if ($type_coord_arr == 'proj' && ($type_plani_arr == 'RGF93' || $type_plani_arr == 'NTF')) {
       $mode = 'fr';
-    } else if ($type_coord_arr == 'proj' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903 ')) {
+    } else if ($type_coord_arr == 'proj' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903plus')) {
       $mode = 'ch';
     } else {
-
+      exit("Erreur 130: Les coordonnées d'entrée doivent être projetées");
     }
     for ($i=0; $i<$len; $i++) {
       $lambda = $echo['ETRS89']['geog']['h']['lambda']['lambda'.$i];
