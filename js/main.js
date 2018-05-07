@@ -438,7 +438,7 @@ function validAndSetData(addMap) {
   var P = allVar[data]['in']['systeme-plani'];
 
   if (P == 'CH1903+') {
-    P = 'CH1903plus'
+    P = 'CH1903plus';
   }
 
   set_tPTAp('t', t, 'P', P, 'T', T, 'A', allVar[data]['in']['systeme-alti'], 'p', p)
