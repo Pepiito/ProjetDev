@@ -39,7 +39,9 @@ if (isset($_POST['addMap'])) {
   $addmap = FALSE;
 }
 
-if (isset ($_POST['n'])) {
+list($X_tmp, $Y_tmp, $Z_tmp, $len) = traitement_vers_milieu($_POST);
+
+if (isset($_POST['n'])) {
   $nom = explode(';', $_POST['n']);
 } else {
   $nom = array();
@@ -47,8 +49,6 @@ if (isset ($_POST['n'])) {
     $nom['n'.$i] = 'point'.str_pad($i.'', 4, '0', STR_PAD_LEFT);
   }
 }
-
-list($X_tmp, $Y_tmp, $Z_tmp) = traitement_vers_milieu($_POST);
 
 $echo = array('n' => $nom);
 
@@ -125,6 +125,15 @@ if ($addmap) {
         $echo[$type_coord_arr][$type_plani_arr][$type_alti_arr] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_plani_arr, $type_alti_arr, $type_proj_arr, $sys_alti_arr);
       }
     }
+  }
+  $echo['ETRS89']['geog']['h'] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, 'ETRS89', 'geog', 'h', 0, 0);
+
+}
+
+if (isset($_POST['c']) && isset($_POST['x'])) {
+  if ($_POST['c'] != 'false' && $_POST['x'] != 'false') {
+
+    list($eta, $ksi, $zeta) = deviation_verticale($mode, $Bessel_lambda, $Bessel_phi, $GRS80_lambda, $GRS80_phi, $_POST['c'], $_POST['x'])
   }
 
 }

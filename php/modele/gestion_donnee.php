@@ -217,7 +217,7 @@ function traitement_vers_milieu($POST) {
     $Y_tmp[$i] = $Y0;
     $Z_tmp[$i] = $Z0;
   }
-  return array($X_tmp, $Y_tmp, $Z_tmp);
+  return array($X_tmp, $Y_tmp, $Z_tmp, $len);
 }
 
 function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_plani_arr, $type_alti_arr, $type_proj_arr, $sys_alti_arr) {
