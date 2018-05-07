@@ -139,7 +139,6 @@ function L_iso_inverse($L, $ellipse) {
 
   $phi0 = 2*atan(exp($L)) - pi()/2;
   $ecart = 1;
-  while($ecart>0.0000000001) {
     $phi1 = 2*atan(((1 + $e*sin($phi0))/(1 - $e*sin($phi0)))**($e/2)*exp($L)) - pi()/2;
     $ecart = abs($phi1 - $phi0);
     $phi0 = $phi1;

@@ -1,5 +1,6 @@
 <?php
 function traitement_vers_milieu($POST) {
+  include('variables_suisses.php');
   $association_ellipse = array("NTF" => "Clarke_1880", "RGF93" => "IAG_GRS_1980", "ETRS89" => "IAG_GRS_1980", "CH1903" => "Bessel_1841", "CH1903plus" => "Bessel_1841"); //en raison de l'encodage, le + devient " "
 
   // Récupère les variables AJAX dans la variable $POST au format convenu
@@ -188,7 +189,7 @@ function traitement_vers_milieu($POST) {
 
       // passage vers le système de coordonnées cartésiennes ETRS89
       if ($type_plani_dep == 'CH1903plus' || $type_plani_dep == 'CH1903') {
-        $array_cart = cartCH1903plus_to_cartETRS89($array_cart[0], $array_cart[1], $array_cart[2]);
+        $array_cart = cartCH1903plus_to_cartETRS89($array_cart[0], $array_cart[1], $array_cart[2], $Bessel_dx,$Bessel_dy,$Bessel_dz);
       } else if ($type_plani_dep == 'NTF') {
         $array_cart = NTF_to_RGF($array_cart[0], $array_cart[1], $array_cart[2]);
       }
@@ -202,7 +203,7 @@ function traitement_vers_milieu($POST) {
 
       // passage vers le système de coordonnées cartésiennes ETRS89
       if ($type_plani_dep == 'CH1903plus' || $type_plani_dep == 'CH1903') {
-        $array_cart = cartCH1903plus_to_cartETRS89($array_cart[0], $array_cart[1], $array_cart[2]);
+        $array_cart = cartCH1903plus_to_cartETRS89($array_cart[0], $array_cart[1], $array_cart[2], $Bessel_dx,$Bessel_dy,$Bessel_dz);
       } else if ($type_plani_dep == 'NTF') {
         $array_cart = NTF_to_RGF($X0, $Y0, $Z0);
       }
@@ -221,6 +222,7 @@ function traitement_vers_milieu($POST) {
 }
 
 function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_plani_arr, $type_alti_arr, $type_proj_arr, $sys_alti_arr) {
+  include('variables_suisses.php');
   $association_ellipse = array("NTF" => "Clarke_1880", "RGF93" => "IAG_GRS_1980", "ETRS89" => "IAG_GRS_1980", "CH1903" => "Bessel_1841", "CH1903plus" => "Bessel_1841");
   $len = count($X_tmp);
   include('variables_suisses.php');
