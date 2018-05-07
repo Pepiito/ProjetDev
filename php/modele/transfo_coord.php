@@ -52,13 +52,31 @@ if (isset($_POST['n'])) {
 
 $echo = array('n' => $nom);
 
+$type_coord_arr = $_POST['_t'];
+$type_plani_arr = $_POST['_P'];
+if (!($type_coord_arr == 'cart')) {
+  $type_alti_arr = $_POST['_T'];
+  if ($type_alti_arr == 'a') {
+    $sys_alti_arr = $_POST['_A'];
+  } else {
+    $sys_alti_arr = 0;
+  }
+} else {
+  $type_alti_arr = 0;
+}
+if ($type_coord_arr == 'proj') {
+  $type_proj_arr = $_POST['_p'];
+} else {
+  $type_proj_arr = 0;
+}
+
 if ($addmap) {
   // Je fais des arrays pour tous les cas possibles
   $coord = array('cart', 'geog', 'proj');
-  $plani = array('RGF93', 'NTF', 'ETRS89', 'CH1903+');
+  $plani = array('RGF93', 'NTF', 'ETRS89', 'CH1903plus');
   $alti = array('a', 'h');
-  $sys_alti = array('RGF93' => array('IGN69'), 'NTF' => array('IGN69'), 'ETRS89' => array(), 'CH1903+' => array('RAN95', 'NF02'), 'CH1903' => array('RAN95', 'NF02'));
-  $proj = array('RGF93' => array('CC42', 'CC43', 'CC44', 'CC45', 'CC46', 'CC47', 'CC48', 'CC49', 'CC50', 'Lambert93'), 'NTF' => array('Lambert1', 'Lambert2', 'Lambert2etendu', 'Lambert3', 'Lambert4'), 'CH1903' => array('MN03', 'MN95'), 'CH1903+' => array('MN95', 'MN03'), 'ETRS89' => array());
+  $sys_alti = array('RGF93' => array('IGN69'), 'NTF' => array('IGN69'), 'ETRS89' => array(), 'CH1903plus' => array('RAN95', 'NF02'), 'CH1903' => array('RAN95', 'NF02'));
+  $proj = array('RGF93' => array('CC42', 'CC43', 'CC44', 'CC45', 'CC46', 'CC47', 'CC48', 'CC49', 'CC50', 'Lambert93'), 'NTF' => array('Lambert1', 'Lambert2', 'Lambert2etendu', 'Lambert3', 'Lambert4'), 'CH1903' => array('MN03', 'MN95'), 'CH1903plus' => array('MN95', 'MN03'), 'ETRS89' => array());
 
 
   foreach($coord as $cas_coord) {
@@ -91,26 +109,8 @@ if ($addmap) {
     }
   }
 } else {
-  $type_coord_arr = $_POST['_t'];
-  $type_plani_arr = $_POST['_P'];
-  if (!($type_coord_arr == 'cart')) {
-    $type_alti_arr = $_POST['_T'];
-    if ($type_alti_arr == 'a') {
-      $sys_alti_arr = $_POST['_A'];
-    } else {
-      $sys_alti_arr = 0;
-    }
-  } else {
-    $type_alti_arr = 0;
-  }
-  if ($type_coord_arr == 'proj') {
-    $type_proj_arr = $_POST['_p'];
-  } else {
-    $type_proj_arr = 0;
-  }
-
   if ($type_coord_arr == 'cart') {
-    $echo[$type_coord_arr][$type_plani_arr] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_plani_arr, $type_alti_arr, $type_proj_arr, $sys_alti_arr);
+    $echo[$type_coord_arr][$type_plani_arr] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_plani_arr, $type_alti_arr, $type_proj_arr, 0);
   } else {
     if ($type_alti_arr == 'a') {
       if ($type_coord_arr == 'proj') {
@@ -126,14 +126,31 @@ if ($addmap) {
       }
     }
   }
-  $echo['ETRS89']['geog']['h'] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, 'ETRS89', 'geog', 'h', 0, 0);
+  $echo['ETRS89']['geog']['h'] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, 'geog', 'ETRS89', 'h', 0, 0);
 
 }
 
 if (isset($_POST['c']) && isset($_POST['x'])) {
   if ($_POST['c'] != 'false' && $_POST['x'] != 'false') {
-
-    list($eta, $ksi, $zeta) = deviation_verticale($mode, $Bessel_lambda, $Bessel_phi, $GRS80_lambda, $GRS80_phi, $_POST['c'], $_POST['x'])
+    if ($type_coord_arr == 'proj' && ($type_plani_arr == 'RGF93' || $type_plani_arr == 'NTF')) {
+      $mode = 'fr';
+    } else if ($type_coord_arr == 'proj' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903plus')) {
+      $mode = 'ch';
+    } else {
+      exit("Erreur 130: Les coordonnées d'entrée doivent être projetées");
+    }
+    for ($i=0; $i<$len; $i++) {
+      $lambda = $echo['ETRS89']['geog']['h']['lambda']['lambda'.$i];
+      $phi = $echo['ETRS89']['geog']['h']['phi']['phi'.$i];
+      list($eta, $ksi, $zeta) = deviation_verticale($mode, $Bessel_lambda, $Bessel_phi, $lambda, $phi, $_POST['c'], $_POST['x']);
+      if ($type_alti_arr == 'a') {
+        $echo[$type_coord_arr][$type_plani_arr][$type_proj_arr][$type_alti_arr][$sys_alti_arr]['eta']['eta'.$i] = $eta;
+        $echo[$type_coord_arr][$type_plani_arr][$type_proj_arr][$type_alti_arr][$sys_alti_arr]['ksi']['ksi'.$i] = $ksi;
+      } else if ($type_alti_arr == 'h') {
+        $echo[$type_coord_arr][$type_plani_arr][$type_proj_arr][$type_alti_arr]['eta']['eta'.$i] = $eta;
+        $echo[$type_coord_arr][$type_plani_arr][$type_proj_arr][$type_alti_arr]['ksi']['ksi'.$i] = $ksi;
+      }
+    }
   }
 
 }
