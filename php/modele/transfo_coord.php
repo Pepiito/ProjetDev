@@ -126,7 +126,7 @@ if ($addmap) {
       }
     }
   }
-  $echo['ETRS89']['geog']['h'] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, 'ETRS89', 'geog', 'h', 0, 0);
+  $echo['ETRS89']['geog']['h'] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, 'geog', 'ETRS89', 'h', 0, 0);
 
 }
 
