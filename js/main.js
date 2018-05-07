@@ -87,8 +87,8 @@ function receiveDataFromModel(reponse) {
           break;
         case 'geog':
           var c = T_out ? coordonnees[t_out][P_out]['a'][A_out] : coordonnees[t_out][P_out]['h'];
-          setCoordValue(t_out, 'lng', c['lambda']['lambda0']);
-          setCoordValue(t_out, 'lat', c['phi']['phi0']);
+          setCoordValue(t_out, 'lng', c['lambda']['lambda0'], unite_out);
+          setCoordValue(t_out, 'lat', c['phi']['phi0'], unite_out);
           T_out ? setCoordValue(t_out, 'altitude', c['H']['H0']) : setCoordValue(t_out, 'hauteur', c['h']['h0']);
 
           break;
@@ -115,7 +115,8 @@ function receiveDataFromModel(reponse) {
       applyLoading("Ecriture du fichier...");
 
       var fileContent = fillFile(t_out, P_out, T_out, A_out, p_out, format_out, unite_out);
-      var filename = allVar['file']['out']['nom-export'] || "coordonnees_" + P_out + "_" + T_out + ".txt";
+      var extension = allVar['file']['out']['extension'];
+      var filename = allVar['file']['out']['nom-export'] + "." + extension || "coordonnees_" + P_out + "_" + T_out + "." + extension;
 
       if (!/\.\w+$/.test(filename)) raiseError("Nom de fichier en sortie non valide. Vérifiez l'extension");
 
@@ -126,6 +127,11 @@ function receiveDataFromModel(reponse) {
     }
 
     endLoading();
+
+    if (coordonnees['geojson_ptsess']) { // cas add map
+      var geojson_ptsess = coordonnees['geojson_ptsess']
+      close_popup();
+    }
   }
 
 }
@@ -221,30 +227,40 @@ function setCoordValue(type, coord, value, unite) {
 }
 
 
-function modify(htmlCollection, display, select) {
+function modify(htmlCollection, display) {
   if (htmlCollection instanceof HTMLCollection) { // liste d'élement
-    first = true;
+  var first = true;
+  var id_select = "";
     Array.from(htmlCollection).forEach( function(htmlelement) {
-      if (select & first) {
-        if (htmlelement.tagName == 'OPTION') {
+      if (htmlelement.tagName == 'OPTION') {
+        if (htmlelement.parentNode.parentNode.id != id_select) {
+          first = true;
+          id_select = htmlelement.parentNode.parentNode.id;
+        }
+        htmlelement.disabled = !display;
+        if (display && first) {
           htmlelement.selected = true;
           first = false;
         }
+        else htmlelement.selected = false;
       }
-      else if (!select) htmlelement.selected = false;
-      htmlelement.style = "display:"+display;
+      else htmlelement.style = "display:" + (display ? "block" : "none !important");
     });
   }
   else { // unique element
-    htmlCollection.style = "display:"+display;
-    htmlCollection.selected = select;
+    if (htmlCollection.tagName == 'OPTION') {
+      htmlCollection.disabled = !display;
+      htmlelement.selected = true;
+    }
+    else htmlCollection.style = "display:" + (display ? "block" : "none !important");
   }
 }
+
 function enable(htmlCollection) {
-  modify(htmlCollection, "block", true);
+  modify(htmlCollection, true);
 }
 function disable(htmlCollection) {
-  modify(htmlCollection, "none !important", false);
+  modify(htmlCollection, false);
 }
 
 function adaptDisplay(array, toDisplay, data, inout) {
@@ -386,6 +402,18 @@ function toggleHead(side) {
     document.getElementById('head_' + toShow).style.borderWidth = border;
   }
 
+function set_tPTAp(str_t, t, str_P, P, str_T, T, str_A, A, str_p, p) {
+
+  addToData(str_t, t);
+  addToData(str_P, P);
+  if (t == 'proj') addToData(str_p, p);
+
+  if ((t == 'proj') | (t == 'geog')) {
+    addToData(str_T, T ? 'a' : 'h');
+    if (T) addToData(str_A, A);
+  }
+}
+
 function validAndSetData(addMap) {
 
   addMap = addMap || false;
@@ -405,28 +433,25 @@ function validAndSetData(addMap) {
 
   // Pour la dénomination des variables, se référer à la doc docs/formatages_transfert_donnees.docx
   var t = allVar[data]['in']['type-coord'];
+  var T = allVar[data]['in']['type-alti-altitude'];
+  var p = allVar[data]['in']['projection'];
 
-  addToData('t', t);
-  addToData('P', allVar[data]['in']['systeme-plani']);
+  set_tPTAp('t', t, 'P', allVar[data]['in']['systeme-plani'], 'T', T, 'A', allVar[data]['in']['systeme-alti'], 'p', p)
 
   var unite_in = allVar[data]['in']['geog-unite'];
 
   if ((t == 'proj') | (t == 'geog')) {
     var T = allVar[data]['in']['type-alti-altitude'];
     if (T) {
-      T = 'a'
       var H = validateCoord(allVar[data]['in']['coord-' + t + '-altitude']);
       if (H) addToData('H', H);
       else invalide_data += '   Altitude [m]  ';
-      addToData('A', allVar[data]['in']['systeme-alti']);
     }
     else {
-      T = 'h'
       var h = validateCoord(allVar[data]['in']['coord-' + t + '-hauteur']);
       if (h) addToData('h', h);
       else invalide_data += '   Hauteur [m]  ';
     }
-    addToData('T', T);
   }
 
   if (data == 'point') {
@@ -459,9 +484,6 @@ function validAndSetData(addMap) {
         break;
 
       case 'proj':
-        var p = allVar[data]['in']['projection'];
-        if (p) addToData('p', p);
-        else invalide_data += '    Projection  ';
 
         var E = validateCoord(allVar[data]['in']['coord-proj-est']);
         if (E) addToData('E', E);
@@ -482,10 +504,13 @@ function validAndSetData(addMap) {
         break;
     }
 
-    var _t = allVar[data]['out']['type-coord'];
+    var _t = allVar[data]['out']['type-coord'],
+    _P = allVar[data]['out']['systeme-plani'],
+    _T = allVar[data]['out']['type-alti-altitude'],
+    _A = allVar[data]['out']['systeme-alti'],
+    _p = allVar[data]['out']['projection']
 
-    addToData('_t', _t);
-    addToData('_P', allVar[data]['out']['systeme-plani']);
+    set_tPTAp('_t', _t, '_P', _P, '_T', _T, '_A', _A, '_p', p)
 
   }
 
@@ -523,7 +548,7 @@ function angleToRad(alpha, nb) {
     if (alpha < 0) alpha += nb;
     else if (alpha >= nb) alpha -= nb;
   }
-  return alpha*2*Math.PI/nb;
+  return precisionRound(alpha*2*Math.PI/nb, 9);
 }
 
 function radToAngle(alpha, nb) {
@@ -531,7 +556,12 @@ function radToAngle(alpha, nb) {
   if (nb == "deg") nb = 360;
   else if (nb == "grad") nb = 400;
   else if (nb == "rad") return alpha;
-  return alpha*nb/(2*Math.PI);
+  return precisionRound(alpha*nb/(2*Math.PI), 9);
+}
+
+function precisionRound(number, precision) {
+  var factor = Math.pow(10, precision);
+  return Math.round(number * factor) / factor;
 }
 
 function raiseError(code, complement) {
@@ -547,6 +577,7 @@ function getFileContent(file, addMap) {
 
   registerAllData();
 
+  file = file || document.getElementById("input-file-in").files[0];
   addMap = addMap || false;
 
   allVar['data'] = '';
@@ -574,8 +605,6 @@ function getFileContent(file, addMap) {
 
 
 
-
-  file = file || document.getElementById("input-file-in").files[0];
 
   var separateur = allVar['file']['in']['separateur'];
   var start = allVar['file']['in']['ligne-start'];
@@ -655,16 +684,21 @@ function collectData(reponse) {
 function download(data, filename, type) {
 
     type = type || "text/plain";
+
     var file = new Blob([data], {type: type});
+
     if (window.navigator.msSaveOrOpenBlob) // IE10+
         window.navigator.msSaveOrOpenBlob(file, filename);
     else { // Others
-        var a = document.createElement("a"),
-                url = URL.createObjectURL(file);
+
+        var a = document.createElement("a");
+        var url = URL.createObjectURL(file);
+
         a.href = url;
         a.download = filename;
         document.body.appendChild(a);
         a.click();
+
         setTimeout(function() {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
@@ -714,10 +748,4 @@ function showLoader(loadOrError) {
     loaderFiltre.style.opacity = 1;
     loaderFiltre.style.zIndex = 1000;
   }
-}
-
-function showMap() {
-
-  var popup = document.getElementById("popup");
-  popup.style.display = "none";
 }

@@ -103,7 +103,7 @@ if ($addmap) {
   } else {
     $type_alti_arr = 0;
   }
-  if ($type_coord_dep == 'proj') {
+  if ($type_coord_arr == 'proj') {
     $type_proj_arr = $_POST['_p'];
   } else {
     $type_proj_arr = 0;
@@ -116,7 +116,7 @@ if ($addmap) {
       if ($type_coord_arr == 'proj') {
         $echo[$type_coord_arr][$type_plani_arr][$type_proj_arr][$type_alti_arr][$sys_alti_arr] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_plani_arr, $type_alti_arr, $type_proj_arr, $sys_alti_arr);
       } else {
-        $echo[$type_coord_arr][$type_plani_arr][$type_alti_arr][$type_sys_arr] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_plani_arr, $type_alti_arr, $type_proj_arr, $sys_alti_arr);
+        $echo[$type_coord_arr][$type_plani_arr][$type_alti_arr][$sys_alti_arr] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_plani_arr, $type_alti_arr, $type_proj_arr, $sys_alti_arr);
       }
     } else {
       if ($type_coord_arr == 'proj') {

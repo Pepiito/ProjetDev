@@ -1,14 +1,14 @@
 <?php //HEIG
-function urlExists($url=NULL)  
-{  
-    if($url == NULL) return false;  
-    $ch = curl_init($url);  
-    curl_setopt($ch, CURLOPT_TIMEOUT, 5);  
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);  
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  
-    $data = curl_exec($ch);  
-    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);  
-    curl_close($ch);  
+function urlExists($url=NULL)
+{
+    if($url == NULL) return false;
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $data = curl_exec($ch);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
     return($httpcode>=200 && $httpcode<300);
 }
 
@@ -40,7 +40,7 @@ function testTransfoPlani_MN03_to_MN95($e, $n, $e2, $n2){
 
 function MN95_to_MN03($E_MN95, $N_MN95){
 	$url = 'http://geodesy.geo.admin.ch/reframe/lv95tolv03?easting='.$E_MN95.'&northing='.$N_MN95.'&format=json';
-	
+
     if(urlExists($url)){
         $json = file_get_contents($url);
         $json_dec=json_decode($json, true);
@@ -54,7 +54,7 @@ function MN95_to_MN03($E_MN95, $N_MN95){
                 exit;
 		}
 	}else{
-		echo 'Erreur 450: Erreur API - Server is not not available right nowe';
+		echo 'Erreur 450: Erreur API - Votre connexion internet est peut-être trop lente';
         exit;
 	}
 }
@@ -64,7 +64,7 @@ function MN95_to_MN03($E_MN95, $N_MN95){
 function MN03_to_MN95($E_MN03, $N_MN03){
 	$url = 'http://geodesy.geo.admin.ch/reframe/lv03tolv95?easting='.$E_MN03.'&northing='.$N_MN03.'&format=json';
 
-	if(urlExists($url)){	
+	if(urlExists($url)){
         $json = file_get_contents($url);
         $json_dec=json_decode($json, true);
         if(isset($json_dec['easting'])){
@@ -77,7 +77,7 @@ function MN03_to_MN95($E_MN03, $N_MN03){
             exit;
 		}
 	}else{
-		echo 'Erreur 450: Erreur API - Server is not not available right nowe';
+		echo 'Erreur 450: Erreur API - Votre connexion internet est peut-être trop lente';
         exit;
 	}
 }
@@ -100,7 +100,7 @@ function NF02_to_RAN95($E_MN03, $N_MN03, $H_NF02){
             exit;
 		}
 	}else{
-		echo 'Erreur 450: Erreur API - Server is not not available right nowe';
+		echo 'Erreur 450: Erreur API - Votre connexion internet est peut-être trop lente';
         exit;
 	}
 }
@@ -112,7 +112,7 @@ function NF02_to_RAN95($E_MN03, $N_MN03, $H_NF02){
 
 function RAN95_to_NF02($E_MN03, $N_MN03, $H_RAN95){
 	$url = 'http://geodesy.geo.admin.ch/reframe/lhn95toln02?easting='.$E_MN03.'&northing='.$N_MN03.'&altitude='.$H_RAN95.'&format=json';
-    
+
     if(urlExists($url)){
         $json = file_get_contents($url);
         $json_dec=json_decode($json, true);
@@ -134,7 +134,7 @@ function RAN95_to_NF02($E_MN03, $N_MN03, $H_RAN95){
 
 function RAN95_to_Bessel($E_MN03, $N_MN03, $H_RAN95){
 	$url = 'http://geodesy.geo.admin.ch/reframe/lhn95tobessel?easting='.$E_MN03.'&northing='.$N_MN03.'&altitude='.$H_RAN95.'&format=json';
-    
+
     if(urlExists($url)){
         $json = file_get_contents($url);
         $json_dec=json_decode($json, true);
@@ -146,7 +146,7 @@ function RAN95_to_Bessel($E_MN03, $N_MN03, $H_RAN95){
             exit;
 		}
 	}else{
-		echo 'Erreur 450: Erreur API - Server is not not available right nowe';
+		echo 'Erreur 450: Erreur API - Votre connexion internet est peut-être trop lente';
         exit;
 	}
 }
@@ -156,7 +156,7 @@ function RAN95_to_Bessel($E_MN03, $N_MN03, $H_RAN95){
 
 function Bessel_to_RAN95($E_MN03, $N_MN03, $H_bessel){
 	$url = 'http://geodesy.geo.admin.ch/reframe/besseltolhn95?easting='.$E_MN03.'&northing='.$N_MN03.'&altitude='.$H_bessel.'&format=json';
-    
+
     if(urlExists($url)){
         $json = file_get_contents($url);
         $json_dec=json_decode($json, true);
@@ -168,7 +168,7 @@ function Bessel_to_RAN95($E_MN03, $N_MN03, $H_bessel){
             exit;
 		}
 	}else{
-		echo 'Erreur 450: Erreur API - Server is not not available right nowe';
+		echo 'Erreur 450: Erreur API - Votre connexion internet est peut-être trop lente';
         exit;
 	}
 }
@@ -178,7 +178,7 @@ function Bessel_to_RAN95($E_MN03, $N_MN03, $H_bessel){
 
 function NF02_to_Bessel($E_MN03, $N_MN03, $H_NF02){
 	$url = 'http://geodesy.geo.admin.ch/reframe/ln02tobessel?easting='.$E_MN03.'&northing='.$N_MN03.'&altitude='.$H_NF02.'&format=json';
-    
+
     if(urlExists($url)){
         $json = file_get_contents($url);
         $json_dec=json_decode($json, true);
@@ -190,7 +190,7 @@ function NF02_to_Bessel($E_MN03, $N_MN03, $H_NF02){
             exit;
 		}
 	}else{
-		echo 'Erreur 450: Erreur API - Server is not not available right nowe';
+		echo 'Erreur 450: Erreur API - Votre connexion internet est peut-être trop lente';
         exit;
 	}
 }
@@ -200,7 +200,7 @@ function NF02_to_Bessel($E_MN03, $N_MN03, $H_NF02){
 
 function Bessel_to_NF02($E_MN03, $N_MN03, $H_bessel){
 	$url = 'http://geodesy.geo.admin.ch/reframe/besseltoln02?easting='.$E_MN03.'&northing='.$N_MN03.'&altitude='.$H_bessel.'&format=json';
-    
+
     if(urlExists($url)){
         $json = file_get_contents($url);
         $json_dec=json_decode($json, true);
@@ -212,7 +212,7 @@ function Bessel_to_NF02($E_MN03, $N_MN03, $H_bessel){
             exit;
 		}
 	}else{
-		echo 'Erreur 450: Erreur API - Server is not not available right nowe';
+		echo 'Erreur 450: Erreur API - Votre connexion internet est peut-être trop lente';
         exit;
 	}
 }
