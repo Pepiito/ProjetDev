@@ -133,7 +133,7 @@ if ($addmap) {
 if (isset($_POST['c']) && isset($_POST['x'])) {
   if ($_POST['c'] != 'false' && $_POST['x'] != 'false') {
 
-    list($eta, $ksi, $zeta) = deviation_verticale($mode, $Bessel_lambda, $Bessel_phi, $GRS80_lambda, $GRS80_phi, $_POST['c'], $_POST['x'])
+    list($eta, $ksi, $zeta) = deviation_verticale($mode, $Bessel_lambda, $Bessel_phi, $GRS80_lambda, $GRS80_phi, $_POST['c'], $_POST['x']);
   }
 
 }
