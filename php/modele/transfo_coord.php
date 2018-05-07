@@ -110,7 +110,7 @@ if ($addmap) {
   }
 } else {
   if ($type_coord_arr == 'cart') {
-    $echo[$type_coord_arr][$type_plani_arr] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_plani_arr, $type_alti_arr, $type_proj_arr, $sys_alti_arr);
+    $echo[$type_coord_arr][$type_plani_arr] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_plani_arr, $type_alti_arr, $type_proj_arr, 0);
   } else {
     if ($type_alti_arr == 'a') {
       if ($type_coord_arr == 'proj') {
