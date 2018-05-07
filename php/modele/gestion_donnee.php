@@ -274,8 +274,8 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
       }
 
       // arrays de sortie
-      $lambda_arr['lambda'.$i] = round($array_geog[0], 8);
-      $phi_arr['phi'.$i] = round($array_geog[1], 8);
+      $lambda_arr['lambda'.$i] = $array_geog[0];
+      $phi_arr['phi'.$i] = $array_geog[1];
 
       if ($type_alti_arr == 'h') {
         $h_arr['h'.$i] = round($array_geog[2], 4);
