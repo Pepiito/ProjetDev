@@ -103,7 +103,7 @@ if ($addmap) {
   } else {
     $type_alti_arr = 0;
   }
-  if ($type_coord_dep == 'proj') {
+  if ($type_coord_arr == 'proj') {
     $type_proj_arr = $_POST['_p'];
   } else {
     $type_proj_arr = 0;
