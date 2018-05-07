@@ -29,7 +29,7 @@ include("./php/vue/postgis_to_geojson.php");
 	</div>
 
 	<div>
-	<div class="button_transfo"><input class="button_tran" type="submit" onclick="Open_transfo()" value="Changement de coordonnées"/></div>
+	<div class="button_transfo"><input class="button_tran" id="button_tran" type="submit" value="Changement de coordonnées"/></div>
 	<div class="school"><img src="images/ensg-heig.png" width="350" height="81"/></div>
 	</div>
 	</div>

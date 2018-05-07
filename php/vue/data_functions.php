@@ -1,26 +1,28 @@
 <?php
 function Afficheprojections($type, $inout) {
-  return "<optgroup label=France class='NTF-$type-$inout RGF93-$type-$inout'>
-    <option value=Lambert1 class='NTF-$type-$inout'>Lambert 1</option>
-    <option value=Lambert2 class='NTF-$type-$inout'>Lambert 2</option>
-    <option value=Lambert3 class='NTF-$type-$inout'>Lambert 3</option>
-    <option value=Lambert4 class='NTF-$type-$inout'>Lambert 4</option>
-    <option value=Lambert2etendu class='NTF-$type-$inout'>Lambert 2 étendu</option>
-    <option value=Lambert93 class='RGF93-$type-$inout' selected>Lambert 93</option>
-    <option value=CC42 class='RGF93-$type-$inout'>CC42</option>
-    <option value=CC43 class='RGF93-$type-$inout'>CC43</option>
-    <option value=CC44 class='RGF93-$type-$inout'>CC44</option>
-    <option value=CC45 class='RGF93-$type-$inout'>CC45</option>
-    <option value=CC46 class='RGF93-$type-$inout'>CC46</option>
-    <option value=CC47 class='RGF93-$type-$inout'>CC47</option>
-    <option value=CC48 class='RGF93-$type-$inout'>CC48</option>
-    <option value=CC49 class='RGF93-$type-$inout'>CC49</option>
-    <option value=CC50 class='RGF93-$type-$inout'>CC50</option>
+  return "
+    <optgroup label='France NTF'>
+      <option value=Lambert1 class='NTF-$type-$inout'>Lambert 1</option>
+      <option value=Lambert2 class='NTF-$type-$inout'>Lambert 2</option>
+      <option value=Lambert3 class='NTF-$type-$inout'>Lambert 3</option>
+      <option value=Lambert4 class='NTF-$type-$inout'>Lambert 4</option>
+      <option value=Lambert2etendu class='NTF-$type-$inout'>Lambert 2 étendu</option>
+    </optgroup>
+    <optgroup label='France RGF93'>
+      <option value=Lambert93 class='RGF93-$type-$inout' selected>Lambert 93</option>
+      <option value=CC42 class='RGF93-$type-$inout'>CC42</option>
+      <option value=CC43 class='RGF93-$type-$inout'>CC43</option>
+      <option value=CC44 class='RGF93-$type-$inout'>CC44</option>
+      <option value=CC45 class='RGF93-$type-$inout'>CC45</option>
+      <option value=CC46 class='RGF93-$type-$inout'>CC46</option>
+      <option value=CC47 class='RGF93-$type-$inout'>CC47</option>
+      <option value=CC48 class='RGF93-$type-$inout'>CC48</option>
+      <option value=CC49 class='RGF93-$type-$inout'>CC49</option>
+      <option value=CC50 class='RGF93-$type-$inout'>CC50</option>
   </optgroup>
-  <optgroup label=Suisse class='CH1903+-$type-$inout ETRS89-$type-$inout CH1903-$type-$inout'>
+  <optgroup label=Suisse>
     <option value=MN95 class='CH1903+-$type-$inout'>MN95</option>
     <option value=MN03 class='CH1903-$type-$inout'>MN03</option>
-    <option value=false class='ETRS89-$type-$inout' disabled>Pas de projection</option>
   </optgroup>";
 }
 
@@ -41,14 +43,13 @@ function AfficheSystemesPlani() {
 
 function AfficheSystemesAlti($type, $inout) {
   return "
-  <optgroup label=Suisse class='CH1903-$type-$inout CH1903+-$type-$inout'>
+  <optgroup label=France>
+    <option value=IGN69 class='RGF93-$type-$inout NTF-$type-$inout'>IGN69</option>
+  </optgroup>
+  <optgroup label=Suisse>
     <option value=RAN95 class='CH1903-$type-$inout CH1903+-$type-$inout'>RAN95</option>
     <option value=NF02 class='CH1903-$type-$inout CH1903+-$type-$inout'>NF02</option>
   </optgroup>
-  <optgroup label=France class='RGF93-$type-$inout NTF-$type-$inout'>
-    <option value=IGN69 class='RGF93-$type-$inout NTF-$type-$inout'>IGN69</option>
-  </optgroup>
-  <option value=false class='ETRS89-$type-$inout' disabled>Pas de système altimétrique</option>
   ";
 }
 

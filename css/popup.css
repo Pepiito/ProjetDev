@@ -3,13 +3,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1;
+    z-index: 100;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.6);
+    transition: .5s;
 }
 .modal-content {
     background-color: #fefefe;
@@ -162,17 +163,28 @@ div#pop_body label.inline {
   margin: 10px 20px;
 }
 
-#separateur-file-in, #separateur-file-out, #ligne-start-file-in {
-  width: 50px;
+#separateur-file-in, #ligne-start-file-in {
+  max-width: 50px !important;
   text-align: center;
   font-weight: bold;
+  font-family: sans-serif;
+}
+
+#extension-file-out {
+  max-width: 70px !important;
+  min-width: 70px !important;
+  margin: 0 !important;
+  font-family: monospace;
 }
 
 #nom-export-file-out {
-  max-width: 300px !important;
-  width: 300px;
-  text-align: center;
+  max-width: 250px !important;
+  width: 250px;
+  text-align: right;
+  padding-right: 20px;
+  font-family: monospace;
 }
+
 .input-transfo-fichier {
   position: relative;
   left: 5px;

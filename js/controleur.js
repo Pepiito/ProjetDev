@@ -35,15 +35,6 @@ window.addEventListener('load', (event) => {
 
   registerAllData();
 
-  allHTMLElem.forEach( (data) => {
-    data.addEventListener('change', (event) => {
-    //  validAndSetData();
-    }, false);
-    data.addEventListener('click', (event) => {
-    //  validAndSetData();
-    }, false);
-  });
-
   /*
   * fonction à éxécuter au lancement
   */
@@ -53,7 +44,7 @@ window.addEventListener('load', (event) => {
 
       //initialisation en coordonnées géographiques
       adaptDisplay(allVar.typeCoord, 'geog', data, inout);
-      adaptDisplay(allVar.systemePlani, 'RGF93', data, inout)
+      adaptDisplay(allVar.systemePlani, 'RGF93', data, inout);
       hideAlti(inout);
     });
   });
@@ -92,8 +83,22 @@ document.getElementById('calcul-point').addEventListener('click', (event) => {
 }, false);
 
 document.getElementById('dl-file').addEventListener('click', (event) => {
-  getFileContent();
+  document.getElementById("input-file-in").files.forEach( function (file) {
+    getFileContent(file);
+  });
 }, false);
+
+document.getElementById("ajout-carte-file").addEventListener('click', (event) => {
+  document.getElementById("input-file-in").files.forEach( function (file) {
+    getFileContent(file, true);
+  });
+});
+
+document.getElementById("ajout-carte-point").addEventListener('click', (event) => {
+  var errordata = validAndSetData(true);
+  if (errordata != 'Success') raiseError("Erreur 205 : Les informations suivantes sont manquantes pour la compilation : ", errordata);
+
+});
 
 document.getElementById('head_trans_coord').addEventListener('click', (event) => {
 	toggleHead('left');

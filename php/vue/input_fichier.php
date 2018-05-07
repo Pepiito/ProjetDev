@@ -33,7 +33,8 @@
       <select id="systeme-plani-file-in" style="width:150px";>
         <?php echo AfficheSystemesPlani(); ?>
       </select>
-    </div>7<div>
+    </div>
+    <div>
       <label for="type-coord-file-in">Type de coordonnées</label>
       <select id="type-coord-file-in" style="margin-right:20px;">
         <option value="proj">Projetées</option>
@@ -60,7 +61,7 @@
       <label for=geog-unite-file-in>Unité</label>
       <select id=geog-unite-file-in style=width:150px;>
         <option value=grad>Grades</option>
-        <option value=deg selected>Degrés centésimaux - décimaux</option>
+        <option value=deg selected>Degrés décimaux</option>
         <option value=rad>Radians</option>
       </select>
     </div>
@@ -102,7 +103,7 @@
       <label for=geog-unite-file-out>Unité</label>
       <select id=geog-unite-file-out style=width:150px;>
         <option value=grad>Grades</option>
-        <option value=deg selected>Degrés centésimaux - décimaux</option>
+        <option value=deg selected>Degrés décimaux</option>
         <option value=rad>Radians</option>
       </select>
     </div>
@@ -111,13 +112,20 @@
 </fieldset>
 <fieldset id=fichier-d-arrivee>
   <legend>Fichier en sortie</legend>
-  <div id=options-out-file style="display:flex;margin:5px 0">
-    <label for="nom-export-file-out" style="margin: 5px 40px;">Nom du fichier en sortie</label>
-    <input type="text" id=nom-export-file-out value="export_file.txt" maxlength="40" />
+  <div id=options-out-file style="display:flex;margin:5px 0;justify-content:center;">
+    <div>
+      <label for="nom-export-file-out">Nom du fichier en sortie</label>
+      <input type="text" id=nom-export-file-out value="geofs" maxlength="60" placeholder="Nom du fichier" />
+    </div>
+    <div>
+      <label for="extension-file-out">Extension</label>
+      <select id=extension-file-out>
+        <option value="txt">.txt</option>
+        <option value="csv">.csv</option>
+      </select>
+    </div>
   </div>
   <div style=display:flex;flex-direction:row;align-items:center;>
-    <label for="separateur-file-out">Séparateur: </label>
-    <input type="text" id=separateur-file-out class=input-transfo-fichier value=";" maxlength="2">
     <div style="margin-left:30px;display:flex;flex-direction:row;">
       <select id="selection-formatage-file-out" class=input-transfo-fichier>
         <!-- n : nom; E: est, N: nord; H: Altitude; h: hauteur; l: longitude; p: latitude; X; Y; Z-->
