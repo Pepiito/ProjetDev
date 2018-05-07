@@ -220,8 +220,7 @@ function isPHPErrorType(string) {
 
 function setCoordValue(type, coord, value, unite) {
   unite = unite || 'none';
-  if (unite == 'grad') value = radToAngle(value, 400);
-  else if (unite == 'deg') value = radToAngle(value, 360);
+  value = radToAngle(value, unite)
 
   document.getElementById('coord-' + type + '-' + coord + '-point-out').value = value;
 }
@@ -548,14 +547,15 @@ function angleToRad(alpha, nb) {
     if (alpha < 0) alpha += nb;
     else if (alpha >= nb) alpha -= nb;
   }
-  return precisionRound(alpha*2*Math.PI/nb, 9);
+  return alpha*2*Math.PI/nb;
 }
 
 function radToAngle(alpha, nb) {
   alpha = parseFloat(alpha);
   if (nb == "deg") nb = 360;
   else if (nb == "grad") nb = 400;
-  else if (nb == "rad") return alpha;
+  else if (nb == "rad") nb = 2*Math.PI;
+  else return alpha;
   return precisionRound(alpha*nb/(2*Math.PI), 9);
 }
 
