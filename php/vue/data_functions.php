@@ -113,13 +113,13 @@ function AfficheCoord($inout) {
 }
 
 function addInput($typecoord, $value, $label, $inout, $addedclasses="") {
-  $disable = "";
+  $readonly = "";
   $classes = "class='$typecoord-point-$inout " . $addedclasses . "'";
-  if ($inout == "out") $disable = "disabled";
+  if ($inout == "out") $readonly = "readonly";
   return "
   <div $classes>
     <label for=coord-$value-point-$inout>$label</label>
-    <input type=text id=coord-$typecoord-$value-point-$inout $disable>
+    <input type=text id=coord-$typecoord-$value-point-$inout $readonly>
   </div>
   ";
 }

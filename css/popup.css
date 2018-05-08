@@ -145,7 +145,7 @@ div#pop_body label.inline {
   margin: 5px 20px;
 }
 
-#pop_body input[type="text"]:disabled {
+#pop_body input[type="text"]:read-only {
 	background-color: rgb(240, 230, 230);
   font-family: sans-serif;
   font-weight: bold;

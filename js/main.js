@@ -351,7 +351,7 @@ function registerAllData() {
     else {console.log(input.id + " non traité");return;}
 
     if (input.tagName == "SELECT"){
-      if (input.options[input.selectedIndex].value) {
+      if (input.options[input.options.selectedIndex].value == 'false') {
         allVar[data][inout][id] = false;
         return;
       }
@@ -499,13 +499,13 @@ function validAndSetData(addMap) {
         if (N) addToData('N', N);
         else invalide_data += '   N [m]  ';
 
-        var c = validateCoord(allVar[data]['in']['coord-proj-eta']);
-        var x = validateCoord(allVar[data]['in']['coord-proj-xi']);
+        var c = validateCoord(allVar[data]['in']['coord-eta']);
+        var x = validateCoord(allVar[data]['in']['coord-xi']);
         var C = validateCoord(allVar[data]['in']['coord-proj-cote']);
 
-        addToData('c', c);
-        addToData('x', x);
-        addToData('C', C);
+        if (c) addToData('c', c);
+        if (c) addToData('x', x);
+        if (c) addToData('C', C);
 
         break;
     }
@@ -516,7 +516,7 @@ function validAndSetData(addMap) {
     _A = allVar[data]['out']['systeme-alti'],
     _p = allVar[data]['out']['projection']
 
-    set_tPTAp('_t', _t, '_P', _P, '_T', _T, '_A', _A, '_p', p)
+    set_tPTAp('_t', _t, '_P', _P, '_T', _T, '_A', _A, '_p', _p)
 
   }
 
@@ -545,7 +545,7 @@ function validateCoord(coord, unite) {
   if (unite == 'grad') return angleToRad(coord, 400);
   else if (unite == 'deg') return angleToRad(coord, 360);
   else if (unite == 'rad') return angleToRad(coord, 2*Math.PI);
-  else return parseFloat(coord);
+  else return coord + "";
 }
 
 function angleToRad(alpha, nb) {
