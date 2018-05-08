@@ -115,3 +115,67 @@ document.getElementById("error-ok").addEventListener('click', endLoading, false)
 Array.from(document.getElementById('loader-filtre').getElementsByClassName('close')).forEach (function (close) {
   close.addEventListener('click', endLoading, false);
 });
+
+
+//HEIG-VD Affichage de la légende de la carte
+document.getElementById('points_fixes_title').addEventListener('click', (event) => {
+	var style = document.getElementById('point_fixe_map');
+	var symbol = document.getElementById('symbol_list_pts');
+	if(style.style.display == "none"){
+		style.style.display = 'Block';
+		symbol.style.transform = 'rotate(-90deg)';
+	}else{
+		style.style.display = 'None';
+		symbol.style.transform = 'rotate(180deg)';
+		
+	}
+}, false);
+
+document.getElementById('sys_plani_title').addEventListener('click', (event) => {
+	var style = document.getElementById('sys_plani_leg');
+	var symbol = document.getElementById('symbol_list_plani');
+	if(style.style.display == "none"){
+		style.style.display = 'Block';
+		symbol.style.transform = 'rotate(-90deg)';
+	}else{
+		style.style.display = 'None';
+		symbol.style.transform = 'rotate(180deg)';
+		
+	}
+}, false);
+
+document.getElementById('sys_alti_title').addEventListener('click', (event) => {
+	var style = document.getElementById('sys_alti_leg');
+	var symbol = document.getElementById('symbol_list_alti');
+	if(style.style.display == "none"){
+		style.style.display = 'Block';
+		symbol.style.transform = 'rotate(-90deg)';
+	}else{
+		style.style.display = 'None';
+		symbol.style.transform = 'rotate(180deg)';
+		
+	}
+}, false);
+
+var points_fixes_title = document.getElementById('points_fixes_title');
+var sys_plani_title = document.getElementById('sys_plani_title');
+var sys_alti_title = document.getElementById('sys_alti_title');
+points_fixes_title.onmousemove = function (e) {
+    var x = e.clientX,
+        y = e.clientY;
+    document.getElementById('span_pts').style.top = (y) + 'px';
+    document.getElementById('span_pts').style.left = (x+10) + 'px';
+};
+sys_plani_title.onmousemove = function (e) {
+    var x = e.clientX,
+        y = e.clientY;
+    document.getElementById('span_plani').style.top = (y) + 'px';
+    document.getElementById('span_plani').style.left = (x+10) + 'px';
+};
+sys_alti_title.onmousemove = function (e) {
+    var x = e.clientX,
+        y = e.clientY;
+    document.getElementById('span_alti').style.top = (y) + 'px';
+    document.getElementById('span_alti').style.left = (x+10) + 'px';
+};
+

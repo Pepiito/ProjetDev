@@ -4,12 +4,93 @@
 	height: 100%;
 }
 .legende{
-	width: 310px;
+	width: 350px;
+}
+.legende form #title_theme{
+	background-color: #999;
+	color: #fff;
+	font-weight: 400;
+	border-bottom: 1px solid #afafaf;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	-webkit-transition: background-color .35s ease;
+	transition: background-color .35s ease;
+	display: flex;
+	height:45px;
+}
+.legende form #title_theme:hover{
+text-decoration: none;
+color: #666;
+background: #fff;
+}
+.legende #title_theme i{
+	display: inline-block;
+	margin: Auto 12px Auto 12px;
+	text-align: center;
+	transform: rotate(180deg);
+	width: 0; 
+	height: 0; 
+	border-top: 7px solid transparent;
+	border-bottom: 7px solid transparent; 
+	border-right:7px solid black; 
+}
+.legende #point_fixe_map, #sys_plani_leg, #sys_alti_leg{
+	display: none;
+}
+.legende span {
+    display:none;
+}
+.legende span p {
+    margin: 3px;
+	font-size: 10px;
+}
+.legende #points_fixes_title:hover #span_pts{
+    display:block;
+    position:fixed;
+    overflow:hidden;
+	background-color: white;
+	border-radius: 3px;
+	border-color: black;
+	border-width:1px;
+	border-style: solid;
+	max-width: 100px;
+}
+.legende #sys_plani_title:hover #span_plani{
+    display:block;
+    position:fixed;
+    overflow:hidden;
+	background-color: white;
+	border-radius: 3px;
+	border-color: black;
+	border-width:1px;
+	border-style: solid;
+	max-width: 100px;
+}
+.legende #sys_alti_title:hover #span_alti{
+    display:block;
+    position:fixed;
+    overflow:hidden;
+	background-color: white;
+	border-radius: 3px;
+	border-color: black;
+	border-width:1px;
+	border-style: solid;
+	max-width: 100px;
 }
 #map {
 	width: 100%;
 }
-h3, p{
+.legende h3{
+	margin-bottom:auto;
+	margin-top:auto;
+}
+.legende .border_legende{
+	margin: 4px;
+	padding:8px;
+	border-bottom: 1px solid #eee;
+	border-radius: 3px;
+	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
+}
+p{
 	margin-bottom:0;
 	margin-top:8px;
 }
