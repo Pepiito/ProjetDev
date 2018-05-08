@@ -74,8 +74,8 @@ function AfficheCoord($inout) {
     . "
     <div class=proj-point-$inout>
       <label>Déviation de la véritcale &eta; - &xi;</label>
-      <input type=text id=coord-eta-point-$inout $disable>
-      <input type=text id=coord-xi-point-$inout $disable>
+      <input type=text id=coord-proj-eta-point-$inout $disable>
+      <input type=text id=coord-proj-xi-point-$inout $disable>
     </div>"
     .
     addInput('proj', 'cote', 'Cote du géoïde', $inout)
