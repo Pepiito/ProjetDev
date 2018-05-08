@@ -63,8 +63,7 @@ function receiveDataFromModel(reponse) {
       window.coordonnees = JSON.parse(reponse);
     }
     catch (e) {
-      raiseError(reponse);
-      return;
+      return raiseError(reponse);
     }
 
     if (allVar['type-transfo-selected'] == 'point') {
@@ -97,6 +96,8 @@ function receiveDataFromModel(reponse) {
           setCoordValue(t_out, 'est', c['E']['E0']);
           setCoordValue(t_out, 'nord', c['N']['N0']);
           T_out ? setCoordValue(t_out, 'altitude', c['H']['H0']) : setCoordValue(t_out, 'hauteur', c['h']['h0']);
+          if (c['eta']) setCoordValue(t_out, 'eta', c['eta']['eta0']);
+          if (c['ksi']) setCoordValue(t_out, 'eta', c['ksi']['ksi0']);
 
       }
 
@@ -406,7 +407,7 @@ function toggleHead(side) {
 function set_tPTAp(str_t, t, str_P, P, str_T, T, str_A, A, str_p, p) {
 
   addToData(str_t, t);
-  addToData(str_P, P);
+  addToData(str_P, (P == "CH1903+" ? "CH1903plus" : P));
   if (t == 'proj') addToData(str_p, p);
 
   if ((t == 'proj') | (t == 'geog')) {
@@ -437,10 +438,6 @@ function validAndSetData(addMap) {
   var T = allVar[data]['in']['type-alti-altitude'];
   var p = allVar[data]['in']['projection'];
   var P = allVar[data]['in']['systeme-plani'];
-
-  if (P == 'CH1903+') {
-    P = 'CH1903plus';
-  }
 
   set_tPTAp('t', t, 'P', P, 'T', T, 'A', allVar[data]['in']['systeme-alti'], 'p', p)
 
@@ -499,13 +496,13 @@ function validAndSetData(addMap) {
         if (N) addToData('N', N);
         else invalide_data += '   N [m]  ';
 
-        var c = validateCoord(allVar[data]['in']['coord-eta']);
-        var x = validateCoord(allVar[data]['in']['coord-xi']);
+        var c = validateCoord(allVar[data]['in']['coord-proj-eta']);
+        var x = validateCoord(allVar[data]['in']['coord-proj-xi']);
         var C = validateCoord(allVar[data]['in']['coord-proj-cote']);
 
-        if (c) addToData('c', c);
-        if (c) addToData('x', x);
-        if (c) addToData('C', C);
+        if (c && x) addToData('c', c);
+        if (c && x) addToData('x', x);
+        if (C) addToData('C', C);
 
         break;
     }
@@ -534,7 +531,7 @@ function validateCoord(coord, unite) {
   unite = unite || 'none';
 
   // Traitement dms
-  if (coord == "0") return "0";
+  if (coord === "0") return "0";
   if (!coord) return false;
   coord = coord.replace(',', '.').replace('/\D[^\.]/', '') // Garde uniquement nombre et points
   if (isNaN(parseFloat(coord))) {
