@@ -1,7 +1,7 @@
 <?php
 include("connexion_postgis.php");
 
-$nb_pt = count($num_pt]); //Variable des numéros des points --> contrôler si variable juste
+$nb_pt = count($num_pt); //Variable des numéros des points --> contrôler si variable juste
 
 for ($i = 0; $i<$nb_pt;$i++){
 	if (isset ($_SESSION['id_sess'])){
@@ -37,9 +37,9 @@ for ($i = 0; $i<$nb_pt;$i++){
 		'.$coordonnees['proj']['NTF']['Lambert2etendu']['a']['IGN69']['E']['E'.$i].',
 		'.$coordonnees['proj']['NTF']['Lambert2etendu']['a']['IGN69']['N']['N'.$i].',
 		'.$coordonnees['proj']['RGF93']['Lambert93']['a']['IGN69']['H']['H'.$i].',
-		'ST_SetSRID(ST_Point(.$coordonnees['geog']['ETRS89']['h']['l']['l'.$i].','.$coordonnees['geog']['ETRS89']['h']['p']['p'.$i]. '),4258),
-		'.$coordonnees['proj']['NTF']['Lambert2']['a']['IGN69']['E']['E'$i].',
-		'.$coordonnees['proj']['NTF']['Lambert2']['a']['IGN69']['N']['N'$i].',
+		ST_SetSRID(ST_Point('.$coordonnees['geog']['ETRS89']['h']['l']['l'.$i].','.$coordonnees['geog']['ETRS89']['h']['p']['p'.$i]. '),4258),
+		'.$coordonnees['proj']['NTF']['Lambert2']['a']['IGN69']['E']['E'.$i].',
+		'.$coordonnees['proj']['NTF']['Lambert2']['a']['IGN69']['N']['N'.$i].',
 		'.$coordonnees['proj']['RGF']['CC46']['a']['IGN69']['E']['E'.$i].',
 		'.$coordonnees['proj']['RGF']['CC46']['a']['IGN69']['N']['N'.$i].',
 		'.$coordonnees['proj']['RGF']['CC47']['a']['IGN69']['E']['E'.$i].',
@@ -91,9 +91,9 @@ for ($i = 0; $i<$nb_pt;$i++){
 		'.$coordonnees['proj']['NTF']['Lambert2etendu']['a']['IGN69']['E']['E'.$i].',
 		'.$coordonnees['proj']['NTF']['Lambert2etendu']['a']['IGN69']['N']['N'.$i].',
 		'.$coordonnees['proj']['RGF93']['Lambert93']['a']['IGN69']['H']['H'.$i].',
-		'ST_SetSRID(ST_Point(.$coordonnees['geog']['ETRS89']['h']['l']['l'.$i].','.$coordonnees['geog']['ETRS89']['h']['p']['p'.$i]. '),4258),
-		'.$coordonnees['proj']['NTF']['Lambert2']['a']['IGN69']['E']['E'$i].',
-		'.$coordonnees['proj']['NTF']['Lambert2']['a']['IGN69']['N']['N'$i].',
+		ST_SetSRID(ST_Point('.$coordonnees['geog']['ETRS89']['h']['l']['l'.$i].','.$coordonnees['geog']['ETRS89']['h']['p']['p'.$i]. '),4258),
+		'.$coordonnees['proj']['NTF']['Lambert2']['a']['IGN69']['E']['E'.$i].',
+		'.$coordonnees['proj']['NTF']['Lambert2']['a']['IGN69']['N']['N'.$i].',
 		'.$coordonnees['proj']['RGF']['CC46']['a']['IGN69']['E']['E'.$i].',
 		'.$coordonnees['proj']['RGF']['CC46']['a']['IGN69']['N']['N'.$i].',
 		'.$coordonnees['proj']['RGF']['CC47']['a']['IGN69']['E']['E'.$i].',
