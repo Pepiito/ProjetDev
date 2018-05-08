@@ -5,7 +5,7 @@
 120: Localisation hors de l'emprise de la grille de transformation RGF93/NTF
 121: L'éllipsoïde demandé n'existe pas
 122: La projection conique demandée n'existe pas
-130: Les coordonnées d'entrée doivent être projetées
+130: Les coordonnées de sortie doivent être projetées
 200: Erreur inconnue PHP
 202: variables en post de la requête ajax main.js -> get_file_content.php ne passe pas
 203: le fichier saisi par l'utilisateur est corrompu / illisible

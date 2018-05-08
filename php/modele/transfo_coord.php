@@ -137,7 +137,7 @@ if (isset($_POST['c']) && isset($_POST['x'])) {
     } else if ($type_coord_arr == 'proj' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903plus')) {
       $mode = 'ch';
     } else {
-      exit("Erreur 130: Les coordonnées d'entrée doivent être projetées");
+      exit("Erreur 130: Les coordonnées de sortie doivent être projetées");
     }
     for ($i=0; $i<$len; $i++) {
       $lambda = $echo['ETRS89']['geog']['h']['lambda']['lambda'.$i];
