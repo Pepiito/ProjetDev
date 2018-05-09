@@ -108,8 +108,8 @@ function NTF_to_RGF($X, $Y, $Z)  {
 * Fonction lecture_grille
 
 * Lit le fichier qui donne les paramètres de translation de la grille pour convertir du RGF vers NTF
-* S'interesse en particulier Ã  la maille de la grille correspondant aux coordonnées géographiques recu
-* Renvoie le vecteur translation Ã  appliquer en mètre
+* S'interesse en particulier à la maille de la grille correspondant aux coordonnées géographiques recu
+* Renvoie le vecteur translation à appliquer en mètre
 *
 * @param array $geog coordonnées géographiques dans un array en radians
 * @return array avec les trois coordonnées cartésiennes de la translation Ã  appliquer
