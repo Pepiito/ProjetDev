@@ -79,8 +79,16 @@ function traitement_vers_milieu($POST) {
         // passage en hauteur si nécéssaire pour le système altimétrique IGN69
         if ($type_alti_dep == 'a' && $sys_alti_dep == 'IGN69') {
           $H0 = $H[$i];
-          $cst = alti_to_h(48.846211*pi()/180, 2.346199*pi()/180, 0); //N croix du pantheon
-          $h0 = alti_to_h($lambda0, $phi0, $H0) - $cst;
+
+          $IAG = new Ellipse("IAG_GRS_1980");
+          $array_cartNTF = geographic_to_cartesien($lambda0, $phi0, 0, $ellipse);
+          $array_cartRGF = NTF_to_RGF($array_cartNTF[0], $array_cartNTF[1], $array_cartNTF[2]);
+          $array_geogRGF = cartesien_to_geographic($array_cartRGF[0], $array_cartRGF[1], $array_cartRGF[2], $IAG);
+
+          $h0RGF = alti_to_h($array_geogRGF[0], $array_geogRGF[1], $H0);
+          $array_cartRGF = geographic_to_cartesien($array_geogRGF[0], $array_geogRGF[1], $h0RGF, $IAG);
+          $array_cartNTF = RGF_to_NTF($array_cartRGF[0], $array_cartRGF[1], $array_cartRGF[2]);
+          $h0 = cartesien_to_geographic($array_cartNTF[0], $array_cartNTF[1], $array_cartNTF[2], $ellipse);
         } else if ($type_alti_dep == 'h') {
           $h0 = $h[$i];
         }
@@ -159,8 +167,16 @@ function traitement_vers_milieu($POST) {
         // passage en hauteur si nécéssaire pour le système altimétrique IGN69
         if ($type_alti_dep == 'a' && $sys_alti_dep == 'IGN69') {
           $H0 = $H[$i];
-          $cst = alti_to_h(48.846211*pi()/180, 2.346199*pi()/180, 0); //N croix du pantheon
-          $h0 = alti_to_h($lambda0, $phi0, $H0) - $cst;
+          
+          $IAG = new Ellipse("IAG_GRS_1980");
+          $array_cartNTF = geographic_to_cartesien($lambda0, $phi0, 0, $ellipse);
+          $array_cartRGF = NTF_to_RGF($array_cartNTF[0], $array_cartNTF[1], $array_cartNTF[2]);
+          $array_geogRGF = cartesien_to_geographic($array_cartRGF[0], $array_cartRGF[1], $array_cartRGF[2], $IAG);
+
+          $h0RGF = alti_to_h($array_geogRGF[0], $array_geogRGF[1], $H0);
+          $array_cartRGF = geographic_to_cartesien($array_geogRGF[0], $array_geogRGF[1], $h0RGF, $IAG);
+          $array_cartNTF = RGF_to_NTF($array_cartRGF[0], $array_cartRGF[1], $array_cartRGF[2]);
+          $h0 = cartesien_to_geographic($array_cartNTF[0], $array_cartNTF[1], $array_cartNTF[2], $ellipse);
         } else if ($type_alti_dep == 'h') {
           $h0 = $h[$i];
         }
@@ -286,8 +302,8 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
         if (($type_plani_arr == 'RGF93' || $type_plani_arr == 'ETRS89') && $sys_alti_arr == 'IGN69') {
           $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]), 4);
         } else if ($type_plani_arr == 'NTF' && $sys_alti_arr == 'IGN69') {
-          $cst = alti_to_h(2.346199*pi()/180, 48.846211*pi()/180, 0);
-          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) + $cst, 4);
+          $array_geogRGF = cartesien_to_geographic($X_tmp[$i], $Y_tmp[$i], $Z_tmp[$i], new Ellipse("IAG_GRS_1980"));
+          $H_arr['H'.$i] = round(h_to_alti($array_geogRGF[0], $array_geogRGF[1], $array_geogRGF[2]), 4);
         } else if (($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903plus') && $sys_alti_arr == 'RAN95') {
           list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
           list($E_MN03, $N_MN03) = MN95_to_MN03($E_MN95, $N_MN95);
@@ -323,8 +339,8 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
         if ($type_plani_arr == 'RGF93') {
           $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]), 4);
         } else if ($type_plani_arr == 'NTF') {
-          $cst = alti_to_h(2.346199*pi()/180, 48.846211*pi()/180, 0);
-          $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]) + $cst, 4);
+          $array_geogRGF = cartesien_to_geographic($X_tmp[$i], $Y_tmp[$i], $Z_tmp[$i], new Ellipse("IAG_GRS_1980"));
+          $H_arr['H'.$i] = round(h_to_alti($array_geogRGF[0], $array_geogRGF[1], $array_geogRGF[2]) + $cst, 4);
         }
       } else if ($type_alti_arr == 'a' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903plus') && $sys_alti_arr == 'RAN95') {
         list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);

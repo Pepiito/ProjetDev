@@ -22,7 +22,7 @@
 			echo '<p><u>Points de '.$_SESSION['pseudo'].'</u></p>';
 		    echo '<select id="liste_chantier">';
 		   
-			$result = pg_query($conn, 'SELECT date_chantier FROM "Points_session" WHERE id_sess='.$_SESSION['id'].';');
+			$result = pg_query($conn, 'SELECT date_chantier FROM "Points_session" WHERE id_sess='.$_SESSION['id_sess'].';');
 			if (!$result) {
 				echo "Une erreur s'est produite.\n";
 				exit;
