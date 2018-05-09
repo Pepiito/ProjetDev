@@ -1,6 +1,18 @@
 <?php
+/**
+* Fonction traitement_vers_milieu
+*
+* Récupère les coordonnées envoyé depuis le site et les traites pour les transformer en coordonnées cartésiennes ETRS89/RGF93
+* Les coordonnées sont entrées en mètres ou en radians et sont renvoyées en mètres
+
+* @param mixed $POST valeur de $_POST qui contient les informations sur les coordonnées ainsi que les coordonnées d'entrée
+* @return array avec les trois coordonnées cartésiennes et le nombre de points
+*/
 function traitement_vers_milieu($POST) {
+  // on récupère les variables pour les fonctions suisses
   include('variables_suisses.php');
+
+  // on crée un vecteur pour savoir à quel système asocié quel éllipsoïde
   $association_ellipse = array("NTF" => "Clarke_1880", "RGF93" => "IAG_GRS_1980", "ETRS89" => "IAG_GRS_1980", "CH1903" => "Bessel_1841", "CH1903plus" => "Bessel_1841"); //en raison de l'encodage, le + devient " "
 
   // Récupère les variables AJAX dans la variable $POST au format convenu
@@ -13,8 +25,11 @@ function traitement_vers_milieu($POST) {
 
   // cas où les coordonnées sont planimétriques
   if ($type_coord_dep == 'proj') {
-    $type_proj_dep = $POST['p'];
-
+    if (!(isset($_POST['p'])) || $_POST['p'] == 'false') {
+      exit("Erreur 132: Cas d'utilisation impossible. Vérifier la projection en entrée");
+    } else {
+      $type_proj_dep = $POST['p'];
+    }
 
     $E = explode(';', $POST['E']);
     $N = explode(';', $POST['N']);
@@ -22,7 +37,11 @@ function traitement_vers_milieu($POST) {
     // on récupère l'information altitude ou hauteur
     if ($type_alti_dep == 'a') {
       $H = explode(';', $POST['H']);
-      $sys_alti_dep = $POST['A'];
+      if (!(isset($_POST['A'])) || $_POST['A'] == 'false') {
+        exit("Erreur 134: Cas d'utilisation impossible. Vérifier le système altimétrique en entrée");
+      } else {
+        $sys_alti_dep = $POST['A'];
+      }
     } else if ($type_alti_dep == 'h') {
       $h = explode(';', $POST['h']);
     }
@@ -45,7 +64,11 @@ function traitement_vers_milieu($POST) {
     // on récupère les informations d'altitude ou de hauteur
     if ($type_alti_dep == 'a') {
       $H = explode(';', $POST['H']);
-      $sys_alti_dep = $POST['A'];
+      if (!(isset($_POST['A'])) || $_POST['A'] == 'false') {
+        exit("Erreur 134: Cas d'utilisation impossible. Vérifier le système altimétrique en entrée");
+      } else {
+        $sys_alti_dep = $POST['A'];
+      }
     } else if ($type_alti_dep == 'h') {
       $h = explode(';', $POST['h']);
     }
@@ -63,9 +86,9 @@ function traitement_vers_milieu($POST) {
   }
 
 
-  // on transforme toutes les coordonnées reçu
+  // on transforme toutes les coordonnées reçues
   for ($i=0; $i<$len; $i++) {
-    // les données prennent la forme X0, Y0, Z0
+    // les données sortiront sous la forme X0, Y0, Z0
     if ($type_coord_dep == 'proj') {
       $E0 = $E[$i];
       $N0 = $N[$i];
@@ -80,6 +103,7 @@ function traitement_vers_milieu($POST) {
         if ($type_alti_dep == 'a' && $sys_alti_dep == 'IGN69') {
           $H0 = $H[$i];
 
+          //on retourne vers le système RGF93 pour calculer l'altitude avec la grille RAF09.mnt
           $IAG = new Ellipse("IAG_GRS_1980");
           $array_cartNTF = geographic_to_cartesien($lambda0, $phi0, 0, $ellipse);
           $array_cartRGF = NTF_to_RGF($array_cartNTF[0], $array_cartNTF[1], $array_cartNTF[2]);
@@ -88,7 +112,8 @@ function traitement_vers_milieu($POST) {
           $h0RGF = alti_to_h($array_geogRGF[0], $array_geogRGF[1], $H0);
           $array_cartRGF = geographic_to_cartesien($array_geogRGF[0], $array_geogRGF[1], $h0RGF, $IAG);
           $array_cartNTF = RGF_to_NTF($array_cartRGF[0], $array_cartRGF[1], $array_cartRGF[2]);
-          $h0 = cartesien_to_geographic($array_cartNTF[0], $array_cartNTF[1], $array_cartNTF[2], $ellipse);
+
+          $h0 = cartesien_to_geographic($array_cartNTF[0], $array_cartNTF[1], $array_cartNTF[2], $ellipse)[2];
         } else if ($type_alti_dep == 'h') {
           $h0 = $h[$i];
         }
@@ -167,7 +192,8 @@ function traitement_vers_milieu($POST) {
         // passage en hauteur si nécéssaire pour le système altimétrique IGN69
         if ($type_alti_dep == 'a' && $sys_alti_dep == 'IGN69') {
           $H0 = $H[$i];
-          
+
+          //on retourne vers le système RGF93 pour calculer l'altitude avec la grille RAF09.mnt
           $IAG = new Ellipse("IAG_GRS_1980");
           $array_cartNTF = geographic_to_cartesien($lambda0, $phi0, 0, $ellipse);
           $array_cartRGF = NTF_to_RGF($array_cartNTF[0], $array_cartNTF[1], $array_cartNTF[2]);
@@ -176,7 +202,8 @@ function traitement_vers_milieu($POST) {
           $h0RGF = alti_to_h($array_geogRGF[0], $array_geogRGF[1], $H0);
           $array_cartRGF = geographic_to_cartesien($array_geogRGF[0], $array_geogRGF[1], $h0RGF, $IAG);
           $array_cartNTF = RGF_to_NTF($array_cartRGF[0], $array_cartRGF[1], $array_cartRGF[2]);
-          $h0 = cartesien_to_geographic($array_cartNTF[0], $array_cartNTF[1], $array_cartNTF[2], $ellipse);
+
+          $h0 = cartesien_to_geographic($array_cartNTF[0], $array_cartNTF[1], $array_cartNTF[2], $ellipse)[2];
         } else if ($type_alti_dep == 'h') {
           $h0 = $h[$i];
         }
@@ -221,7 +248,7 @@ function traitement_vers_milieu($POST) {
       if ($type_plani_dep == 'CH1903plus' || $type_plani_dep == 'CH1903') {
         $array_cart = cartCH1903plus_to_cartETRS89($array_cart[0], $array_cart[1], $array_cart[2], $Bessel_dx,$Bessel_dy,$Bessel_dz);
       } else if ($type_plani_dep == 'NTF') {
-        $array_cart = NTF_to_RGF($X0, $Y0, $Z0);
+        $array_cart = NTF_to_RGF($array_cart[0], $array_cart[1], $array_cart[2]);
       }
 
       $X0 = $array_cart[0];
@@ -237,11 +264,32 @@ function traitement_vers_milieu($POST) {
   return array($X_tmp, $Y_tmp, $Z_tmp, $len);
 }
 
+
+/**
+* Fonction conversion_vers_sortie
+*
+* Récupère les coordonnées cartesiennes calculer au préalable et renvoie les coordonnées du système et du type voulu
+* Les coordonnées sont entrées en mètres et sont renvoyées en mètres ou en radians
+
+* @param array $X_tmp valeur de $_POST qui contient les informations sur les coordonnées ainsi que les coordonnées d'entrée
+* @param array $Y_tmp
+* @param array $Z_tmp
+* @param string $type_coord_arr type de coordonnées voulu
+* @param string $type_plani_arr système planimétrique voulu
+* @param string $type_alti_arr type de coordonnées alti voulu
+* @param string $type_proj_arr projection voulu pour les coordonnées projetées
+* @param string $sys_alti_arr système alti voulu pour l'altitude
+* @return array avec les trois coordonnées dans le système et du type voulu
+*/
 function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_plani_arr, $type_alti_arr, $type_proj_arr, $sys_alti_arr) {
+  // on ajoute les variables suisses pour les fonctions suisses
   include('variables_suisses.php');
+
+  //on associe un système planimétrique à son éllipsoide
   $association_ellipse = array("NTF" => "Clarke_1880", "RGF93" => "IAG_GRS_1980", "ETRS89" => "IAG_GRS_1980", "CH1903" => "Bessel_1841", "CH1903plus" => "Bessel_1841");
+
+  //on compte le nombre de point total
   $len = count($X_tmp);
-  include('variables_suisses.php');
 
   // on récupère les informations d'éllipsoïde et de projection si il le faut
   // pour savoir comment on doit transformer les données
@@ -340,7 +388,7 @@ function conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, $type_coord_arr, $type_p
           $H_arr['H'.$i] = round(h_to_alti($array_geog[0], $array_geog[1], $array_geog[2]), 4);
         } else if ($type_plani_arr == 'NTF') {
           $array_geogRGF = cartesien_to_geographic($X_tmp[$i], $Y_tmp[$i], $Z_tmp[$i], new Ellipse("IAG_GRS_1980"));
-          $H_arr['H'.$i] = round(h_to_alti($array_geogRGF[0], $array_geogRGF[1], $array_geogRGF[2]) + $cst, 4);
+          $H_arr['H'.$i] = round(h_to_alti($array_geogRGF[0], $array_geogRGF[1], $array_geogRGF[2]), 4);
         }
       } else if ($type_alti_arr == 'a' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903plus') && $sys_alti_arr == 'RAN95') {
         list($E_MN95, $N_MN95) = geog_to_MN95($array_geog[0], $array_geog[1], $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
