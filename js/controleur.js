@@ -121,41 +121,37 @@ Array.from(document.getElementById('loader-filtre').getElementsByClassName('clos
 document.getElementById('points_fixes_title').addEventListener('click', (event) => {
 	var style = document.getElementById('point_fixe_map');
 	var symbol = document.getElementById('symbol_list_pts');
-	if(style.style.display == "none"){
-		style.style.display = 'Block';
-		symbol.style.transform = 'rotate(-90deg)';
-	}else{
-		style.style.display = 'None';
-		symbol.style.transform = 'rotate(180deg)';
-		
-	}
+
+  displayOptionCarte(style, symbol);
 }, false);
 
 document.getElementById('sys_plani_title').addEventListener('click', (event) => {
 	var style = document.getElementById('sys_plani_leg');
 	var symbol = document.getElementById('symbol_list_plani');
-	if(style.style.display == "none"){
-		style.style.display = 'Block';
-		symbol.style.transform = 'rotate(-90deg)';
-	}else{
-		style.style.display = 'None';
-		symbol.style.transform = 'rotate(180deg)';
-		
-	}
+	displayOptionCarte(style, symbol);
+
 }, false);
 
 document.getElementById('sys_alti_title').addEventListener('click', (event) => {
 	var style = document.getElementById('sys_alti_leg');
 	var symbol = document.getElementById('symbol_list_alti');
-	if(style.style.display == "none"){
-		style.style.display = 'Block';
+	displayOptionCarte(style, symbol);
+
+}, false);
+
+function displayOptionCarte(style, symbol) {
+  if(style.style.opacity != 1){
+    style.style.visibility = "visible";
+		style.style.opacity = 1;
+    style.style.maxHeight = "1000px";
 		symbol.style.transform = 'rotate(-90deg)';
 	}else{
-		style.style.display = 'None';
+    style.style.visibility = "hidden";
+		style.style.opacity = 0;
+    style.style.maxHeight = "0px";
 		symbol.style.transform = 'rotate(180deg)';
-		
-	}
-}, false);
+  }
+}
 
 var points_fixes_title = document.getElementById('points_fixes_title');
 var sys_plani_title = document.getElementById('sys_plani_title');
@@ -178,4 +174,3 @@ sys_alti_title.onmousemove = function (e) {
     document.getElementById('span_alti').style.top = (y) + 'px';
     document.getElementById('span_alti').style.left = (x+10) + 'px';
 };
-
