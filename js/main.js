@@ -69,7 +69,7 @@ function receiveDataFromModel(reponse) {
     if (allVar['type-transfo-selected'] == 'point') {
 
       var t_out = allVar['point']['out']['type-coord'];
-      var P_out = allVar['point']['out']['systeme-plani'];
+      var P_out = (allVar['point']['out']['systeme-plani'] == "CH1903+") ? "CH1903plus" : allVar['point']['out']['systeme-plani'];
       var T_out = allVar['point']['out']['type-alti-altitude'];
       var A_out =  allVar['point']['out']['systeme-alti'];
       var p_out = allVar['point']['out']['projection'];
@@ -352,7 +352,13 @@ function registerAllData() {
     else {console.log(input.id + " non traité");return;}
 
     if (input.tagName == "SELECT"){
-      if (input.options[input.options.selectedIndex].value == 'false') {
+      try {
+        if (input.options[input.options.selectedIndex].value == 'false') {
+          allVar[data][inout][id] = false;
+          return;
+        }
+      }
+      catch (e) {
         allVar[data][inout][id] = false;
         return;
       }
@@ -498,11 +504,9 @@ function validAndSetData(addMap) {
 
         var c = validateCoord(allVar[data]['in']['coord-proj-eta']);
         var x = validateCoord(allVar[data]['in']['coord-proj-xi']);
-        var C = validateCoord(allVar[data]['in']['coord-proj-cote']);
 
         if (c && x) addToData('c', c);
         if (c && x) addToData('x', x);
-        if (C) addToData('C', C);
 
         break;
     }
