@@ -136,10 +136,49 @@ function lecture_grille($geog) {
   //lecture du contenu de la grille
   $grille = lecture_fichier("../../files/gr3df97a.txt");
   //formatage pour lecture de la grille
-  $lambda0str = substr($lambda0 + .0000000001, 0, -1);
-  $phi0str = substr($phi0 + .0000000001, 0, -1);
-  $lambda1str = substr($lambda1 + .0000000001, 0, -1);
-  $phi1str = substr($phi1 + .0000000001, 0, -1);
+  if ($lambda0<-1) {
+    if ($lambda0 == floor($lambda0)) {
+      $lambda0str = strval($lambda0).".000000000";
+    } else {
+      $lambda0str = strval($lambda0)."00000000";
+    }
+  } else if ($lambda0<0 && $lambda0>-1) {
+    $lambda0str = "-".substr(strval($lambda0), 2)."00000000";
+  } else if ($lambda0==0) {
+    $lambda0str = "0.000000000";
+  } else if ($lambda0<1 && $lambda0>0){
+    $lambda0str = " ".substr(strval($lambda0), 1)."00000000";
+  } else {
+    if ($lambda0 == floor($lambda0)) {
+      $lambda0str = " ".strval($lambda0).".000000000";
+    } else {
+      $lambda0str = " ".strval($lambda0)."00000000";
+    }
+  }
+
+  if ($lambda1<-1) {
+    if ($lambda1 == floor($lambda1)) {
+      $lambda1str = strval($lambda1).".000000000";
+    } else {
+      $lambda1str = strval($lambda1)."00000000";
+    }
+  } else if ($lambda1<0 && $lambda1>-1) {
+    $lambda1str = "-".substr(strval($lambda1), 2)."00000000";
+  } else if ($lambda1==0) {
+    $lambda1str = "0.000000000";
+  } else if ($lambda1<1 && $lambda1>0){
+    $lambda1str = " ".substr(strval($lambda1), 1)."00000000";
+  } else {
+    if ($lambda1 == floor($lambda1)) {
+      $lambda1str = " ".strval($lambda1).".000000000";
+    } else {
+      $lambda1str = " ".strval($lambda1)."00000000";
+    }
+  }
+
+  $phi0str = strval($phi0);
+  $phi1str = strval($phi1);
+
 
   //lecture des informations nous interessant dans la grille
   $debutligne0 = substr($grille, strpos($grille, $lambda0str . "   " . $phi0str));
@@ -159,12 +198,12 @@ function lecture_grille($geog) {
   $tab3 = explode("  ", $ligne3);
 
   //calcul du vecteur de translation par interpolation bilinéaire
-  $x = ($geog[0] - $lambda0)/($lambda1 - $lambda0);
-  $y = ($geog[1] - $phi0)/($phi1 - $phi0);
+  $x = ($geog[0] - $lambda0)/0.1;
+  $y = ($geog[1] - $phi0)/0.1;
 
-  $Tx = (1 - $x)*(1 - $y)*$tab0[2] + (1 - $x)*$y*$tab2[2] + $x*(1 - $y)*$tab1[2] + $x*$y*$tab3[2];
-  $Ty = (1 - $x)*(1 - $y)*$tab0[3] + (1 - $x)*$y*$tab2[3] + $x*(1 - $y)*$tab1[3] + $x*$y*$tab3[3];
-  $Tz = (1 - $x)*(1 - $y)*$tab0[4] + (1 - $x)*$y*$tab2[4] + $x*(1 - $y)*$tab1[4] + $x*$y*$tab3[4];
+  $Tx = (1 - $x)*(1 - $y)*$tab0[2] + (1 - $x)*$y*$tab1[2] + $x*(1 - $y)*$tab2[2] + $x*$y*$tab3[2];
+  $Ty = (1 - $x)*(1 - $y)*$tab0[3] + (1 - $x)*$y*$tab1[3] + $x*(1 - $y)*$tab2[3] + $x*$y*$tab3[3];
+  $Tz = (1 - $x)*(1 - $y)*$tab0[4] + (1 - $x)*$y*$tab1[4] + $x*(1 - $y)*$tab2[4] + $x*$y*$tab3[4];
 
   return array($Tx, $Ty, $Tz);
 }
