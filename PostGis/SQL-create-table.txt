@@ -1,0 +1,126 @@
+CREATE TABLE public."session"
+(
+	id_sess bigserial,
+	pseudo text,
+	password text,
+	
+    PRIMARY KEY (id_sess),
+	UNIQUE (pseudo)
+)
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public."id_sess"
+    OWNER to postgres;
+	
+---------------------------------------
+CREATE TABLE public."Points_session"
+(
+    id_ptsess bigserial),
+    id_aleat bigint,
+    aleatoire text,
+    id_sess bigint,
+    num_pt text,
+    chantier text,
+    "X_ETRS89" numeric(50,3),
+    "Y_ETRS89" numeric(50,3),
+    "Z_ETRS89" numeric(50,3),
+    "long_ETRS89" numeric(50,6),
+    "lat_ETRS89" numeric(50,6),
+    "h_ETRS89" numeric(50,3),
+    "X_CH1903plus" numeric(50,3),
+    "Y_CH1903plus" numeric(50,3),
+    "Z_CH1903plus" numeric(50,3),
+    "long_CH1903plus" numeric(50,6),
+    "lat_CH1903plus" numeric(50,6),
+    "h_CH1903plus" numeric(50,3),
+    "E_CH1903plus" numeric(50,3),
+    "N_CH1903plus" numeric(50,3),
+    "E_CH1903" numeric(50,3),
+    "N_CH1903" numeric(50,3),
+    "alt_RAN95" numeric(50,3),
+    "alt_NF02" numeric(50,3),
+    "E_RGF" numeric(50,3),
+    "N_RGF" numeric(50,3),
+    "X_NTF" numeric(50,3),
+    "Y_NTF" numeric(50,3),
+    "Z_NTF" numeric(50,3),
+    "long_NTF" numeric(50,6),
+    "lat_NTF" numeric(50,6),
+    "h_NTF" numeric(50,3),
+    "E_NTF" numeric(50,3),
+    "N_NTF" numeric(50,3),
+    "alt_IGN69" numeric(50,3),
+    geom geometry(Point,4258),
+    "E_NTF_2" numeric(50,3),
+    "N_NTF_2" numeric(50,3),
+    "E_RGF_C46" numeric(50,3),
+    "N_RGF_C46" numeric(50,3),
+    "E_RGF_C47" numeric(50,3),
+    "N_RGF_C47" numeric(50,3),
+    "E_RGF_C48" numeric(50,3),
+    "N_RGF_C48" numeric(50,3),
+    date_chantier text,
+    PRIMARY KEY (id_ptsess)
+)
+WITH (
+    OIDS = FALSE
+)
+
+ALTER TABLE public."Points_session"
+    OWNER to postgres;
+	
+--------------------------------
+CREATE TABLE public."Points_fixes"
+(
+    id_pf bigserial,
+    num_pt text ,
+    type text,
+    "X_ETRS89" numeric(50,3),
+    "Y_ETRS89" numeric(50,3),
+    "Z_ETRS89" numeric(50,3),
+    "long_ETRS89" numeric(50,6),
+    "lat_ETRS89" numeric(50,6),
+    "h_ETRS89" numeric(50,3),
+    "X_CH1903plus" numeric(50,3),
+    "Y_CH1903plus" numeric(50,3),
+    "Z_CH1903plus" numeric(50,3),
+    "long_CH1903plus" numeric(50,6),
+    "lat_CH1903plus" numeric(50,6),
+    "h_CH1903plus" numeric(50,3),
+    "E_CH1903plus" numeric(50,3),
+    "N_CH1903plus" numeric(50,3),
+    "E_CH1903" numeric(50,3),
+    "N_CH1903" numeric(50,3),
+    "alt_RAN95" numeric(50,3),
+    "alt_NF02" numeric(50,3),
+    "E_RGF" numeric(50,3),
+    "N_RGF" numeric(50,3),
+    "X_NTF" numeric(50,3),
+    "Y_NTF" numeric(50,3),
+    "Z_NTF" numeric(50,3),
+    "long_NTF" numeric(50,6),
+    "lat_NTF" numeric(50,6),
+    "h_NTF" numeric(50,3),
+    "E_NTF" numeric(50,3),
+    "N_NTF" numeric(50,3),
+    "alt_IGN69" numeric(50,3),
+    geom geometry(Point,4258),
+    "E_NTF_2" numeric(50,3),
+    "N_NTF_2" numeric(50,3),
+    "E_RGF_C46" numeric(50,3),
+    "N_RGF_C46" numeric(50,3),
+    "E_RGF_C47" numeric(50,3),
+    "N_RGF_C47" numeric(50,3),
+    "E_RGF_C48" numeric(50,3),
+    "N_RGF_C48" numeric(50,3),
+    PRIMARY KEY (id_pf)
+)
+WITH (
+    OIDS = FALSE
+)
+
+
+ALTER TABLE public."Points_fixes"
+    OWNER to postgres;
