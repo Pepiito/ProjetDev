@@ -133,7 +133,7 @@ function traitement_vers_milieu($POST) {
 
       // passage vers le système de coordonnées cartésiens ETRS89
       if ($type_plani_dep == 'CH1903' || $type_plani_dep == 'CH1903plus') {
-        $array_cart = cartCH1903plus_to_cartETRS89($array_cart[0], $array_cart[1], $array_cart[2]);
+        $array_cart = cartCH1903plus_to_cartETRS89($array_cart[0], $array_cart[1], $array_cart[2], $Bessel_dx,$Bessel_dy,$Bessel_dz);
       } else if ($type_plani_dep == 'NTF') {
         $array_cart = NTF_to_RGF($array_cart[0], $array_cart[1], $array_cart[2]);
       }

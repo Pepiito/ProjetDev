@@ -2,7 +2,7 @@
 include("connexion_postgis.php");
 
 $nb_pt = count($num_pt); //Variable des numéros des points --> contrôler si variable juste
-
+echo $nb_pt;
 for ($i = 0; $i<$nb_pt;$i++){
 	if (isset ($_SESSION['id_sess'])){
 		pg_query($conn, 'INSERT INTO "Points_session"(

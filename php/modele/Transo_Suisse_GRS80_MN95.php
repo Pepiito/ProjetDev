@@ -1,4 +1,5 @@
-<?php //HEIG
+<?php 
+#HEIG
 # Définition des calculs
 
 # Transformation coordonnees geographiques ETRS89 --> coordonnees carthesienne g�ocentrique ETRS89

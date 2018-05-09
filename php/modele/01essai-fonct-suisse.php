@@ -1,4 +1,5 @@
-<?php//HEIG
+<?php
+#HEIG
 
 include('fonctions_suisses.php');
 include('Transo_Suisse_API_DLL.php');
@@ -30,5 +31,6 @@ list($lamb_etrs, $phi_etrs, $h_etrs)=cartETRS89_to_geogETRS89($X_etrs, $Y_etrs, 
 echo "<p>etrs89geog $lamb_etrs $phi_etrs $h_etrs</p>";
 
 
-
+list($phi_ch, $lam_ch)=MN95_to_geog(2535000, 120000, $phi_Berne, $Bessel_e, $Bessel_a, $lambda_Berne);
+echo $phi_ch, $lam_ch;
 ?>

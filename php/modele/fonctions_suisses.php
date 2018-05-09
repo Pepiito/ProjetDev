@@ -1,4 +1,5 @@
-<?php //HEIG
+<?php 
+#HEIG
 # Calcul de valeurs auxiliaires
 
 function deg_rad($a){

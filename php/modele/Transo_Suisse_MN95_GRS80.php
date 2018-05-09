@@ -1,7 +1,7 @@
-<?php // HEIG
+<?php 
+# HEIG
 
 # D�finition des calculs
-
 #Coordonn�es suisses en projection (y, x) --> coordonn�es ellipso�dales (?, f) (formules rigoureuses)
 
 # Plan de projection (y, x) --> sph�re ( b, l )
