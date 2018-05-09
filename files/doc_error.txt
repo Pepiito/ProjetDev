@@ -12,6 +12,7 @@
 204: Erreur sur le format des données renseignés dans le fichier de l'utilisateur.
 205: Paramètres laissés à l'utilisateur incomplets ou illisibles
 206: Les coordonnées entrées par l'utilisateur ne sont pas des flottants
+207: Le parsing du fichier en entrée s'est mal passé. Conversion en JSON impossible
 210: Format d'une variable incompatible dans le fichier
 400: Coordonnées MN95 en dehors du perimiètre de transformation vers MN03
 401: Coordonnées MN03 en dehors du permiètre de transformation vers MN95
