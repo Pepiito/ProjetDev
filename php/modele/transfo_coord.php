@@ -30,14 +30,7 @@ et de les transformer dans tous les types.
 On doit donc prévoir tous les cas de figure.
 */
 
-if (isset($_POST['addMap'])) {
-  $addmap = is_true($_POST['addMap']);
-  if (is_true($_POST['addMap'])) {
-    include("../vue/write_to_postgis.php");
-  }
-} else {
-  $addmap = FALSE;
-}
+$addmap = isset($_POST['addMap'] ? is_true($_POST['addMap'] : FALSE;
 
 list($X_tmp, $Y_tmp, $Z_tmp, $len) = traitement_vers_milieu($_POST);
 
@@ -154,6 +147,8 @@ if (isset($_POST['c']) && isset($_POST['x'])) {
   }
 
 }
+
+if ($addmap) include("../vue/write_to_postgis.php");
 
 echo json_encode($echo);
 
