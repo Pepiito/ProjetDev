@@ -6,6 +6,10 @@
 121: L'éllipsoïde demandé n'existe pas
 122: La projection conique demandée n'existe pas
 130: Les coordonnées de sortie doivent être projetées pour éta et ksi
+131: Cas d'utilisation impossible. Vérifier la projection de sortie
+132: Cas d'utilisation impossible. Vérifier la projection en entrée
+133: Cas d'utilisation impossible. Vérifier le système altimétrique en sortie
+134: Cas d'utilisation impossible. Vérifier le système altimétrique en entrée
 200: Erreur inconnue PHP
 202: variables en post de la requête ajax main.js -> get_file_content.php ne passe pas
 203: le fichier saisi par l'utilisateur est corrompu / illisible

@@ -13,8 +13,11 @@ function traitement_vers_milieu($POST) {
 
   // cas où les coordonnées sont planimétriques
   if ($type_coord_dep == 'proj') {
-    $type_proj_dep = $POST['p'];
-
+    if (!(isset($_POST['p'])) || $_POST['p'] == 'false') {
+      exit("Erreur 132: Cas d'utilisation impossible. Vérifier la projection en entrée");
+    } else {
+      $type_proj_dep = $POST['p'];
+    }
 
     $E = explode(';', $POST['E']);
     $N = explode(';', $POST['N']);
@@ -22,7 +25,11 @@ function traitement_vers_milieu($POST) {
     // on récupère l'information altitude ou hauteur
     if ($type_alti_dep == 'a') {
       $H = explode(';', $POST['H']);
-      $sys_alti_dep = $POST['A'];
+      if (!(isset($_POST['A'])) || $_POST['A'] == 'false') {
+        exit("Erreur 134: Cas d'utilisation impossible. Vérifier le système altimétrique en entrée");
+      } else {
+        $sys_alti_dep = $POST['A'];
+      }
     } else if ($type_alti_dep == 'h') {
       $h = explode(';', $POST['h']);
     }
@@ -45,7 +52,11 @@ function traitement_vers_milieu($POST) {
     // on récupère les informations d'altitude ou de hauteur
     if ($type_alti_dep == 'a') {
       $H = explode(';', $POST['H']);
-      $sys_alti_dep = $POST['A'];
+      if (!(isset($_POST['A'])) || $_POST['A'] == 'false') {
+        exit("Erreur 134: Cas d'utilisation impossible. Vérifier le système altimétrique en entrée");
+      } else {
+        $sys_alti_dep = $POST['A'];
+      }
     } else if ($type_alti_dep == 'h') {
       $h = explode(';', $POST['h']);
     }

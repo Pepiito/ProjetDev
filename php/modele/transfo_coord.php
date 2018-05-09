@@ -50,7 +50,11 @@ $type_plani_arr = $_POST['_P'];
 if (!($type_coord_arr == 'cart')) {
   $type_alti_arr = $_POST['_T'];
   if ($type_alti_arr == 'a') {
-    $sys_alti_arr = $_POST['_A'];
+    if (!(isset($_POST['_A'])) || $_POST['_A'] == 'false') {
+      exit("Erreur 133: Cas d'utilisation impossible. Vérifier le système altimétrique en sortie");
+    } else {
+      $sys_alti_arr = $_POST['_A'];
+    }
   } else {
     $sys_alti_arr = 0;
   }
@@ -58,7 +62,11 @@ if (!($type_coord_arr == 'cart')) {
   $type_alti_arr = 0;
 }
 if ($type_coord_arr == 'proj') {
-  $type_proj_arr = $_POST['_p'];
+  if (!(isset($_POST['_p'])) || $_POST['_p'] == 'false') {
+    exit("Erreur 131: Cas d'utilisation impossible. Vérifier la projection de sortie");
+  } else {
+    $type_proj_arr = $_POST['_p'];
+  }
 } else {
   $type_proj_arr = 0;
 }
