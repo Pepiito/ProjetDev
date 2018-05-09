@@ -1,28 +1,33 @@
 <fieldset id=fichier-de-depart>
   <legend>Fichier de départ</legend>
-  <div id='container-input-file' style="display:flex;flex-direction:row;">
-    <input id="input-file-in" name=input-file-in type="file" multiple/>
-    <label for="input-file-in"><button type="button">Parcourir</button></label>
-    <label for="input-file-in"><button type="button">Déposer ici</button></label>
+  <div style="display:flex;flex-direction:row;justify-content:space-around;align-items:center;">
+    <div id='container-input-file' style="display:flex;flex-direction:row;align-items:center;">
+      <input id="input-file-in" name=input-file-in type="file" multiple/>
+      <label for="input-file-in">Parcourir</label>
+      <input type=text id=name-import-file-in disabled value="Déposer un fichier ici...">
+      <input type=file id=dropped-files style=display:none;  multiple/><!-- Contient les fichiers droppés -->
+      <span id=reset-input-file-in>&times;</span>
+    </div>
+    <div style="display:flex;flex-direction:row;">
+      <label for="separateur-file-in">Séparateur: </label>
+      <input type="text" id=separateur-file-in class=input-transfo-fichier value=";" maxlength="2">
+    </div>
   </div>
   <div style=display:flex;flex-direction:row;align-items:center;>
-    <label for="separateur-file-in">Séparateur: </label>
-    <input type="text" id=separateur-file-in class=input-transfo-fichier value=";" maxlength="2">
-    <div style="margin-left:30px;display:flex;flex-direction:row;">
+    <label for=selection-formatage-file-out style="margin-left:20px;">Formatage du fichier :</label>
       <select id="selection-formatage-file-in" class=input-transfo-fichier>
         <!-- n : nom; E: est, N: nord; H: Altitude; h: hauteur; l: longitude; p: latitude; X; Y; Z-->
         <?php echo AfficheFileConfigs('in'); ?>
       </select>
-      <select id="selection-formatage-deviation-file-in" class="proj-file-in input-transfo-fichier">
+      <select id="selection-formatage-deviation-file-in" class="proj-file-in input-transfo-fichier" style="margin-left: 0px;">
         <!-- c: eta; x: xi -->
         <option value=false selected disabled>Déviation de la verticale</option>
         <option value="cx">&eta;  &xi;</option>
-        <option value="xc">&eta;  &xi;</option>
+        <option value="xc">&xi;  &eta;</option>
         <option value="">Aucun</option>
       </select>
-      <label for="ligne-start-file-in" style="position:relative;top:3px;">Début à la ligne: </label>
+      <label for="ligne-start-file-in" style="position:relative;margin-left:20px;">Début à la ligne: </label>
       <input type="number" id="ligne-start-file-in" value="0" maxlength="3" min=0 class="input-transfo-fichier">
-    </div>
   </div>
 </fieldset>
 <fieldset>
@@ -112,21 +117,22 @@
 </fieldset>
 <fieldset id=fichier-d-arrivee>
   <legend>Fichier en sortie</legend>
-  <div id=options-out-file style="display:flex;margin:5px 0;justify-content:center;">
-    <div>
-      <label for="nom-export-file-out">Nom du fichier en sortie</label>
-      <input type="text" id=nom-export-file-out value="geofs" maxlength="60" placeholder="Nom du fichier" />
+  <div style=display:flex;flex-direction:row;align-items:center;justify-content:space-around;>
+    <div id=options-out-file style="display:flex;margin:5px 0;justify-content:center;">
+      <div>
+        <label for="nom-export-file-out">Nom du fichier en sortie</label>
+        <input type="text" id=nom-export-file-out value="geofs" maxlength="60" placeholder="Nom du fichier" />
+      </div>
+      <div>
+        <label for="extension-file-out">Extension</label>
+        <select id=extension-file-out>
+          <option value="txt">.txt</option>
+          <option value="csv">.csv</option>
+        </select>
+      </div>
     </div>
-    <div>
-      <label for="extension-file-out">Extension</label>
-      <select id=extension-file-out>
-        <option value="txt">.txt</option>
-        <option value="csv">.csv</option>
-      </select>
-    </div>
-  </div>
-  <div style=display:flex;flex-direction:row;align-items:center;>
-    <div style="margin-left:30px;display:flex;flex-direction:row;">
+    <div style="margin-left:10px;display:flex;flex-direction:row;align-items:center;">
+      <label for=selection-formatage-file-out>Formatage du fichier :</label>
       <select id="selection-formatage-file-out" class=input-transfo-fichier>
         <!-- n : nom; E: est, N: nord; H: Altitude; h: hauteur; l: longitude; p: latitude; X; Y; Z-->
         <?php echo AfficheFileConfigs('out'); ?>

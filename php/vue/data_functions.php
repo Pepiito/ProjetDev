@@ -76,10 +76,7 @@ function AfficheCoord($inout) {
       <label>Déviation de la véritcale &eta; - &xi;</label>
       <input type=text id=coord-proj-eta-point-$inout $disable>
       <input type=text id=coord-proj-xi-point-$inout $disable>
-    </div>"
-    .
-    addInput('proj', 'cote', 'Cote du géoïde', $inout)
-    . "
+    </div>
   </div>
   <div id=geog-point-$inout class='inputs-coord'>"
     .
@@ -126,7 +123,6 @@ function addInput($typecoord, $value, $label, $inout, $addedclasses="") {
 
 function AfficheFileConfigs($inout) {
   return "
-  <option value=false disabled selected>Format du fichier</option>
   <option value=ENH class=proj-file-$inout>Est  Nord Altitude</option>
   <option value=ENh class=proj-file-$inout>Est  Nord Hauteur</option>
   <option value=NEH class=proj-file-$inout>Nord Est  Altitude</option>

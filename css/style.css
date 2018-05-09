@@ -29,6 +29,7 @@ background: #fff;
 	margin: Auto 12px Auto 12px;
 	text-align: center;
 	transform: rotate(180deg);
+	transition: .2s;
 	width: 0;
 	height: 0;
 	border-top: 7px solid transparent;
@@ -119,6 +120,8 @@ p{
 	border-radius: 4px;
 	cursor: pointer;
 	transition: .3s;
+	font-size: 16px;
+	font-family: sans-serif;
 }
 .button_tran:hover {
 	background-color: #45a049;

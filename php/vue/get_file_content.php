@@ -1,11 +1,11 @@
 <?php
 
 $separateur = (isset($_POST['separateur'])) ? $_POST['separateur'] : NULL;
-$start =  (isset($_POST['start'])) ? $_POST['start'] : NULL;
+$start =  (isset($_POST['start'])) ? intval($_POST['start']) : NULL;
 $format =  (isset($_POST['format'])) ? $_POST['format'] : NULL;
 $file = (isset($_FILES['file'])) ? $_FILES['file'] : NULL;
 
-if (!(($separateur != NULL) && ($start != NULL) && $format && $file)) {
+if (($separateur == NULL) && ($start == NULL) && ($format == NULL) && ($file == NULL)) {
   echo "Error 202 : Paramètres invalides";
   exit;
 }
@@ -22,10 +22,9 @@ if (($f = file($file['tmp_name'])) !== FALSE) {
   for ($i = 0; $i < strlen($format); $i++) {
     $data[$format[$i]] = [];
   }
+  $nb_lines = count($f);
 
-  $nb_points = count($f) - $start;
-
-  for ($line = $start; $line < $nb_points; $line++) {
+  for ($line = $start; $line < $nb_lines; $line++) {
 
     if (!preg_match("/\d+/", $f[$line])) continue; // Si la ligne ne contient pas un seule nombre on ne la traite pas.
 

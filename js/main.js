@@ -575,7 +575,8 @@ function precisionRound(number, precision) {
 function raiseError(code, complement) {
   complement = complement || "";
 
-  code = /Err[euo]+r/.test(code) ? code : 'Erreur : ' + code
+  code = /Err[euo]+r/.test(code) ? code : 'Erreur : ' + code;
+  console.log(code);
   showError(code + "<br><center>" + complement + "</center>");
 
   return code;
@@ -593,33 +594,25 @@ function getFileContent(file, addMap) {
   allVar['head_data']['in'] = '';
   allVar['head_data']['out'] = '';
 
+  var format = allVar['file']['in']['selection-formatage'];
+  var format_out = allVar['file']['out']['selection-formatage'];
+
+  var t = allVar['file']['in']['type-coord'],
+  P = allVar['file']['in']['systeme-plani'];
+
+  set_tPTAp('t', t, 'P', P, 'T', ( /H/.test(format) ? "a" : "h"), 'A', allVar['file']['in']['systeme-alti'], 'p', allVar['file']['in']['projection']);
   addToData("addMap", addMap);
 
-  var format = allVar['file']['in']['selection-formatage'];
-
-  addToData('t', allVar['file']['in']['type-coord']);
-  addToData('P', allVar['file']['in']['systeme-plani']);
-  addToData('T', ( /H/.test(format) ? "a" : "h"));
-
-  var A = allVar['file']['in']['systeme-alti']
-  if (/H/.test(format)) {
-    if (A == "false" || !A) return "&systeme-alti";
-    addToData('A', A);
-  }
-  if ( /E/.test(format)) {
-    if (A == "false" || !A) return "&projection";
-    addToData('p', allVar['file']['in']['projection']);
-  }
-
-
-
+  var _t = allVar['file']['out']['type-coord'],
+  _P = allVar['file']['out']['systeme-plani'];
+  set_tPTAp('_t', t, '_P', P, '_T', ( /H/.test(format_out) ? "a" : "h"), '_A', allVar['file']['out']['systeme-alti'], '_p', allVar['file']['out']['projection']);
 
   var separateur = allVar['file']['in']['separateur'];
   var start = allVar['file']['in']['ligne-start'];
   var format = allVar['file']['in']['selection-formatage'];
 
   if ("proj" == allVar['file']['in']['type-coord']) {
-    format += allVar['file']['in']['selection-formatage-deviation'];
+    format += allVar['file']['in']['selection-formatage-deviation'] ? allVar['file']['in']['selection-formatage-deviation'] : "";
   }
 
 
@@ -649,7 +642,14 @@ function collectData(reponse) {
 
     applyLoading('Traitement des données. Ceci peut prendre un moment...');
 
-    var variables = JSON.parse(reponse);
+    try {
+      var variables = JSON.parse(reponse);
+    }
+    catch (e) {
+      raiseError("Erreur 207: La lecture du fichier s'est mal passé.", reponse);
+      return;
+    }
+    console.log(variables);
 
     var unite_in = (allVar['file']['in']['type-coord'] == 'geog') ? allVar['file']['in']['geog-unite'] : "none";
 
@@ -657,9 +657,10 @@ function collectData(reponse) {
     for (type in variables) {
 
       var values = variables[type];
+      console.log(values);
       var temp_str = "";
 
-      for (line=0; line < values.length; line++) {
+      for (line in values) {
 
         value = values[line];
 
@@ -668,7 +669,7 @@ function collectData(reponse) {
         }
         else {
 
-          var valid_value = (type == "h" || type == "H") ? validateCoord(value, "none") : validateCoord(value, unite_in);
+          var valid_value = (type == "f" || type == "l") ? validateCoord(value, unite_in) : validateCoord(value);
           if (valid_value) temp_str += valid_value + ';';
           else return raiseError('210', 'Ligne ' + line + ", variable " + type);
 

@@ -83,13 +83,13 @@ document.getElementById('calcul-point').addEventListener('click', (event) => {
 }, false);
 
 document.getElementById('dl-file').addEventListener('click', (event) => {
-  document.getElementById("input-file-in").files.forEach( function (file) {
+  Array.from(document.getElementById('input-file-in').files).concat(Array.from(document.getElementById('dropped-files').files)).forEach( function (file) {
     getFileContent(file);
   });
 }, false);
 
 document.getElementById("ajout-carte-file").addEventListener('click', (event) => {
-  document.getElementById("input-file-in").files.forEach( function (file) {
+  Array.from(document.getElementById('input-file-in').files).concat(Array.from(document.getElementById('dropped-files').files)).forEach( function (file) {
     getFileContent(file, true);
   });
 });
@@ -99,6 +99,51 @@ document.getElementById("ajout-carte-point").addEventListener('click', (event) =
   if (errordata != 'Success') raiseError("Erreur 205 : Les informations suivantes sont manquantes pour la compilation : ", errordata);
 
 });
+
+document.getElementById('input-file-in').addEventListener('change', (event) => {
+  showNamesFiles();
+
+});
+
+document.getElementById('reset-input-file-in').addEventListener('click', (event) => {
+  document.getElementById('input-file-in').value = "";
+  document.getElementById('dropped-files').value = "";
+  document.getElementById('name-import-file-in').value = "Déposer un fichier ici...";
+})
+
+function showNamesFiles() {
+  var val = "";
+  Array.from(document.getElementById('input-file-in').files).concat(Array.from(document.getElementById('dropped-files').files)).forEach( function (file) { val += file.name + " / "});
+  document.getElementById('name-import-file-in').value = val.substr(0, val.length-3);
+}
+
+document.getElementById('name-import-file-in').addEventListener('dragover', function (e) {
+  e.stopPropagation();
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'copy';
+  document.getElementById('name-import-file-in').style.borderStyle = "dashed";
+})
+
+document.getElementById('name-import-file-in').addEventListener('drop', function (e) {
+  e.stopPropagation();
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'copy';
+  var files = e.dataTransfer.files;
+
+  document.getElementById('dropped-files').files = files;
+  document.getElementById('name-import-file-in').style.borderStyle = "none";
+
+  showNamesFiles();
+
+});
+
+window.ondragover = function () {
+  document.getElementById('name-import-file-in').style.borderStyle = "dashed";
+}
+
+window.ondragleave = function () {
+  document.getElementById('name-import-file-in').style.borderStyle = "none";
+}
 
 document.getElementById('head_trans_coord').addEventListener('click', (event) => {
 	toggleHead('left');
