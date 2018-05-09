@@ -30,7 +30,7 @@ et de les transformer dans tous les types.
 On doit donc prévoir tous les cas de figure.
 */
 
-$addmap = isset($_POST['addMap'] ? is_true($_POST['addMap'] : FALSE;
+$addmap = isset($_POST['addMap']) ? is_true($_POST['addMap']) : FALSE;
 
 list($X_tmp, $Y_tmp, $Z_tmp, $len) = traitement_vers_milieu($_POST);
 
