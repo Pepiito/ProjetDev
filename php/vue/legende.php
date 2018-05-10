@@ -61,7 +61,7 @@
 
 	   <div class="border_legende">
 	   <p><u>Coordonnées géographiques</u></p>
-       <div><input type="checkbox" name="etrs89_geog_map" id="etrs89_geog_map"/> <label for="etrs89_geog_map">ETRS89/RGF/CHTRS95</label></div>
+       <div><input type="checkbox" name="etrs89_geog_map" id="etrs89_geog_map"/> <label for="etrs89_geog_map">ETRS89/RGF93/CHTRS95</label></div>
 	   <div><input type="checkbox" name="ch1903_geog_map" id="ch1903_geog_map" /> <label for="ch1903_geog_map">CH1903+</label></div>
 	   <!--<div><input type="checkbox" name="rgf_geog_map" id="rgf_geog_map" /> <label for="rgf_geog_map">RGF</label></div>-->
 	   <div><input type="checkbox" name="ntf_geog_map" id="ntf_geog_map" /> <label for="ntf_geog_map">NTF</label></div>
@@ -69,7 +69,7 @@
 
 	   <div class="border_legende">
 	   <p><u>Coordonnées cartésiennes</u></p>
-       <div><input type="checkbox" name="etrs89_cart_map" id="etrs89_cart_map"/> <label for="etrs89_cart_map">ETRS89/RGF/CHTRS95</label></div>
+       <div><input type="checkbox" name="etrs89_cart_map" id="etrs89_cart_map"/> <label for="etrs89_cart_map">ETRS89/RGF93/CHTRS95</label></div>
 	   <div><input type="checkbox" name="ch1903_cart_map" id="ch1903_cart_map" /> <label for="ch1903_cart_map">CH1903+</label></div>
 	   <!--<div><input type="checkbox" name="rgf_cart_map" id="rgf_cart_map" /> <label for="rgf_cart_map">RGF</label></div>-->
 	   <div><input type="checkbox" name="ntf_cart_map" id="ntf_cart_map" /> <label for="ntf_cart_map">NTF</label></div>
@@ -107,7 +107,7 @@
                 <select id="maListe" onchange="changeProjection(this.value)">
                     <option value="EPSG:4258">Coordonnées géographique (ETRS89)</option>
 					<optgroup label="Coordonnées Françaises projetées">
-					<option value="EPSG:2154">Lambert-93 (R	GF93)</option>
+					<option value="EPSG:2154">Lambert-93 (RGF93)</option>
 					<option value="EPSG:27572">Lambert 2 (NTF)</option>
 					</optgroup>
 					<optgroup label="Coordonnées Suisse projetées">
