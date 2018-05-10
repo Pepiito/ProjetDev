@@ -221,7 +221,8 @@ sys_alti_title.onmousemove = function (e) {
 };
 
 document.getElementById('liste_chantier').addEventListener('change', (event) => {
-	var geojson_ptsess = 'echo';//recupere la variable geojson_ptsess dans le fichier PHP postgis_change_chantier
+	var value = document.getElementById('liste_chantier').value;
+	var geojson_ptsess = ;//recupere la variable geojson_ptsess dans le fichier PHP postgis_change_chantier
 	var wfsPtSession = new ol.layer.Vector({
 		source: new ol.source.Vector({
 			features: (new ol.format.GeoJSON()).readFeatures(geojson_ptsess),
