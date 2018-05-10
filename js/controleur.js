@@ -219,3 +219,21 @@ sys_alti_title.onmousemove = function (e) {
     document.getElementById('span_alti').style.top = (y) + 'px';
     document.getElementById('span_alti').style.left = (x+10) + 'px';
 };
+
+document.getElementById('liste_chantier').addEventListener('change', (event) => {
+	var geojson_ptsess = 'echo';//recupere la variable geojson_ptsess dans le fichier PHP postgis_change_chantier
+	var wfsPtSession = new ol.layer.Vector({
+		source: new ol.source.Vector({
+			features: (new ol.format.GeoJSON()).readFeatures(geojson_ptsess),
+		}),
+		style: new ol.style.Style({
+			image: new ol.style.Icon({
+				src: 'icon_map/Pt_session.svg'
+			})
+		}),
+	});
+	map.removeLayer(wfsPtSession);
+	map.addLayer(wfsPtSession);
+	console.log('changement de chantier')
+
+}, false);
