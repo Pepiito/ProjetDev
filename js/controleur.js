@@ -260,6 +260,5 @@ function change_chantier(reponse){
 	var features_ptsess2 = new ol.format.GeoJSON().readFeatures(geojson_ptsess);
 	source.addFeatures(features_ptsess2)
 	console.log(features_ptsess2)
-	console.log(wfsPtSession)
 	}
 }

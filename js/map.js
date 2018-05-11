@@ -61,14 +61,6 @@ closer.onclick = function() {
 var map = new ol.Map({
 	target: "map",
 
-	// Couches
-	// layers: [
-		// new ol.layer.Tile({
-			// source: new ol.source.OSM()
-		// })
-	// ],
-
-	// Vue
 	view: new ol.View({
 		center: ol.proj.fromLonLat([6.6, 46.6]),
 		zoom: 10,
@@ -130,7 +122,7 @@ document.getElementById('point_fixe_map').addEventListener('click', (event) => {
 map.on('click', function(e) {
 
               var features = map.getFeaturesAtPixel(e.pixel);
-
+			// enregistrements variable si nous avons cliqué sur une couche
               if (features) {
 				console.log(features)
                 var coords = e.coordinate;
@@ -181,7 +173,9 @@ map.on('click', function(e) {
 
 				var hbessel_map = features[0].N.h_CH1903plus;
 				var hgrs80_map = features[0].N.h_ETRS89;
-
+				
+				
+				//Création de la popup en fonction des systèmes choisis
 				var description = '<h4><u>Coordonnées du points '+num_pt+'</u></h4>';
 				if(document.getElementById('ch1903_proj_map').checked == true || document.getElementById('ch1903plus_proj_map').checked == true || document.getElementById('rgf_proj_map').checked == true || document.getElementById('ntf_proj_Etendu_map').checked == true || document.getElementById('rgf_proj_C46_map').checked == true || document.getElementById('rgf_proj_C47_map').checked == true || document.getElementById('rgf_proj_C48_map').checked == true || document.getElementById('ntf_proj_2_map').checked == true){
 					description+='<u>Coordonnées projetées [m]</u>';
@@ -222,9 +216,6 @@ map.on('click', function(e) {
 					if(document.getElementById('ntf_geog_map').checked == true){
 						description +='<p>NTF: ' + long_NTF + ' / '+lat_NTF + '</p>';
 					};
-					// if(document.getElementById('rgf_geog_map').checked == true){
-						// description +='<p>RGF: ' + long_RGF + ' / '+lat_RGF + '</p>';
-					// };
 				};
 				if(document.getElementById('etrs89_cart_map').checked == true || document.getElementById('ch1903_cart_map').checked == true || document.getElementById('ntf_cart_map').checked == true){
 					description+='<u>Coordonnées cartésiennes [m]</u>';
@@ -237,9 +228,6 @@ map.on('click', function(e) {
 					if(document.getElementById('ntf_cart_map').checked == true){
 						description +='<p>NTF: ' + X_NTF + ' / '+Y_NTF + ' / '+Z_NTF + '</p>';
 					};
-					// if(document.getElementById('rgf_cart_map').checked == true){
-						// description +='<p>RGF: ' + X_RGF + ' / '+Y_RGF + ' / '+Z_RGF + '</p>';
-					// };
 				};
 				if(document.getElementById('ign69_map').checked == true || document.getElementById('ran95_map').checked == true || document.getElementById('nf02_map').checked == true){
 					description+='<u>Altitudes [m]</u>';
@@ -269,10 +257,9 @@ map.on('click', function(e) {
                 content.innerHTML = description;
 				console.log(coords);
 				popup_map.setPosition(coords);
-				//window.open("dossier.php?id="+iddoss);
               }
             });
-
+//changement de projection de l'affichage des coordonnées
 function changeProjection(code) {
 	console.log("changeProjection(\"" + code + "\")");
 

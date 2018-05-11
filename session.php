@@ -1,7 +1,7 @@
 <?php 
 if (isset($_SESSION)) session_destroy();
-
 ?>
+<!--HEIG-VD-->
 <html lang="fr">
   <head>
     <meta charset="utf-8">
@@ -78,7 +78,7 @@ if (isset($_SESSION)) session_destroy();
 			<form action="index.php" style="margin-top:40%;" method="POST">
                 <input type="hidden" value="aleat" name="aleat">
 
-                <input type="submit" id='submit' value='Continuer sans connexion' >
+                <input type="submit" id='without_conn' value='Continuer sans connexion' >
 
             </form>
 			</div>
