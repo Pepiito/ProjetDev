@@ -133,10 +133,10 @@ function receiveDataFromModel(reponse) {
 		var features_ptsess3 = new ol.format.GeoJSON().readFeatures(geojson_ptsess);
 		source.addFeatures(features_ptsess3)
 		close_popup();
-	  
+
     }
     window.time_exec = new Date - start
-    console.log("Temps d'execution : ", time_exec);
+    console.log("Temps d'execution : " + time_exec + "ms");
   }
 
 }
@@ -608,9 +608,10 @@ function getFileContent(file, addMap) {
   start = allVar['file']['in']['ligne-start'],
   format = allVar['file']['in']['selection-formatage'],
   format_out = allVar['file']['out']['selection-formatage'],
-  format_dev = allVar['file']['in']['selection-formatage'];
+  format_dev = allVar['file']['in']['selection-formatage-deviation'];
+  console.log(format_dev);
 
-  format = format + (format_dev == "false" ? "" : format_dev);
+  format = format + (format_dev ? format_dev : "");
 
   var t = allVar['file']['in']['type-coord'],
   P = allVar['file']['in']['systeme-plani'];
@@ -621,11 +622,6 @@ function getFileContent(file, addMap) {
   var _t = allVar['file']['out']['type-coord'],
   _P = allVar['file']['out']['systeme-plani'];
   set_tPTAp('_t', _t, '_P', _P, '_T', /H/.test(format_out), '_A', allVar['file']['out']['systeme-alti'], '_p', allVar['file']['out']['projection']);
-
-
-  if ("proj" == allVar['file']['in']['type-coord']) {
-    format += allVar['file']['in']['selection-formatage-deviation'] ? allVar['file']['in']['selection-formatage-deviation'] : "";
-  }
 
 
   var formdata = new FormData();
