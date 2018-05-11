@@ -102,6 +102,11 @@
 
 
 	</form>
+	<div id="fondcarte" class="border_legende">
+				<h3>Fond de plan</h3>
+				<p><label><input id="fond_osm_map" type="radio" checked="checked" name="baselayer" value="osm" onclick="changeBaselayer(this.value)" /> OpenStreetMap</label></p>
+				<p><label><input id="fond_bing_map" type="radio" name="baselayer" value="bingAerial" onclick="changeBaselayer(this.value)" /> Bing Maps Satellite</label></p>
+	</div>
 
             <p>Système de coordonnées (système géodésique) :
                 <select id="maListe" onchange="changeProjection(this.value)">
@@ -117,3 +122,4 @@
                 </select>
             </p>
             <p id="coordonnees"></p>
+			
