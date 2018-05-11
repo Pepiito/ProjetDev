@@ -5,12 +5,6 @@ Les écouteurs d'évènements sont contenues dans le controleur.js
 
 */
 
-function Test() {
-
-  console.log("Working");
-
-}
-
 
 function sendAjax(callback, file, data, isFormData) {
   /*
@@ -23,7 +17,7 @@ function sendAjax(callback, file, data, isFormData) {
   data = data || "";
   isFormData = isFormData || false;
 
-  var ajax = new XMLHttpRequest();
+  window.ajax = new XMLHttpRequest();
   ajax.open('POST', file, true);
 
   if (!isFormData) ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -51,18 +45,18 @@ function sendDataToModel() {
 function receiveDataFromModel(reponse) {
 
   if (isPHPErrorType(reponse)) {
-    console.log("Erreur sur la réponse AJAX :\n" + reponse);
+    console.log("Erreur sur la réponse AJAX");
     showError(reponse);
   }
   else if (isErrorType(reponse)) {
-    raiseError(reponse);
+    raiseError(reponse ? reponse : "Aucune réponse");
   }
   else {
-    // Instruction si tout va bien
+    // Instruction si rien n'est détecté
     try {
       window.coordonnees = JSON.parse(reponse);
     }
-    catch (e) {
+    catch (e) { // Le format renvoyé n'est pas correct. Erreur d'origine inconnue
       return raiseError(reponse);
     }
 
@@ -105,11 +99,16 @@ function receiveDataFromModel(reponse) {
     else { // cas fichier
 
       var t_out = allVar['file']['out']['type-coord'];
-      var P_out = allVar['file']['out']['systeme-plani'];
-      var T_out = allVar['file']['out']['type-alti-altitude'];
+      var P_out = (allVar['file']['out']['systeme-plani'] == "CH1903+") ? "CH1903plus" : allVar['file']['out']['systeme-plani'];
       var A_out = allVar['file']['out']['systeme-alti'];
       var p_out = allVar['file']['out']['projection'];
       var format_out = allVar['file']['out']['selection-formatage'];
+      var format_out_dev = allVar['file']['out']['selection-formatage-deviation'];
+      var T_out = /H/.test(format_out);
+
+      if (t_out == "proj" && allVar['file']['in']['selection-formatage-deviation'] != "false") {
+        format_out += (format_out_dev == "false" ? "" : format_out_dev);
+      }
 
       var unite_out = allVar['file']['out']['geog-unite'];
 
@@ -133,56 +132,57 @@ function receiveDataFromModel(reponse) {
       var geojson_ptsess = coordonnees['geojson_ptsess']
       close_popup();
     }
+    window.time_exec = new Date - start
+    console.log("Temps d'execution : ", time_exec);
   }
 
 }
 
 function fillFile(_t, _P, _T, _A, _p, format, _u) {
 
-  var explicite = {"cart":"Cartésiennes", "proj": "Projetées", "geog": "Géographiques", "H": "altitude", "h": "hauteur ellipsoïdale"}
+  var explicite = {"cart":"Cartesiennes", "proj": "Projetees", "geog": "Geographiques", "H": "altitude", "h": "hauteur ellipsoïdale"}
 
   file_content = "";
   file_content += "#" + pad(pad("GEO FS", 46, "*", true), 99, "*") + "\r\n";
-  file_content += "# Fichier réalisé grâce au service en ligne GEOFS retrouvable à l'adresse geofs.ensg.eu . \r\n"+
-                  "# Ce site a été réalisé dans le cadre d'un projet en partenariat entre l'ENSG Paris et HEIG Canton de Vaud (Suisse) .\r\n";
-  file_content += "#\r\n# Coordonnées exprimées :\r\n#\r\n" ;
-  file_content += createline(["Coordonnées :", explicite[_t]], 30, "# ") + "#\r\n";
-  file_content += createline(["SYSTEME :", _P], 30, "# ") + "#\r\n";
+  file_content += "# Fichier realise grace au service en ligne GEOFS retrouvable a l'adresse geofs.ensg.eu . \r\n"+
+                  "# Ce site a ete realise dans le cadre d'un projet en partenariat entre l'ENSG Paris et HEIG Canton de Vaud (Suisse).\r\n";
+  file_content += "#\r\n# Coordonnees exprimees :\r\n#\r\n" ;
+  file_content += createline(["Coordonnees :", explicite[_t]], 30, "# ") + "#\r\n";
+  file_content += createline(["SYSTEME :", _P.replace("plus", "+")], 30, "# ") + "#\r\n";
   if (_t == "proj") file_content += createline(["PROJECTION :", _p], 30, "# ") + "#\r\n";
   if (_t != "cart") {
-    file_content += createline(["Coordonnées en  :", explicite[(_T ? "H" : "h")]], 30, "# ") + "#\r\n";
+    file_content += createline(["Coordonnees en  :", explicite[(_T ? "H" : "h")]], 30, "# ") + "#\r\n";
     if (_T) file_content += createline(["SYSTEME ALTIMETRIQUE :", _A], 30, "# ") + "#\r\n";
   }
   file_content += "#" + pad("", 99, "-") + "\r\n";
 
+  console.log(coordonnees);
   coords = coordonnees[_t][_P];
 
-  console.log(coordonnees);
-  if (_t == "cart") {
-    file_content += createline(['Nom', 'X', 'Y', 'Z'], undefined, "# ");
+  var format_to_values = {'n': 'n', 'X': 'X', 'Y': 'Y', 'Z': 'Z', 'E': 'E', 'N': 'N', 'h': 'h', 'H': 'H', 'l': 'lambda', 'f': 'phi', 'c': 'eta', 'x': 'ksi'};
+  var format_to_string = {'n': 'Nom', 'X': 'X', 'Y': 'Y', 'Z': 'Z', 'E': 'Est', 'N': 'Nord', 'h': 'hauteur', 'H': 'altitude', 'l': 'lambda', 'f': 'phi', 'c': '&eta;', 'x': '&xi;'};
 
-    for (var i = 0; i < Object.keys(coords['X']).length; i++) {
-      file_content += createline([coordonnees['n']['n'+i], coords['X']['X'+i], coords['Y']['Y'+i], coords['Z']['Z'+i]]);
+  var headline = [];
+  for (var i = 0; i < format.length; i++){
+    char = format[i];
+    headline.push(format_to_string[char]);
+  }
+  file_content += createline(headline, undefined, "# ");
+
+  if (_t == "cart") var c = coords;
+  else if (_t == "geog") var c = _T ? coords['a'][_A] : coords['h'];
+  else if (_t == "proj") var c = _T ? coords[_p]['a'][_A] : coords[_p]['h'];
+  else raiseError("Erreur inconnue");
+
+  for (var num_line = 0; num_line < coordonnees['n'].length; num_line++) {
+    ligne = [];
+    for (var i = 0; i < format.length; i++){
+      char = format[i];
+      val = (char == 'n') ? coordonnees['n'][num_line] : c[format_to_values[char]][format_to_values[char]+num_line]
+
+      ligne.push((char == 'l' || char == 'f') ? radToAngle(val, _u) : val);
     }
-  }
-  else if (_t == "geog") {
-    var c = _T ? coords['a'][_A] : coords['h'];
-    file_content += createline(['Nom', 'lambda', 'phi', (_T ? 'H' : 'h')], undefined, "# ");
-
-    for (var i = 0; i < Object.keys(c['lambda']).length; i++) {
-      file_content += createline([coordonnees['n']['n'+i], radToAngle(c['lambda']['lambda'+i], _u), radToAngle(c['phi']['phi'+i], _u), (_T ? c['H']['H'+i] : c['h']['h'+i]) ]);
-    }
-  }
-  else if (_t == "proj") {
-      var c = _T ? coords[_p]['a'][_A] : coords[_p]['h'];
-      file_content += createline(['Nom', 'E', 'N', (_T ? 'H' : 'h')], undefined, "# ");
-
-      for (var i = 0; i < Object.keys(c['E']).length; i++) {
-        file_content += createline([coordonnees['n']['n'+i], c['E']['E'+i], c['N']['N'+i], (_T ? c['H']['H'+i] : c['h']['h'+i]) ]);
-      }
-  }
-  else {
-    raiseError("Erreur inconnue");
+    file_content += createline(ligne);
   }
 
   return file_content;
@@ -192,7 +192,12 @@ function createline(array, largeur_colonne, line_start) {
   var line = line_start || " ";
   var l_colonne = largeur_colonne || 16;
 
-  for (i in array) {
+  if (allVar['file']['out']['extension'] == 'csv') {
+    return line + array.join(";") + '\n';
+  }
+
+  for (i in array) { // cas txt
+    if (array[i] === false) continue;
     line += pad(array[i], l_colonne, " ", true);
   }
   line += "\r\n";
@@ -212,7 +217,7 @@ function pad(n, width, z, bafter) {
 }
 
 function isErrorType(string) {
-  return /Error /.test(string)
+  return /Err[euo]+r /.test(string) || string == "";
 }
 
 function isPHPErrorType(string) {
@@ -395,20 +400,18 @@ function inArray(elem, arr) {
   return (arr.indexOf(elem) != -1);
 }
 
-function toggleHead(side) {
-  toShow = 'trans_coord';
-  toHide = 'trans_fichier';
-  border = "2px 2px 0 0";
-  if (side == "right") {
-    toShow = 'trans_fichier';
-    toHide = 'trans_coord';
-    border = "2px 0 0 2px";
-  }
-  document.getElementById(toShow).style.display="block";
-    document.getElementById(toHide).style.display="none";
-    document.getElementById('head_' + toHide).style.borderWidth="0 0 2px 0";
-    document.getElementById('head_' + toShow).style.borderWidth = border;
-  }
+function toggleHead(type) {
+  toShow = (type == "point") ? "fichier" : "point";
+  toHide = type;
+
+  document.getElementById("trans_"+toShow).style.visibility = "visible";
+  document.getElementById("trans_"+toShow).style.opacity = 1;
+  document.getElementById('underline_'+toShow).style.width = "90%";
+
+  document.getElementById("trans_"+toHide).style.opacity = 0;
+  document.getElementById("trans_"+toHide).style.visibility = "hidden";
+  document.getElementById('underline_'+toHide).style.width = "0%";
+}
 
 function set_tPTAp(str_t, t, str_P, P, str_T, T, str_A, A, str_p, p) {
 
@@ -423,6 +426,8 @@ function set_tPTAp(str_t, t, str_P, P, str_T, T, str_A, A, str_p, p) {
 }
 
 function validAndSetData(addMap) {
+
+  window.start = new Date();
 
   addMap = addMap || false;
 
@@ -558,11 +563,11 @@ function angleToRad(alpha, nb) {
   return alpha*2*Math.PI/nb;
 }
 
-function radToAngle(alpha, nb) {
+function radToAngle(alpha, unite) {
   alpha = parseFloat(alpha);
-  if (nb == "deg") nb = 360;
-  else if (nb == "grad") nb = 400;
-  else if (nb == "rad") nb = 2*Math.PI;
+  if (unite == "deg") nb = 360;
+  else if (unite == "grad") nb = 400;
+  else if (unite == "rad") nb = 2*Math.PI;
   else return alpha;
   return precisionRound(alpha*nb/(2*Math.PI), 9);
 }
@@ -584,6 +589,8 @@ function raiseError(code, complement) {
 
 function getFileContent(file, addMap) {
 
+  window.start = new Date();
+
   registerAllData();
 
   file = file || document.getElementById("input-file-in").files[0];
@@ -594,22 +601,24 @@ function getFileContent(file, addMap) {
   allVar['head_data']['in'] = '';
   allVar['head_data']['out'] = '';
 
-  var format = allVar['file']['in']['selection-formatage'];
-  var format_out = allVar['file']['out']['selection-formatage'];
+  var separateur = allVar['file']['in']['separateur'],
+  start = allVar['file']['in']['ligne-start'],
+  format = allVar['file']['in']['selection-formatage'],
+  format_out = allVar['file']['out']['selection-formatage'],
+  format_dev = allVar['file']['in']['selection-formatage'];
+
+  format = format + (format_dev == "false" ? "" : format_dev);
 
   var t = allVar['file']['in']['type-coord'],
   P = allVar['file']['in']['systeme-plani'];
 
-  set_tPTAp('t', t, 'P', P, 'T', ( /H/.test(format) ? "a" : "h"), 'A', allVar['file']['in']['systeme-alti'], 'p', allVar['file']['in']['projection']);
+  set_tPTAp('t', t, 'P', P, 'T', /H/.test(format), 'A', allVar['file']['in']['systeme-alti'], 'p', allVar['file']['in']['projection']);
   addToData("addMap", addMap);
 
   var _t = allVar['file']['out']['type-coord'],
   _P = allVar['file']['out']['systeme-plani'];
-  set_tPTAp('_t', t, '_P', P, '_T', ( /H/.test(format_out) ? "a" : "h"), '_A', allVar['file']['out']['systeme-alti'], '_p', allVar['file']['out']['projection']);
+  set_tPTAp('_t', _t, '_P', _P, '_T', /H/.test(format_out), '_A', allVar['file']['out']['systeme-alti'], '_p', allVar['file']['out']['projection']);
 
-  var separateur = allVar['file']['in']['separateur'];
-  var start = allVar['file']['in']['ligne-start'];
-  var format = allVar['file']['in']['selection-formatage'];
 
   if ("proj" == allVar['file']['in']['type-coord']) {
     format += allVar['file']['in']['selection-formatage-deviation'] ? allVar['file']['in']['selection-formatage-deviation'] : "";
@@ -632,12 +641,12 @@ function getFileContent(file, addMap) {
 
 function collectData(reponse) {
 
-  if (isErrorType(reponse)) raiseError(reponse);
-  else if (isPHPErrorType(reponse)) {
+  if (isPHPErrorType(reponse)) {
 
-    console.log("Erreur PHP : \n" + reponse);
-    raiseError('Erreur 200 : Une erreur inattendu est survenu.');
+    console.log("Erreur PHP");
+    raiseError('Erreur 200 : Une erreur inattendu est survenu.', reponse);
   }
+  else if (isErrorType(reponse)) raiseError(reponse);
   else {
 
     applyLoading('Traitement des données. Ceci peut prendre un moment...');
@@ -649,7 +658,6 @@ function collectData(reponse) {
       raiseError("Erreur 207: La lecture du fichier s'est mal passé.", reponse);
       return;
     }
-    console.log(variables);
 
     var unite_in = (allVar['file']['in']['type-coord'] == 'geog') ? allVar['file']['in']['geog-unite'] : "none";
 
@@ -657,7 +665,6 @@ function collectData(reponse) {
     for (type in variables) {
 
       var values = variables[type];
-      console.log(values);
       var temp_str = "";
 
       for (line in values) {
@@ -715,11 +722,10 @@ function download(data, filename, type) {
     }
 }
 
-async function applyLoading(message) {
+function applyLoading(message) {
 
   showLoader("loader");
   document.getElementById("loader-message").innerHTML = message;
-  await sleep(800);
   return;
 }
 
@@ -738,6 +744,11 @@ function endLoading() {
   loaderFiltre.style.visibility = "hidden";
   loaderFiltre.style.opacity = 0;
   loaderFiltre.style.zIndex = -10;
+
+  if (ajax.readyState != 4) {
+    console.log(ajax);
+    ajax.abort();
+  }
 }
 
 function showError(message) {
@@ -758,3 +769,5 @@ function showLoader(loadOrError) {
     loaderFiltre.style.zIndex = 1000;
   }
 }
+
+files = () => Array.from(document.getElementById('input-file-in').files).concat(Array.from(document.getElementById('dropped-files').files));

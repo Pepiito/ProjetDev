@@ -22,7 +22,7 @@ window.addEventListener('load', (event) => {
   var inputs = document.getElementById('pop_body').getElementsByTagName('input');
   var selects =  document.getElementById('pop_body').getElementsByTagName('select');
 
-  window.allHTMLElem = Array.from(inputs).concat(Array.from(selects))
+  window.allHTMLElem = Array.from(inputs).concat(Array.from(selects));
 
   // Eléments du DOM dont l'affichage dépend du type de coordonnée choisi
   getAllElementsByClass(['cart', 'geog', 'proj'], 'typeCoord');
@@ -83,13 +83,13 @@ document.getElementById('calcul-point').addEventListener('click', (event) => {
 }, false);
 
 document.getElementById('dl-file').addEventListener('click', (event) => {
-  Array.from(document.getElementById('input-file-in').files).concat(Array.from(document.getElementById('dropped-files').files)).forEach( function (file) {
+  files().forEach( function (file) {
     getFileContent(file);
   });
 }, false);
 
 document.getElementById("ajout-carte-file").addEventListener('click', (event) => {
-  Array.from(document.getElementById('input-file-in').files).concat(Array.from(document.getElementById('dropped-files').files)).forEach( function (file) {
+  files().forEach( function (file) {
     getFileContent(file, true);
   });
 });
@@ -100,31 +100,29 @@ document.getElementById("ajout-carte-point").addEventListener('click', (event) =
 
 });
 
-document.getElementById('input-file-in').addEventListener('change', (event) => {
-  showNamesFiles();
 
-});
+document.getElementById('input-file-in').addEventListener('change', showNamesFiles, false);
 
 document.getElementById('reset-input-file-in').addEventListener('click', (event) => {
   document.getElementById('input-file-in').value = "";
   document.getElementById('dropped-files').value = "";
   document.getElementById('name-import-file-in').value = "Déposer un fichier ici...";
-})
+}, false)
 
 function showNamesFiles() {
   var val = "";
-  Array.from(document.getElementById('input-file-in').files).concat(Array.from(document.getElementById('dropped-files').files)).forEach( function (file) { val += file.name + " / "});
+  files().forEach( function (file) { val += file.name + " / "});
   document.getElementById('name-import-file-in').value = val.substr(0, val.length-3);
 }
 
-document.getElementById('name-import-file-in').addEventListener('dragover', function (e) {
+document.getElementById('fichier-de-depart').addEventListener('dragover', function (e) {
   e.stopPropagation();
   e.preventDefault();
   e.dataTransfer.dropEffect = 'copy';
   document.getElementById('name-import-file-in').style.borderStyle = "dashed";
 })
 
-document.getElementById('name-import-file-in').addEventListener('drop', function (e) {
+document.getElementById('fichier-de-depart').addEventListener('drop', function (e) {
   e.stopPropagation();
   e.preventDefault();
   e.dataTransfer.dropEffect = 'copy';
@@ -141,18 +139,35 @@ window.ondragover = function () {
   document.getElementById('name-import-file-in').style.borderStyle = "dashed";
 }
 
+document.getElementById('nom-export-file-out').addEventListener('input', (event) => {
+  event.target.value = event.target.value.replace(/[\\/:"*?<>|\.]+/, "_");
+})
+
 window.ondragleave = function () {
   document.getElementById('name-import-file-in').style.borderStyle = "none";
 }
 
-document.getElementById('head_trans_coord').addEventListener('click', (event) => {
-	toggleHead('left');
+document.getElementById('head_point').addEventListener('click', (event) => {
+	toggleHead('fichier');
   allVar['type-transfo-selected'] = 'point';
 }, false);
 
-document.getElementById('head_trans_fichier').addEventListener('click', (event) => {
-	toggleHead('right');
+document.getElementById('head_fichier').addEventListener('click', (event) => {
+	toggleHead('point')
   allVar['type-transfo-selected'] = 'file';
+}, false);
+
+document.getElementById('head_fichier').onmouseover = function () {styleHead("+");}
+document.getElementById('head_point').onmouseover = function () {styleHead("-");}
+
+function styleHead(sens) {
+  var head = document.getElementById('pop_header')
+  head.style.backgroundColor = "#df9999";
+  head.style.boxShadow = "inset "+sens+"300px 0 150px 2px #f5f5f5";
+}
+
+document.getElementById('pop_header').addEventListener('mouseleave', (event) => {
+  event.target.style.backgroundColor = "#f5f5f5";
 }, false);
 
 document.getElementById("error-ok").addEventListener('click', endLoading, false);
