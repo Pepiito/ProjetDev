@@ -131,18 +131,8 @@ function receiveDataFromModel(reponse) {
 
     if (coordonnees['geojson_ptsess']) { // cas add map
 		var geojson_ptsess = coordonnees['geojson_ptsess'];
-		var wfsPtSession = new ol.layer.Vector({
-			source: new ol.source.Vector({
-				features: (new ol.format.GeoJSON()).readFeatures(geojson_ptsess),
-			}),
-			style: new ol.style.Style({
-				image: new ol.style.Icon({
-					src: 'icon_map/Pt_session.svg'
-				})
-			}),
-		});
-		map.removeLayer(wfsPtSession);
-		map.addLayer(wfsPtSession);
+		var features_ptsess3 = new ol.format.GeoJSON().readFeatures(geojson_ptsess);
+		source.addFeatures(features_ptsess3)
 		close_popup();
 	  
     }

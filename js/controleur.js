@@ -222,19 +222,29 @@ sys_alti_title.onmousemove = function (e) {
 
 document.getElementById('liste_chantier').addEventListener('change', (event) => {
 	var value = document.getElementById('liste_chantier').value;
-	var geojson_ptsess = ;//recupere la variable geojson_ptsess dans le fichier PHP postgis_change_chantier
-	var wfsPtSession = new ol.layer.Vector({
-		source: new ol.source.Vector({
-			features: (new ol.format.GeoJSON()).readFeatures(geojson_ptsess),
-		}),
-		style: new ol.style.Style({
-			image: new ol.style.Icon({
-				src: 'icon_map/Pt_session.svg'
-			})
-		}),
-	});
-	map.removeLayer(wfsPtSession);
-	map.addLayer(wfsPtSession);
-	console.log('changement de chantier')
+	console.log(value)
+	source.clear();
+	sendAjax(change_chantier, "./php/vue/postgis_change_chantier.php", "value_chantier=" + value);
+	
+	
 
 }, false);
+
+function change_chantier(reponse){
+	var geojson_ptsess = reponse;
+	console.log('changement de chantier')
+	console.log(geojson_ptsess)
+	if (isPHPErrorType(reponse)) {
+    console.log("Erreur sur la réponse AJAX :\n" + reponse);
+    showError(reponse);
+	}
+	else if (isErrorType(reponse)) {
+		raiseError(reponse);
+	}else{
+	
+	var features_ptsess2 = new ol.format.GeoJSON().readFeatures(geojson_ptsess);
+	source.addFeatures(features_ptsess2)
+	console.log(features_ptsess2)
+	console.log(wfsPtSession)
+	}
+}

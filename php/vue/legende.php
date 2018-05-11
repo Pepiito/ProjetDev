@@ -1,5 +1,5 @@
 <!-- HEIG-vd -->
-<input class="recherche" type="search" placeholder="Recherche par points"/>
+<!--<input class="recherche" type="search" placeholder="Recherche par points"/>-->
 	<form>
 	<div id="title_theme">
 	<div id="points_fixes_title" style="display:flex;">

@@ -30,23 +30,22 @@
 		}),
 	});
 
+	var features_ptsess = new ol.format.GeoJSON().readFeatures(geojson_ptsess);
+	var source = new ol.source.Vector();
+	source.addFeatures(features_ptsess);
 	var wfsPtSession = new ol.layer.Vector({
-		source: new ol.source.Vector({
-			features: (new ol.format.GeoJSON()).readFeatures(geojson_ptsess),
-		}),
+		source: source,
 		style: new ol.style.Style({
 			image: new ol.style.Icon({
 				src: 'icon_map/Pt_session.svg'
 			})
 		}),
 	});
-	console.log(wfsPtSession)
 
 //Variable de la popup
 var container = document.getElementById('popup-map');
 var content = document.getElementById('popup-map-content');
 var closer = document.getElementById('popup-map-closer');
-
 
 var popup_map = new ol.Overlay(({
 	element: document.getElementById("popup-map"),
