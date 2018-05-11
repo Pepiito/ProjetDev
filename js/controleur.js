@@ -234,3 +234,32 @@ sys_alti_title.onmousemove = function (e) {
     document.getElementById('span_alti').style.top = (y) + 'px';
     document.getElementById('span_alti').style.left = (x+10) + 'px';
 };
+
+document.getElementById('liste_chantier').addEventListener('change', (event) => {
+	var value = document.getElementById('liste_chantier').value;
+	console.log(value)
+	source.clear();
+	sendAjax(change_chantier, "./php/vue/postgis_change_chantier.php", "value_chantier=" + value);
+	
+	
+
+}, false);
+
+function change_chantier(reponse){
+	var geojson_ptsess = reponse;
+	console.log('changement de chantier')
+	console.log(geojson_ptsess)
+	if (isPHPErrorType(reponse)) {
+    console.log("Erreur sur la réponse AJAX :\n" + reponse);
+    showError(reponse);
+	}
+	else if (isErrorType(reponse)) {
+		raiseError(reponse);
+	}else{
+	
+	var features_ptsess2 = new ol.format.GeoJSON().readFeatures(geojson_ptsess);
+	source.addFeatures(features_ptsess2)
+	console.log(features_ptsess2)
+	console.log(wfsPtSession)
+	}
+}

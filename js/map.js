@@ -30,10 +30,11 @@
 		}),
 	});
 
+	var features_ptsess = new ol.format.GeoJSON().readFeatures(geojson_ptsess);
+	var source = new ol.source.Vector();
+	source.addFeatures(features_ptsess);
 	var wfsPtSession = new ol.layer.Vector({
-		source: new ol.source.Vector({
-			features: (new ol.format.GeoJSON()).readFeatures(geojson_ptsess),
-		}),
+		source: source,
 		style: new ol.style.Style({
 			image: new ol.style.Icon({
 				src: 'icon_map/Pt_session.svg'
@@ -46,7 +47,6 @@ var container = document.getElementById('popup-map');
 var content = document.getElementById('popup-map-content');
 var closer = document.getElementById('popup-map-closer');
 
-
 var popup_map = new ol.Overlay(({
 	element: document.getElementById("popup-map"),
 	autoPan: true
@@ -57,15 +57,16 @@ closer.onclick = function() {
 	return false;
 };
 
+//carte
 var map = new ol.Map({
 	target: "map",
 
 	// Couches
-	layers: [
-		new ol.layer.Tile({
-			source: new ol.source.OSM()
-		})
-	],
+	// layers: [
+		// new ol.layer.Tile({
+			// source: new ol.source.OSM()
+		// })
+	// ],
 
 	// Vue
 	view: new ol.View({
@@ -74,6 +75,27 @@ var map = new ol.Map({
 	}),
 	overlays: [popup_map],
 });
+
+//layers de fond
+var osm = new ol.layer.Tile({
+	source: new ol.source.OSM(),
+	visibile: true
+});
+
+// Bing Maps
+var bingAerial = new ol.layer.Tile({
+	source: new ol.source.BingMaps({
+		imagerySet: "Aerial",
+		key: "AkGbxXx6tDWf1swIhPJyoAVp06H0s0gDTYslNWWHZ6RoPqMpB9ld5FY1WutX8UoF",
+	}),
+	visible: false
+});
+
+// Ajout des layers à la carte
+map.addLayer(osm);
+map.addLayer(bingAerial);
+map.addLayer(wfsPtSession);
+
 // Affichage des coordonnées
 var mousePositionControl = new ol.control.MousePosition({
 	projection: "EPSG:4326",
@@ -103,7 +125,7 @@ document.getElementById('point_fixe_map').addEventListener('click', (event) => {
 	};
 
 });
-map.addLayer(wfsPtSession);
+
 
 map.on('click', function(e) {
 
@@ -295,3 +317,21 @@ window.onclick = function(event) {
 }
 
 document.getElementById("button_tran").addEventListener('click', Open_transfo, false);
+
+//function changement de base dans legende
+function changeBaselayer(layer) {
+	console.log("changeBaselayer(\"" + layer + "\")");
+
+	// Désactivation de toutes les couches
+	osm.setVisible(false);
+	bingAerial.setVisible(false);
+
+	switch (layer) {
+		case "osm":
+			osm.setVisible(true);
+			break;
+		case "bingAerial":
+			bingAerial.setVisible(true);
+			break;
+	}
+}

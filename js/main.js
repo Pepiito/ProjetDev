@@ -129,8 +129,11 @@ function receiveDataFromModel(reponse) {
     endLoading();
 
     if (coordonnees['geojson_ptsess']) { // cas add map
-      var geojson_ptsess = coordonnees['geojson_ptsess']
-      close_popup();
+		var geojson_ptsess = coordonnees['geojson_ptsess'];
+		var features_ptsess3 = new ol.format.GeoJSON().readFeatures(geojson_ptsess);
+		source.addFeatures(features_ptsess3)
+		close_popup();
+	  
     }
     window.time_exec = new Date - start
     console.log("Temps d'execution : ", time_exec);
