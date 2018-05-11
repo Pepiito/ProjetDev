@@ -91,7 +91,7 @@ map.addLayer(wfsPtSession);
 // Affichage des coordonnées
 var mousePositionControl = new ol.control.MousePosition({
 	projection: "EPSG:4326",
-	coordinateFormat: ol.coordinate.createStringXY(6),
+	coordinateFormat: ol.coordinate.createStringXY(5),
 	className: "custom-mouse-position",
 	target: document.getElementById("coordonnees")//coordonnees renvoie l'endroit où on affiche les coordonnées, ligne 78
 });
@@ -176,37 +176,38 @@ map.on('click', function(e) {
 				
 				
 				//Création de la popup en fonction des systèmes choisis
-				var description = '<h4><u>Coordonnées du points '+num_pt+'</u></h4>';
+				var description = '<h4><u>Coordonnées du point '+num_pt+'</u></h4>';
 				if(document.getElementById('ch1903_proj_map').checked == true || document.getElementById('ch1903plus_proj_map').checked == true || document.getElementById('rgf_proj_map').checked == true || document.getElementById('ntf_proj_Etendu_map').checked == true || document.getElementById('rgf_proj_C46_map').checked == true || document.getElementById('rgf_proj_C47_map').checked == true || document.getElementById('rgf_proj_C48_map').checked == true || document.getElementById('ntf_proj_2_map').checked == true){
-					description+='<u>Coordonnées projetées [m]</u>';
+					description+='<div class="border_legende"><u>Coordonnées projetées [m]</u>';
 					if(document.getElementById('ch1903_proj_map').checked == true){
-						description +='<p>CH1903: ' + E_CH1903 + ' / '+N_CH1903 + '</p>';
+						description +='<p>MN03: ' + E_CH1903 + ' / '+N_CH1903 + '</p>';
 					};
 					if(document.getElementById('ch1903plus_proj_map').checked == true){
-						description +='<p>CH1903+: ' + E_CH1903plus + ' / '+N_CH1903plus + '</p>';
+						description +='<p>MN95: ' + E_CH1903plus + ' / '+N_CH1903plus + '</p>';
 					};
 					if(document.getElementById('rgf_proj_map').checked == true){
-						description +='<p>RGF: ' + E_RGF + ' / '+N_RGF + '</p>';
+						description +='<p>RGF93: ' + E_RGF + ' / '+N_RGF + '</p>';
 					};
 					if(document.getElementById('rgf_proj_C46_map').checked == true){
-						description +='<p>RGF: ' + E_RGF_C46 + ' / '+N_RGF_C46 + '</p>';
+						description +='<p>RGF93 CC46: ' + E_RGF_C46 + ' / '+N_RGF_C46 + '</p>';
 					};
 					if(document.getElementById('rgf_proj_C47_map').checked == true){
-						description +='<p>RGF: ' + E_RGF_C47 + ' / '+N_RGF_C47 + '</p>';
+						description +='<p>RGF93 CC47: ' + E_RGF_C47 + ' / '+N_RGF_C47 + '</p>';
 					};
 					if(document.getElementById('rgf_proj_C48_map').checked == true){
-						description +='<p>RGF: ' + E_RGF_C48 + ' / '+N_RGF_C48 + '</p>';
+						description +='<p>RGF93 CC48: ' + E_RGF_C48 + ' / '+N_RGF_C48 + '</p>';
 					};
 					if(document.getElementById('ntf_proj_Etendu_map').checked == true){
-						description +='<p>NTF: ' + E_NTF + ' / '+N_NTF + '</p>';
+						description +='<p>NTF II étendu: ' + E_NTF + ' / '+N_NTF + '</p>';
 					};
 					if(document.getElementById('ntf_proj_2_map').checked == true){
-						description +='<p>NTF: ' + E_NTF_2 + ' / '+N_NTF_2 + '</p>';
+						description +='<p>NTF II: ' + E_NTF_2 + ' / '+N_NTF_2 + '</p>';
 					};
+					description+='</div>';
 
 				};
 				if(document.getElementById('etrs89_geog_map').checked == true || document.getElementById('ch1903_geog_map').checked == true || document.getElementById('ntf_geog_map').checked == true){
-					description+='<u>Coordonnées géographiques [degrés]</u>';
+					description+='<div class="border_legende"><u>Coordonnées géographiques [degrés]</u>';
 					if(document.getElementById('etrs89_geog_map').checked == true){
 						description +='<p>ETRS89: ' + long_ETRS89 + ' / '+lat_ETRS89 + '</p>';
 					};
@@ -216,9 +217,10 @@ map.on('click', function(e) {
 					if(document.getElementById('ntf_geog_map').checked == true){
 						description +='<p>NTF: ' + long_NTF + ' / '+lat_NTF + '</p>';
 					};
+					description+='</div>';
 				};
 				if(document.getElementById('etrs89_cart_map').checked == true || document.getElementById('ch1903_cart_map').checked == true || document.getElementById('ntf_cart_map').checked == true){
-					description+='<u>Coordonnées cartésiennes [m]</u>';
+					description+='<div class="border_legende"><u>Coordonnées cartésiennes [m]</u>';
 					if(document.getElementById('etrs89_cart_map').checked == true){
 						description +='<p>ETRS89: ' + X_ETRS89 + ' / '+ Y_ETRS89 +' / '+ Z_ETRS89 +  '</p>';
 					};
@@ -228,9 +230,10 @@ map.on('click', function(e) {
 					if(document.getElementById('ntf_cart_map').checked == true){
 						description +='<p>NTF: ' + X_NTF + ' / '+Y_NTF + ' / '+Z_NTF + '</p>';
 					};
+					description+='</div>';
 				};
 				if(document.getElementById('ign69_map').checked == true || document.getElementById('ran95_map').checked == true || document.getElementById('nf02_map').checked == true){
-					description+='<u>Altitudes [m]</u>';
+					description+='<div class="border_legende"><u>Altitudes [m]</u>';
 					if(document.getElementById('nf02_map').checked == true){
 						description +='<p>NF02: ' + alt_NF02 + '</p>';
 					};
@@ -240,18 +243,17 @@ map.on('click', function(e) {
 					if(document.getElementById('ign69_map').checked == true){
 						description +='<p>IGN69: ' + alt_IGN69 + '</p>';
 					};
-
+					description+='</div>';
 				};
 				if(document.getElementById('hgrs80_map').checked == true || document.getElementById('hbessel_map').checked == true){
-					description+='<u>Hauteur [m]</u>';
+					description+='<div class="border_legende"><u>Hauteur [m]</u>';
 					if(document.getElementById('hbessel_map').checked == true){
 						description +='<p>Ellipsoïde de Bessel: ' + hbessel_map + '</p>';
 					};
 					if(document.getElementById('hgrs80_map').checked == true){
 						description +='<p>Ellipsoïde de GRS80: ' + hgrs80_map + '</p>';
 					};
-
-
+					description+='</div>';
 				};
 
                 content.innerHTML = description;
@@ -266,11 +268,11 @@ function changeProjection(code) {
 	var digit;
 
 	// Définition de l'unité et de la précision
-	if (code == "EPSG:21781" || code == "EPSG:2056" || code == "EPSG:2154" ) {
+	if (code == "EPSG:21781" || code == "EPSG:2056" || code == "EPSG:2154" || code == "EPSG:27572" ) {
 		digit = 0;
 	}
 	else if (code == "EPSG:4326" || code == "EPSG:4275" ) {
-		digit = 2;
+		digit = 5;
 	}
 
 	// Création de la projection

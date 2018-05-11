@@ -110,7 +110,7 @@
 
             <p>Système de coordonnées (système géodésique) :
                 <select id="maListe" onchange="changeProjection(this.value)">
-                    <option value="EPSG:4258">Coordonnées géographique (ETRS89)</option>
+                    <option value="EPSG:4326">Coordonnées géographique (ETRS89)</option>
 					<optgroup label="Coordonnées Françaises projetées">
 					<option value="EPSG:2154">Lambert-93 (RGF93)</option>
 					<option value="EPSG:27572">Lambert 2 (NTF)</option>
