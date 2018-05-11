@@ -91,7 +91,7 @@ function receiveDataFromModel(reponse) {
           setCoordValue(t_out, 'nord', c['N']['N0']);
           T_out ? setCoordValue(t_out, 'altitude', c['H']['H0']) : setCoordValue(t_out, 'hauteur', c['h']['h0']);
           if (c['eta']) setCoordValue(t_out, 'eta', c['eta']['eta0']);
-          if (c['ksi']) setCoordValue(t_out, 'eta', c['ksi']['ksi0']);
+          if (c['ksi']) setCoordValue(t_out, 'xi', c['ksi']['ksi0']);
 
       }
 
@@ -121,7 +121,7 @@ function receiveDataFromModel(reponse) {
       if (!/\.\w+$/.test(filename)) raiseError("Nom de fichier en sortie non valide. Vérifiez l'extension");
 
       applyLoading("Téléchargement en cours...");
-      download(fileContent, filename);
+      if (!coordonnees['geojson_ptsess']) download(fileContent, filename);
 
 
     }
