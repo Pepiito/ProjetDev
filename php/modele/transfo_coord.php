@@ -83,10 +83,10 @@ if ($type_coord_arr == 'proj') {
 if ($addmap) {
   // Je fais des arrays pour tous les cas possibles pour l'ajout à la carte et à la BDD
   $coord = array('cart', 'geog', 'proj');
-  $plani = array('RGF93', 'NTF', 'ETRS89', 'CH1903plus');
+  $plani = array('RGF93', 'NTF', 'ETRS89', 'CH1903plus', 'CH1903');
   $alti = array('a', 'h');
   $sys_alti = array('RGF93' => array('IGN69'), 'NTF' => array('IGN69'), 'ETRS89' => array(), 'CH1903plus' => array('RAN95', 'NF02'), 'CH1903' => array('RAN95', 'NF02'));
-  $proj = array('RGF93' => array('CC42', 'CC43', 'CC44', 'CC45', 'CC46', 'CC47', 'CC48', 'CC49', 'CC50', 'Lambert93'), 'NTF' => array('Lambert1', 'Lambert2', 'Lambert2etendu', 'Lambert3', 'Lambert4'), 'CH1903' => array('MN03', 'MN95'), 'CH1903plus' => array('MN95', 'MN03'), 'ETRS89' => array());
+  $proj = array('RGF93' => array('CC42', 'CC43', 'CC44', 'CC45', 'CC46', 'CC47', 'CC48', 'CC49', 'CC50', 'Lambert93'), 'NTF' => array('Lambert1', 'Lambert2', 'Lambert2etendu', 'Lambert3', 'Lambert4'), 'CH1903' => array('MN03'), 'CH1903plus' => array('MN95'), 'ETRS89' => array());
 
 
   foreach($coord as $cas_coord) {
@@ -145,6 +145,8 @@ if ($addmap) {
 //calcul de la dévition de la verticale si besoin
 if (isset($_POST['c']) && isset($_POST['x'])) {
   if ($_POST['c'] != 'false' && $_POST['x'] != 'false') {
+    $eta_dep = explode(';', $_POST['c']);
+    $ksi_dep = explode(';', $_POST['x']);
     //choix du mode
     if ($type_coord_arr == 'proj' && ($type_plani_arr == 'RGF93' || $type_plani_arr == 'NTF')) {
       $mode = 'fr';
@@ -157,7 +159,7 @@ if (isset($_POST['c']) && isset($_POST['x'])) {
     for ($i=0; $i<$len; $i++) {
       $lambda = $echo['ETRS89']['geog']['h']['lambda']['lambda'.$i];
       $phi = $echo['ETRS89']['geog']['h']['phi']['phi'.$i];
-      list($eta, $ksi, $zeta) = deviation_verticale($mode, $Bessel_lambda, $Bessel_phi, $lambda, $phi, $_POST['c'], $_POST['x']);
+      list($eta, $ksi, $zeta) = deviation_verticale($mode, $Bessel_lambda, $Bessel_phi, $lambda, $phi, $eta_dep[$i], $ksi_dep[$i]);
       if ($type_alti_arr == 'a') {
         $echo[$type_coord_arr][$type_plani_arr][$type_proj_arr][$type_alti_arr][$sys_alti_arr]['eta']['eta'.$i] = $eta;
         $echo[$type_coord_arr][$type_plani_arr][$type_proj_arr][$type_alti_arr][$sys_alti_arr]['ksi']['ksi'.$i] = $ksi;

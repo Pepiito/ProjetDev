@@ -225,6 +225,8 @@ function traitement_vers_milieu($POST) {
         } else if ($type_alti_dep == 'h') {
           $h0 = $h[$i];
         }
+      } else if ($type_plani_dep == 'ETRS89') {
+        $h0 = $h[$i];
       }
 
       // passage des coordonnées géographiques vers les coordonnées cartésiennes
