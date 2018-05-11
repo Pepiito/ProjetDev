@@ -1,19 +1,23 @@
 <fieldset id=fichier-de-depart>
   <legend>Fichier de départ</legend>
-  <div style="display:flex;flex-direction:row;justify-content:space-around;align-items:center;">
-    <div id='container-input-file' style="display:flex;flex-direction:row;align-items:center;">
+  <div class=put-inline style=justify-content:space-around>
+    <div id='container-input-file' class=put-inline style=margin-right:30px;>
       <input id="input-file-in" name=input-file-in type="file" multiple/>
       <label for="input-file-in">Parcourir</label>
       <input type=text id=name-import-file-in disabled value="Déposer un fichier ici...">
       <input type=file id=dropped-files style=display:none;  multiple/><!-- Contient les fichiers droppés -->
       <span id=reset-input-file-in>&times;</span>
     </div>
-    <div style="display:flex;flex-direction:row;">
+    <div class=put-inline>
       <label for="separateur-file-in">Séparateur: </label>
       <input type="text" id=separateur-file-in class=input-transfo-fichier value=";" maxlength="2">
     </div>
+    <div class=put-inline>
+      <label for="ligne-start-file-in" style="position:relative;margin-left:20px;">Début à la ligne: </label>
+      <input type="number" id="ligne-start-file-in" value="0" maxlength="3" min=0 class="input-transfo-fichier">
+    </div>
   </div>
-  <div style=display:flex;flex-direction:row;align-items:center;>
+  <div class=put-inline>
     <label for=selection-formatage-file-out style="margin-left:20px;">Formatage du fichier :</label>
       <select id="selection-formatage-file-in" class=input-transfo-fichier>
         <!-- n : nom; E: est, N: nord; H: Altitude; h: hauteur; l: longitude; p: latitude; X; Y; Z-->
@@ -24,10 +28,8 @@
         <option value=false selected disabled>Déviation de la verticale</option>
         <option value="cx">&eta;  &xi;</option>
         <option value="xc">&xi;  &eta;</option>
-        <option value="">Aucun</option>
+        <option value=false>Aucun</option>
       </select>
-      <label for="ligne-start-file-in" style="position:relative;margin-left:20px;">Début à la ligne: </label>
-      <input type="number" id="ligne-start-file-in" value="0" maxlength="3" min=0 class="input-transfo-fichier">
   </div>
 </fieldset>
 <fieldset>
@@ -117,13 +119,13 @@
 </fieldset>
 <fieldset id=fichier-d-arrivee>
   <legend>Fichier en sortie</legend>
-  <div style=display:flex;flex-direction:row;align-items:center;justify-content:space-around;>
-    <div id=options-out-file style="display:flex;margin:5px 0;justify-content:center;">
-      <div>
+  <div style=display:flex;align-items:center;justify-content:space-around;>
+    <div id=options-out-file class=put-inline>
+      <div style=display:flex;flex-direction:column>
         <label for="nom-export-file-out">Nom du fichier en sortie</label>
         <input type="text" id=nom-export-file-out value="geofs" maxlength="60" placeholder="Nom du fichier" />
       </div>
-      <div>
+      <div style=display:flex;flex-direction:column>
         <label for="extension-file-out">Extension</label>
         <select id=extension-file-out>
           <option value="txt">.txt</option>
@@ -131,7 +133,7 @@
         </select>
       </div>
     </div>
-    <div style="margin-left:10px;display:flex;flex-direction:row;align-items:center;">
+    <div class=put-inline>
       <label for=selection-formatage-file-out>Formatage du fichier :</label>
       <select id="selection-formatage-file-out" class=input-transfo-fichier>
         <!-- n : nom; E: est, N: nord; H: Altitude; h: hauteur; l: longitude; p: latitude; X; Y; Z-->
@@ -142,7 +144,7 @@
         <option value=false selected disabled>Déviation de la verticale</option>
         <option value="cx">&eta;  &xi;</option>
         <option value="xc">&eta;  &xi;</option>
-        <option value="">Aucun</option>
+        <option value=false>Aucun</option>
       </select>
     </div>
   </div>

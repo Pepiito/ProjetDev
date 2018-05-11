@@ -26,19 +26,25 @@
 		 </div>
 		</div>
 	</div>
-	<center class="modal-content">
-		<span class="close">&times;</span>
+	<div class="modal-content">
+		<span class="close" id=close-popup>&times;</span>
 		<div id="pop_body">
 			<div id="pop_header">
-				<p id="head_trans_coord">Transformation de coordonnées</p>
-				<p id="head_trans_fichier">Transformation via fichier</p>
+				<div id="head_point" class=head>
+					<p>Transformation de coordonnées</p>
+					<div id=underline_point class=underline></div>
+				</div>
+				<div id="head_fichier" class=head>
+					<p>Transformation via fichier</p>
+					<div id=underline_fichier class=underline></div>
+				</div>
 			</div>
-			<div id="trans_coord" class="form_transfo">
+			<div id="trans_point" class="form_transfo">
 				<fieldset>
 					<legend>Système de départ:</legend>
 					<div style="display:flex;">
 						<div>
-							<label for="systeme-plani-point-in">Systèmes</label>
+							<label for="systeme-plani-point-in">Système</label>
 							<select name="systeme-plani-point-in" id="systeme-plani-point-in" style="width:150px";>
 								<?php echo AfficheSystemesPlani(); ?>
 							</select>
@@ -125,5 +131,5 @@
 				<?php include("./php/vue/input_fichier.php"); ?>
 			</div>
 		</div>
-	</center>
+	</div>
 </div>

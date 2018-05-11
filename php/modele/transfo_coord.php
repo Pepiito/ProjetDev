@@ -1,4 +1,6 @@
-<?php if (!isset($_SESSION)) session_start();
+<?php
+set_time_limit(30);
+if (!isset($_SESSION)) session_start();
 
 /* Renvoie une chaine de caractère au format json.
      L'ajax récupèrera le contenu intégral de ce qui est renvoyé,
@@ -44,7 +46,7 @@ if (isset($_POST['n'])) {
   //création du nom
   $nom = array();
   for ($i=0; $i<$len;$i++) {
-    $nom['n'.$i] = 'point'.str_pad($i.'', 4, '0', STR_PAD_LEFT);
+    $nom[$i] = 'point'.str_pad($i.'', 4, '0', STR_PAD_LEFT);
   }
 }
 
