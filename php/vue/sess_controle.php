@@ -11,7 +11,6 @@ $res = pg_query($conn, "SELECT password FROM session WHERE pseudo='$pseudo';");
 $password = pg_fetch_result($res,0,0);
 if(isset($password)){
 	if(password_verify($_POST['password'], $password)){
-		echo 'connexion réussie';
 		session_start();
 		$_SESSION['pseudo'] = $pseudo;
     echo 'Success';

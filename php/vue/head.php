@@ -1,7 +1,7 @@
 <html lang="fr">
   <head>
-    <meta charset="utf-8">
-    <title>projet Dev</title>
+    <meta charset="UTF-8">
+    <title>Projet Dev</title>
     <meta name="author" content="Benoit Messiaen, Hugo Lecomte">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="./images/geofs.jpg" />

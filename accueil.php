@@ -5,7 +5,7 @@
       <div>GEO FS</div>
     </div>
     <div id=description>
-      Logiciel franco-suisse de transformations géodésiques de coordonnées en ligne
+      Logiciel franco-suisse de transformations g&eacute;od&eacute;siques de coordonn&eacute;es en ligne
     </div>
   </div>
   <div id=connexions>
@@ -37,7 +37,7 @@
           <input type=password name=pass2 id=pass2-inscription class=password />
       </div>
       <div class=form-buttons>
-        <button type=button name=button class=form-button id=sinscrire>Créer</button>
+        <button type=button name=button class=form-button id=sinscrire>Cr&eacute;er</button>
         <button type=button name=button class=annuler form-button>Annuler</button>
       </div>
     </div>
@@ -47,23 +47,23 @@
     </div>
     <div class=select-connection>
       <button type=button name=button id=no-connexion>Continuer sans connexion</button>
-      <span>Vos points ne seront pas sauvegardés</span>
+      <span>Vos points ne seront pas sauvegard&eacute;s</span>
     </div>
     <div class=select-connection>
       <button type=button name=button id=inscription>S'inscrire</button>
-      <span>Créer un nouveau compte</span>
+      <span>Cr&eacute;er un nouveau compte</span>
     </div>
   </div>
   <div id=fonctionnalites>
     <div id=transformer-vos-points class=fonctionnalite>
       <div class=head-fonctionnalite>
-        Changez de système de coordonnées point par point ou par fichier
+        Changez de système de coordonn&eacute;es point par point ou par fichier
       </div>
       <div class=img-fonctionnalite></div>
     </div>
     <div id=visualiser-vos-points class=fonctionnalite>
       <div class=head-fonctionnalite>
-        Visualisez immédiatement vos points sur la carte dans le système de votre choix
+        Visualisez imm&eacute;diatement vos points sur la carte dans le système de votre choix
       </div>
       <div class=img-fonctionnalite></div>
     </div>
@@ -75,9 +75,9 @@
     </div>
   </div>
   <div id=footer-content>
-    <img src=./images/ensg-heig.png alt=ENSG - HEIG>
+    <img src=./images/ensg-heig.png alt="ENSG - HEIG">
     <span>
-      Ce site à été réalisé par des étudiants lors d'un projet en partenariat entre l'ENSG Géomatique (Paris) et l'HEIG - Canton de Vaud (Suisse).
+      Ce site a &eacute;t&eacute; r&eacute;alis&eacute; par des &eacute;tudiants lors d'un projet en partenariat entre l'ENSG G&eacute;omatique (Paris) et l'HEIG - Canton de Vaud (Suisse).
       Son utilisation est libre de droit.
     </span>
   </div>
