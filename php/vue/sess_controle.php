@@ -1,8 +1,8 @@
-<?php 
+<?php
 // Hachage du mot de passe
 
 include("connexion_postgis.php");
-    
+
 $pseudo = pg_escape_string($conn, $_POST['pseudo']);
 
 
@@ -14,12 +14,16 @@ if(isset($password)){
 		echo 'connexion réussie';
 		session_start();
 		$_SESSION['pseudo'] = $pseudo;
-		header('Location: ../../index.php');
+    echo 'Success';
+    exit;
 	}else{
-		header('Location: ../../session.php?errc=pass');
+      echo 'connexion password';
+      exit;
 	}
 }else{
-	header('Location: ../../session.php?errc=pseudo');
+
+      echo 'connexion pseudo';
+      exit;
 }
 
 ?>
