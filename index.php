@@ -18,6 +18,11 @@ include("./php/vue/postgis_to_geojson.php");
 				<div id="map"></div>
 				<div>
 					<div class="button_transfo"><input class="button_tran" id="button_tran" type="submit" value="Transformer vos coordonnées"/></div>
+					<?php
+					if(isset($_SESSION['pseudo'])){
+						echo '<div class="button_gestion"><input class="button_gest" id="button_gest" type="submit" value="Gestion de compte"/></div>';
+					}
+					?>
 					<div class=home><img src=./images/home.png alt=Accueil height=50% style=margin:25%></div>
 					<div class="school"><img src="images/ensg-heig.png" width="350" height="81"/></div>
 				</div>

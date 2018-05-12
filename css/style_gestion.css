@@ -1,0 +1,102 @@
+#body{
+    background: #67BE4B;
+}
+#form_gestion{
+    width: 70%;
+    margin: 0 auto; 
+	margin-top:10%;
+	display:flex;
+	justify-content: space-between;
+	border: 1px solid #f1f1f1;
+    background: #fff;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+#title {
+  position: fixed;
+  top: 5%;
+  right: 10%;
+  width: 80%;
+}
+.container_gestion{
+    width:50%;
+}
+/* Bordered form */
+form {
+    width:80%;
+    padding: 10%;
+}
+.container_gestion h1{
+    margin: 0 auto;
+    padding-bottom: 10px;
+	text-align: center;
+}
+
+
+/* Full-width inputs */
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+input[type=submit] {
+    background-color: #53af57;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+	border: 1px solid #53af57;
+}
+input[type=submit]:hover {
+    background-color: white;
+    color: #53af57;
+}
+#img-ensg{
+	position: fixed;
+	bottom:5px;
+	left: 10px;
+}
+#img-heig{
+	position: fixed;
+	bottom:5px;
+	right: 10px;
+}
+#div-img-logo{
+	position: fixed;
+	bottom:5px;
+	right: 0px;
+	width: 100%;
+}
+#img-logo{
+	margin: auto;
+	display: flex;
+}
+
+table {margin:auto;}
+table a {color: #3A4856; text-decoration: none; border-bottom: 1px solid #C6C8CB;}  
+
+table a:visited {color: #777;}
+
+table a:hover {color: #000;}  
+
+table caption {text-align: left; text-transform: uppercase;  padding-bottom: 10px; font: 200% "Lucida Grande", "Lucida Sans Unicode", "Trebuchet MS", sans-serif;}
+
+table thead th {background: #000; padding: 12px 10px; color: #fff; text-align: left; font-weight: normal;}
+
+table tbody, table thead {border-left: 1px solid #EAECEE; border-right: 1px solid #EAECEE;}
+
+table tbody {border-bottom: 1px solid #EAECEE;}
+                      
+table tbody td, table tbody th {padding: 8px 10px; background: url("td_back.gif") repeat-x; text-align: left;}
+
+table tbody tr {background: #ADADAD;}
+
+table tbody tr.odd {background: #F0F2F4;}
+
+table tbody  tr:hover {background: #EAECEE; color: #111;}

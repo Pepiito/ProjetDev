@@ -1,4 +1,4 @@
-body{
+#body{
     background: #67BE4B;
 }
 #form_conn{
@@ -27,6 +27,10 @@ form {
 }
 .container h1{
     width: 38%;
+    margin: 0 auto;
+    padding-bottom: 10px;
+}
+.container h1 #change_password{
     margin: 0 auto;
     padding-bottom: 10px;
 }
