@@ -116,12 +116,14 @@ function hideErrorConnexion() { // Cache le mesage d'erreur
   showErrorConnexion("connexion", "", "none");
 }
 
-function hideAccueil(visibility, zindex) { // Page de garde vers page principale
+function hideAccueil(visibility, zindex, opacity) { // Page de garde vers page principale
   visibility = visibility || 'hidden';
-  zindex = zindex || -1000
+  zindex = zindex || -1000;
+  opacity = opacity || 0;
   document.getElementById('page_accueil').style.visibility = visibility;
   document.getElementById('page_accueil').style.zIndex = zindex;
+  document.getElementById('page_accueil').style.opacity = opacity;
 }
 function showAccueil() { // Page principale vers page de garde
-  hideAccueil('visible', 10000);
+  hideAccueil('visible', 10000, 1);
 }

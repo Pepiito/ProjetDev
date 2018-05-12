@@ -148,7 +148,7 @@ div#pop_body label.inline {
   max-width: 200px;
 }
 
-#pop_body input[type="number"], input[type="text"] {
+#pop_body input[type="number"], #pop_body input[type="text"] {
   background-color:#ffffff;
   padding:3px;
 	border:1px solid #bbbbbb;

@@ -2,6 +2,7 @@
   position: fixed;
   top:0;left: 0;right: 0;bottom: 0;
   z-index: 10000;
+  opacity: 1;
   background-color: rgb(116,161,99);
   display: flex;
   flex-direction: column;
@@ -191,7 +192,7 @@
 
 #page_accueil .form .pseudo, #page_accueil .form .password {
     width: 100%;
-    height: 20px;
+    height: 29px;
     padding: 5px 15px;
     border: 1px solid #ccc;
     text-align: center;
