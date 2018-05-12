@@ -261,4 +261,12 @@ function change_chantier(reponse){
 	source.addFeatures(features_ptsess2)
 	console.log(features_ptsess2)
 	}
-}
+};
+
+document.getElementById('button_gest').addEventListener('click', (event) => {
+	window.open('./gestion-compte.php?id_sess='+id_sess);
+	
+	
+
+}, false);
+

@@ -30,6 +30,11 @@ include("./php/vue/postgis_to_geojson.php");
 
 	<div>
 	<div class="button_transfo"><input class="button_tran" id="button_tran" type="submit" value="Transformer vos coordonnées"/></div>
+	<?php 
+	if(isset($_SESSION['pseudo'])){
+		echo '<div class="button_gestion"><input class="button_gest" id="button_gest" type="submit" value="Gestion de compte"/></div>';
+	}
+	?>
 	<div class="school"><img src="images/ensg-heig.png" width="350" height="81"/></div>
 	</div>
 	</div>
@@ -41,7 +46,8 @@ include("./php/vue/postgis_to_geojson.php");
 	<script type="text/javascript">
 	var geojson_pfp1=<?php echo $geojson_pfp1; ?>;
 	var geojson_pfa1=<?php echo $geojson_pfa1; ?>;
-	var geojson_ptsess=<?php echo $geojson_ptsess; ?>;
+	var geojson_ptsess=<?php echo $geojson_ptsess;?>;
+	var id_sess=<?php echo $_SESSION['id_sess'];?>;
 	</script>
 	<script src="js/map.js"></script>
 	<script src="lib/proj4.js"></script>
