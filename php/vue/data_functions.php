@@ -58,7 +58,7 @@ function AfficheCoord($inout) {
   $hide = "";
   if ($inout == "out") {
     $hide = "style=display:none;";
-    $disable = "disabled";
+    $disable = "readonly";
   }
 
   return "

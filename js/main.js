@@ -90,8 +90,8 @@ function receiveDataFromModel(reponse) {
           setCoordValue(t_out, 'est', c['E']['E0']);
           setCoordValue(t_out, 'nord', c['N']['N0']);
           T_out ? setCoordValue(t_out, 'altitude', c['H']['H0']) : setCoordValue(t_out, 'hauteur', c['h']['h0']);
-          if (c['eta']) setCoordValue(t_out, 'eta', c['eta']['eta0']);
-          if (c['ksi']) setCoordValue(t_out, 'xi', c['ksi']['ksi0']);
+          if (c['eta']) setCoordValue(t_out, 'eta', c['eta']['eta0'], 'rad');
+          if (c['ksi']) setCoordValue(t_out, 'xi', c['ksi']['ksi0'], 'rad');
 
       }
 
