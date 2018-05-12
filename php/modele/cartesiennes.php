@@ -3,7 +3,7 @@
 /**
 * Fonction cartesien_to_geographic
 *
-* Transforme des coordonnées cartésiennes en coordonnées géographiques associées Ã  un éllipsoÃ¯de
+* Transforme des coordonnées cartésiennes en coordonnées géographiques associées à un ellipsoïde
 * Les coordonnées sont entrées en mètres et sont données en radians et en mètres
 *
 * @param float $X première coordonnées cartésienne
@@ -31,7 +31,7 @@ function cartesien_to_geographic($X, $Y, $Z, $ellipse) {
 /**
 * Fonction geographic_to_cartesien
 *
-* Transforme des coordonnées géographiques associées Ã  un éllipsoÃ¯de en coordonnées cartésiennes associées Ã  un éllipsoÃ¯de
+* Transforme des coordonnées géographiques associées à un ellipsoïde en coordonnées cartésiennes
 * Les coordonnées sont entrées en radians et mètres et sont données en mètres
 *
 * @param float $lambda première coordonnées géographique
@@ -56,7 +56,7 @@ function geographic_to_cartesien($lambda, $phi, $h, $ellipse) {
 /**
 * Fonction RGF_to_NTF
 *
-* Transforme des coordonnées cartésiennes RGF en coordonnées cartésiennes NTF Ã  l'aide d'une grille de transformation
+* Transforme des coordonnées cartésiennes RGF en coordonnées cartésiennes NTF à l'aide d'une grille de transformation
 * Les coordonnées sont entrées en mètres et sont données en mètres
 *
 * @param float $X première coordonnées cartésiennes

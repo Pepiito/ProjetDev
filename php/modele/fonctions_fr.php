@@ -3,7 +3,7 @@
 /**
 * Fonction proj_to_CC
 *
-* Retourne les deux premières coordonnées projetées en représentation conique sur un cone donnée obtenues Ã  partir des coordonnées géographiques
+* Retourne les deux premières coordonnées projetées en représentation conique sur un cone donnée obtenues à partir des coordonnées géographiques
 *
 * @param float $lambda première coordonnée géographique
 * @param float $phi deuxième coordonnée géographique
@@ -27,7 +27,7 @@ function proj_to_CC($lambda, $phi, $cone) {
 /**
 * Fonction CC_to_geog
 *
-* Retourne les deux premières coordonnées géographiques obtenues Ã  partir des coordonnées projetées en représentation conique
+* Retourne les deux premières coordonnées géographiques obtenues à partir des coordonnées projetées en représentation conique
 *
 * @param float $X première coordonnée projetée
 * @param float $Y deuxième coordonnée projetée
@@ -55,7 +55,7 @@ function CC_to_geog($X, $Y, $cone) {
 /**
 * Fonction geog_to_Lambert
 
-* Retourne les deux premières coordonnées projetées en représentation conique sur un cone donnée obtenues Ã  partir des coordonnées géographiques
+* Retourne les deux premières coordonnées projetées en représentation conique sur un cone donnée obtenues à partir des coordonnées géographiques
 
 * @param float $lambda première coordonnée géographique
 * @param float $phi deuxième coordonnée géographique
@@ -82,7 +82,7 @@ function geog_to_Lambert($lambda, $phi, $cone) {
 /**
 * Fonction Lambert_to_geog
 *
-* Retourne les deux premières coordonnées géographiques obtenues Ã  partir des coordonnées projetées en représentation conique
+* Retourne les deux premières coordonnées géographiques obtenues à partir des coordonnées projetées en représentation conique
 *
 * @param float $X première coordonnée projetée
 * @param float $Y deuxième coordonnée projetée
@@ -111,9 +111,9 @@ function Lambert_to_geog($X, $Y, $cone) {
 
 
 /**
-* Fonction L
+* Fonction L_iso
 *
-* Retourne la latitude isométrique en mètres obtenue Ã  partir de la latitude géographique en radian
+* Retourne la latitude isométrique en mètres obtenue à partir de la latitude géographique en radian
 *
 * @param float $phi
 * @param Ellipse $ellipse
@@ -126,9 +126,9 @@ function L_iso($phi, $ellipse) {
 }
 
 /**
-* Fonction Linverse
+* Fonction L_iso_inverse
 *
-* Retourne la latitude géographique en radian obtenue Ã  partir de la latitude isométrique en mètres
+* Retourne la latitude géographique en radian obtenue à partir de la latitude isométrique en mètres
 *
 * @param float $L
 * @param Ellipse $ellipse
