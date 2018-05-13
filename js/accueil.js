@@ -59,7 +59,7 @@ function hideButtons() {
 document.getElementById('identification').addEventListener('click', (event) => { // Envoie les informations relatives à la connexion
   data = "pseudo=" + encodeURIComponent(document.getElementById('pseudo-connexion').value);
   data += "&password=" + encodeURIComponent(document.getElementById('password-connexion').value);
-  sendAjax(checkConnexionValid, "./php/vue/sess_create.php", data);
+  sendAjax(checkConnexionValid, "./php/vue/sess_controle.php", data);
 }, false);
 
 document.getElementById('sinscrire').addEventListener('click', (event) => { // Envoie les informations relatives à l'inscription
@@ -67,12 +67,8 @@ document.getElementById('sinscrire').addEventListener('click', (event) => { // E
   data += "&password=" + encodeURIComponent(document.getElementById('password-inscription').value);
   data += "&pass2=" + encodeURIComponent(document.getElementById('pass2-inscription').value);
 
-  sendAjax(checkConnexionValid, "./php/vue/sess_controle.php", data);
+  sendAjax(checkConnexionValid, "./php/vue/sess_create.php", data);
 }, false);
-
-document.getElementsByClassName('home')[0].onclick = function () { // bouton home de la page principale.
-  showAccueil(); //Accès à la page de garde
-}
 
 function checkConnexionValid(reponse) {
   /*
@@ -81,8 +77,8 @@ function checkConnexionValid(reponse) {
   */
 
   if (isPHPErrorType(reponse)) {
-    raiseError('Erreur 200 : Une erreur inattendu est survenu.', reponse);
-    hideAccueil();
+    //raiseError('Erreur 200 : Une erreur inattendu est survenu.', reponse);
+    goToMainPage();
   }
   else if (reponse != "Success") {
     var isConnexion = (/inscription/.test(reponse) ? false : true); // L'erreur vient de la connexion ou de l'inscription
@@ -98,7 +94,7 @@ function checkConnexionValid(reponse) {
     showErrorConnexion((isConnexion ? "connexion" : "inscription"), error_string);
   }
   else { // si tout s'est bien passé on quitte la page de garde.
-    hideAccueil();
+    goToMainPage();
   }
 }
 
@@ -114,16 +110,4 @@ function showErrorConnexion(type, error, display) {
 function hideErrorConnexion() { // Cache le mesage d'erreur
   showErrorConnexion("inscription", "", "none");
   showErrorConnexion("connexion", "", "none");
-}
-
-function hideAccueil(visibility, zindex, opacity) { // Page de garde vers page principale
-  visibility = visibility || 'hidden';
-  zindex = zindex || -1000;
-  opacity = opacity || 0;
-  document.getElementById('page_accueil').style.visibility = visibility;
-  document.getElementById('page_accueil').style.zIndex = zindex;
-  document.getElementById('page_accueil').style.opacity = opacity;
-}
-function showAccueil() { // Page principale vers page de garde
-  hideAccueil('visible', 10000, 1);
 }
