@@ -59,7 +59,7 @@ function hideButtons() {
 document.getElementById('identification').addEventListener('click', (event) => { // Envoie les informations relatives à la connexion
   data = "pseudo=" + encodeURIComponent(document.getElementById('pseudo-connexion').value);
   data += "&password=" + encodeURIComponent(document.getElementById('password-connexion').value);
-  sendAjax(checkConnexionValid, "./php/vue/sess_create.php", data);
+  sendAjax(checkConnexionValid, "./php/vue/sess_controle.php", data);
 }, false);
 
 document.getElementById('sinscrire').addEventListener('click', (event) => { // Envoie les informations relatives à l'inscription
@@ -67,7 +67,7 @@ document.getElementById('sinscrire').addEventListener('click', (event) => { // E
   data += "&password=" + encodeURIComponent(document.getElementById('password-inscription').value);
   data += "&pass2=" + encodeURIComponent(document.getElementById('pass2-inscription').value);
 
-  sendAjax(checkConnexionValid, "./php/vue/sess_controle.php", data);
+  sendAjax(checkConnexionValid, "./php/vue/sess_create.php", data);
 }, false);
 
 document.getElementsByClassName('home')[0].onclick = function () { // bouton home de la page principale.

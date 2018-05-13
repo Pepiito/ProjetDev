@@ -13,6 +13,8 @@
                 if(pg_query($conn, $sql)){
                     session_start();
                     $_SESSION['pseudo'] = $pseudo;
+					$res = pg_query($conn, "SELECT id_sess FROM session WHERE pseudo='".$pseudo."';");
+					$_SESSION['id_sess'] = pg_fetch_result($res,0,0);
                     echo 'Success';
                     exit;
                 } else{
