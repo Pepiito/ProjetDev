@@ -1,7 +1,5 @@
 <?php
 include("connexion_postgis.php");
-$res = pg_query($conn, 'SELECT max(id_ptsess) FROM "Points_session";');
-$id_ptsess = pg_fetch_result($res,0,0)+1;
 
 function postgis_to_geojson($select_postgis){
 	$geojson='';
