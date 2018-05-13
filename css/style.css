@@ -145,15 +145,14 @@ p{
 .button_gestion {
 	position: absolute;
 	top: 10px;
-	right:340px;
+	right:370px;
 	transition: .3s;
 }
 .button_gest{
-	width: 180px;
-	background-color: #F07907;
+	width: 90px;
+	background-color: #2B8886;
 	color: white;
-	padding: 14px 20px;
-	margin: 8px 0;
+	padding: 14px 10px;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
@@ -162,7 +161,7 @@ p{
 	font-family: sans-serif;
 }
 .button_gest:hover {
-	background-color: #C56508;
+	background-color: #024775;
 }
 .school {
 	position: absolute;

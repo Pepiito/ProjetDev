@@ -79,10 +79,14 @@ function checkConnexionValid(reponse) {
   Fonction éxécuté en retour de la fonction AJAX pour la connexion.
   Affiche une erreur dans le DOM si la réponse est différente de "success".
   */
-
   if (isPHPErrorType(reponse)) {
-    //raiseError('Erreur 200 : Une erreur inattendu est survenu.', reponse);
-    goToMainPage();
+	var isConnexion = (/inscription/.test(reponse) ? false : true);
+	if(isConnexion){
+		var error_string = "Ce pseudo n'existe pas";
+	}else{
+		var error_string = "Ce pseudo existe déjà";
+	}
+	showErrorConnexion((isConnexion ? "connexion" : "inscription"), error_string);
   }
   else if (reponse != "Success") {
     var isConnexion = (/inscription/.test(reponse) ? false : true); // L'erreur vient de la connexion ou de l'inscription

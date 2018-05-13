@@ -4,13 +4,17 @@
 include("connexion_postgis.php");
 
 $pseudo = pg_escape_string($conn, $_POST['pseudo']);
+$password_give = pg_escape_string($conn, $_POST['password']);
 
 
 // Vérification des identifiants
 $res = pg_query($conn, "SELECT password FROM session WHERE pseudo='$pseudo';");
+
 $password = pg_fetch_result($res,0,0);
+
+
 if(isset($password)){
-	if(password_verify($_POST['password'], $password)){
+	if(password_verify($password_give, $password)){
 		session_start();
 		$_SESSION['pseudo'] = $pseudo;
 		$res = pg_query($conn, "SELECT id_sess FROM session WHERE pseudo='".$pseudo."';");
