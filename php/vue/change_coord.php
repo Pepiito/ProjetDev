@@ -35,7 +35,7 @@
 					<div id=underline_point class=underline></div>
 				</div>
 				<div id="head_fichier" class=head>
-					<p>Transformation via fichier</p>
+					<p>Transformation par fichier</p>
 					<div id=underline_fichier class=underline></div>
 				</div>
 			</div>
@@ -63,6 +63,7 @@
 								<?php echo Afficheprojections('point', 'in'); ?>
 							</select>
 						</div>
+						<p class='infobulle-content proj-point-in'><p class='infobulle-base proj-point-in'>?<span class=infobulle-pop>Choisissez la projection que vous souhaitez. Ne sont disponibles que celles existantes dans le sysème de référence que vous avez sélectionné</span></p></p>
 					</div>
 					<div style="display:flex;align-items:center;margin:15px 0;">
 
@@ -105,6 +106,7 @@
 								<?php echo Afficheprojections('point', 'out'); ?>
 							</select>
 						</div>
+						<p class='infobulle-content proj-point-out'><p class='infobulle-base proj-point-out'>?<span class=infobulle-pop>Choisissez la projection que vous souhaitez. Ne sont disponibles que celles existantes dans le sysème de référence que vous avez sélectionné</span></p></p>
 					</div>
 					<div style="display:flex;align-items:center;margin:15px 0;">
 						<div id="type-alti-point-out" class='type-alti proj-point-out geog-point-out'>

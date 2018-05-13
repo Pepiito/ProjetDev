@@ -155,14 +155,14 @@ div#pop_body label.inline {
 	border-radius:5px;
 	box-shadow:2px 2px 5px #C0C0C0;
 	font-size:0.9em;
-	margin: 1px 20px;
+	margin: 1px 15px;
   height: 23px;
   max-height: 25px;
   max-width: 110px;
 }
 
 .deviation-verticale {
-  margin-left:40px;
+  margin-left:20px;
 }
 
 .select-unite {
@@ -301,6 +301,7 @@ div#pop_body label.inline {
 .inputs-coord {
   display: flex;
 }
+
 .button_popup_calc {
 	max-width: 280px;
 	background-color: #E34112;
@@ -409,36 +410,52 @@ div#pop_body label.inline {
 #loader-glissement div:last-child{animation-delay: 1.5s}
 
 .infobulle-content {
-  width: 20px;
+  width: 0px;
   height: 20px;
   margin: 3px;
 }
 
 .infobulle-base {
-  color:#ccc;
-  text-shadow:0 -1px 0 black;
+  padding: 0;
+  margin: 0;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1px groove #026;
+  background-color: rgba(80, 90, 200);
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .infobulle-base:hover, .infobulle-base:focus {
-   background:rgba(0,0,0,.4);
+   background: rgba(50, 60, 150);
    box-shadow:0 1px 0 rgba(255,255,255,.4);
 }
 .infobulle-pop {
   position:absolute;
   margin-top:23px;
-     margin-left:-35px;
-     color:#09c;
-    background:rgba(0,0,0,.9);
-    padding:15px;
-    border-radius:3px;
-    box-shadow:0 0 2px rgba(0,0,0,.5);
-    transform:scale(0) rotate(-12deg);
-    transform:scale(1) rotate(0);
-    transition:all .25s;
-    opacity:0;
+  margin-left:-65px;
+  color: rgb(230,100,54);
+  background:rgba(0,0,0,.9);
+  padding:15px;
+  border-radius:3px;
+  box-shadow:0 0 2px rgba(0,0,0,.5);
+  width: 0px;
+  transition:all .35s;
+  opacity:0;
+  font-size: 0px;
+  z-index: -1;
 }
 
 .infobulle-base:hover span, .infobulle-base:focus span {
-  transform:scale(1) rotate(0);
   opacity:1;
+  width: 250px;
+  font-size: 12px;
+  z-index: 201;
+}
+
+.infobulle-base.proj-point-in, .infobulle-base.proj-point-out {
+  margin-top: 15px;
 }

@@ -12,11 +12,12 @@
       <label for="separateur-file-in">Séparateur: </label>
       <input type="text" id=separateur-file-in class=input-transfo-fichier value=";" maxlength="2">
     </div>
-    <span class=infobulle-content><span class=infobulle-base>?<span class=infobulle-pop>Séparateur entre coordonnées. Si multiples espaces ou tab, laissez vide</span></span></span>
+    <p class=infobulle-content><p class=infobulle-base>?<span class=infobulle-pop>Séparateur entre coordonnées. Si il y a de multiples espaces ou tab, laissez vide</span></p></p>
     <div class=put-inline>
       <label for="ligne-start-file-in" style="position:relative;margin-left:20px;">Début à la ligne: </label>
       <input type="number" id="ligne-start-file-in" value="0" maxlength="3" min=0 class="input-transfo-fichier">
     </div>
+    <p class=infobulle-content><p class=infobulle-base>?<span class=infobulle-pop>Indiquez ici la ligne où commence les coordonnées. Les lignes commencant par * et # seront ignorées.</span></p></p>
   </div>
   <div class=put-inline>
     <label for=selection-formatage-file-out style="margin-left:20px;">Formatage du fichier :</label>
@@ -126,13 +127,14 @@
         <label for="nom-export-file-out">Nom du fichier en sortie</label>
         <input type="text" id=nom-export-file-out value="geofs" maxlength="60" placeholder="Nom du fichier" />
       </div>
-      <div style=display:flex;flex-direction:column>
+      <div style=display:flex;flex-direction:column;margin-right:20px;>
         <label for="extension-file-out">Extension</label>
         <select id=extension-file-out>
           <option value="txt">.txt</option>
           <option value="csv">.csv</option>
         </select>
       </div>
+      <p class=infobulle-content><p class=infobulle-base>?<span class=infobulle-pop>Nom du fichier à télécharger. Les caractère spéciaux seront automatiquement remplacés par un underscore</span></p></p>
     </div>
     <div class=put-inline>
       <label for=selection-formatage-file-out>Formatage du fichier :</label>

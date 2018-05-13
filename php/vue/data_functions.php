@@ -73,12 +73,13 @@ function AfficheCoord($inout) {
     addInput('proj', 'altitude', 'Altitude [m]', $inout, "proj-alti-point-".$inout)
     . "
     <div class='proj-point-$inout deviation-verticale'>
-      <label>Déviation de la véritcale &eta; - &xi; [radians] (optionnel)</label>
+      <label>Déviation de la véritcale &eta; - &xi; [radians]</label>
       <div style=display:flex>
         <input type=text id=coord-proj-eta-point-$inout $disable>
         <input type=text id=coord-proj-xi-point-$inout $disable>
       </div>
     </div>
+    <p class='infobulle-content proj-point-$inout'><p class='infobulle-base proj-point-$inout'>?<span class=infobulle-pop>La déviation de la verticale est optionnelle. Elle ne sera calculé que si vous la renseignez</span></p></p>
   </div>
   <div id=geog-point-$inout class='inputs-coord'>"
     .
