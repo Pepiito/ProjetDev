@@ -7,12 +7,12 @@ Les écouteurs d'évènements sont contenues dans le controleur.js
 
 
 function sendAjax(callback, file, data, isFormData) {
-  /*
-  Requete AJAX pour ouvrir le fichier sélectionné. Prend en paramètrre :
-   * function callback, exécuté avec le paramètre responsetext une fois la requete AJAX effectué correctement
-   * file, fichier de destination de la requete
-   * data, données envoyés avec la requête (optionnel)
-  */
+  /**
+  * Requete AJAX pour ouvrir le fichier sélectionné. Prend en paramètrre :
+  * function callback, exécuté avec le paramètre responsetext une fois la requete AJAX effectué correctement
+  * file, fichier de destination de la requete
+  * data, données envoyés avec la requête (optionnel)
+  **/
 
   data = data || "";
   isFormData = isFormData || false;
@@ -34,22 +34,19 @@ function sendAjax(callback, file, data, isFormData) {
   ajax.send(data);
 }
 
-
-function sendDataToModel() {
-
-  data = 'formatage=' + allVar['head_data']['in'] + '-' + allVar['head_data']['out'] + allVar['data'];
-  console.log(data);
-  return sendAjax(receiveDataFromModel, "./php/modele/transfo_coord.php", data)
-}
-
 function receiveDataFromModel(reponse) {
+  /**
+  * Est éxécuté lorsque le modèle répond à la requête AJAX de transformation des coordonnées.
+  * Appelle différentes fonctions selon la nature de la réponse
+  * Structure décisionnelle.
+  **/
 
-  if (isPHPErrorType(reponse)) {
+  if (isPHPErrorType(reponse)) { // Erreur PHP renvoyé par le modèle.
     console.log("Erreur sur la réponse AJAX");
-    showError(reponse);
+    raiseError(reponse);
   }
-  else if (isErrorType(reponse)) {
-    raiseError(reponse ? reponse : "Aucune réponse");
+  else if (isErrorType(reponse)) { // Erreur détecté par le modèle
+    reponse ? raiseError(reponse) : endLoading();
   }
   else {
     // Instruction si rien n'est détecté
@@ -60,92 +57,125 @@ function receiveDataFromModel(reponse) {
       return raiseError(reponse);
     }
 
-    if (allVar['type-transfo-selected'] == 'point') {
-
-      var t_out = allVar['point']['out']['type-coord'];
-      var P_out = (allVar['point']['out']['systeme-plani'] == "CH1903+") ? "CH1903plus" : allVar['point']['out']['systeme-plani'];
-      var T_out = allVar['point']['out']['type-alti-altitude'];
-      var A_out =  allVar['point']['out']['systeme-alti'];
-      var p_out = allVar['point']['out']['projection'];
-
-      var unite_out = allVar['point']['out']['geog-unite'];
-
-      console.log(coordonnees);
-
-      switch (t_out) {
-        case 'cart':
-          setCoordValue(t_out, 'x', coordonnees[t_out][P_out]['X']['X0']);
-          setCoordValue(t_out, 'y', coordonnees[t_out][P_out]['Y']['Y0']);
-          setCoordValue(t_out, 'z', coordonnees[t_out][P_out]['Z']['Z0'])
-          break;
-        case 'geog':
-          var c = T_out ? coordonnees[t_out][P_out]['a'][A_out] : coordonnees[t_out][P_out]['h'];
-          setCoordValue(t_out, 'lng', c['lambda']['lambda0'], unite_out);
-          setCoordValue(t_out, 'lat', c['phi']['phi0'], unite_out);
-          T_out ? setCoordValue(t_out, 'altitude', c['H']['H0']) : setCoordValue(t_out, 'hauteur', c['h']['h0']);
-
-          break;
-        case 'proj':
-          var c = T_out ? coordonnees[t_out][P_out][p_out]['a'][A_out] : coordonnees[t_out][P_out][p_out]['h'];
-          setCoordValue(t_out, 'est', c['E']['E0']);
-          setCoordValue(t_out, 'nord', c['N']['N0']);
-          T_out ? setCoordValue(t_out, 'altitude', c['H']['H0']) : setCoordValue(t_out, 'hauteur', c['h']['h0']);
-          if (c['eta']) setCoordValue(t_out, 'eta', c['eta']['eta0'], 'rad');
-          if (c['ksi']) setCoordValue(t_out, 'xi', c['ksi']['ksi0'], 'rad');
-
-      }
-
+    if (allVar['type-transfo-selected'] == 'point') { // cas point
+      integratePointResultInDOM();
     }
     else { // cas fichier
-
-      var t_out = allVar['file']['out']['type-coord'];
-      var P_out = (allVar['file']['out']['systeme-plani'] == "CH1903+") ? "CH1903plus" : allVar['file']['out']['systeme-plani'];
-      var A_out = allVar['file']['out']['systeme-alti'];
-      var p_out = allVar['file']['out']['projection'];
-      var format_out = allVar['file']['out']['selection-formatage'];
-      var format_out_dev = allVar['file']['out']['selection-formatage-deviation'];
-      var T_out = /H/.test(format_out);
-
-      if (t_out == "proj" && allVar['file']['in']['selection-formatage-deviation'] != "false") {
-        format_out += (format_out_dev == "false" ? "" : format_out_dev);
-      }
-
-      var unite_out = allVar['file']['out']['geog-unite'];
-
-      applyLoading("Ecriture du fichier...");
-
-      var fileContent = fillFile(t_out, P_out, T_out, A_out, p_out, format_out, unite_out);
-      var extension = allVar['file']['out']['extension'];
-      var filename = allVar['file']['out']['nom-export'] + "." + extension || "coordonnees_" + P_out + "_" + T_out + "." + extension;
-
-      if (!/\.\w+$/.test(filename)) raiseError("Nom de fichier en sortie non valide. Vérifiez l'extension");
-
-      applyLoading("Téléchargement en cours...");
-      if (!coordonnees['geojson_ptsess']) download(fileContent, filename);
-
-
+      // création et téléchargement du fichier si l'utilisateur souhaitait le télécharger
+      if (!coordonnees['geojson_ptsess']) downloadFileFromResult();
     }
 
-    endLoading();
+    endLoading(); // disparition de la popup de chargement
 
+    // Si la réponse contient cette variable, c'est que l'utilisateur souhaite ajouter le(s) point(s) à la carte
     if (coordonnees['geojson_ptsess']) {
-		source.clear();// cas add map
-		var geojson_ptsess = coordonnees['geojson_ptsess'];
-		var features_ptsess3 = new ol.format.GeoJSON().readFeatures(geojson_ptsess);
-		source.addFeatures(features_ptsess3)
-		close_popup();
 
+  		addPointsToMap(); // Ajoute les points à la carte
+  		close_popup(); // Affichage de la carte
     }
+
     window.time_exec = new Date - start
     console.log("Temps d'execution : " + time_exec + "ms");
   }
 
 }
 
+function integratePointResultInDOM() {
+  /**
+  * Lorsque l'utilisateur souhaite transformer un unique point, cette fonction ajoute les coordonnées
+  * dans le système de sortie demandé aux cases correspondantes.
+  * Cette fonction fait l'étude de cas pour choisir où et comment les paramètres seront affichés,
+  * puis appelle setCoordValue() qui ajoute de manière simple la valeur à sa case.
+  **/
+
+  // Paramètres en sortie e l'utilisateur
+  var t_out = allVar['point']['out']['type-coord'];
+  var P_out = (allVar['point']['out']['systeme-plani'] == "CH1903+") ? "CH1903plus" : allVar['point']['out']['systeme-plani'];
+  var T_out = allVar['point']['out']['type-alti-altitude'];
+  var A_out =  allVar['point']['out']['systeme-alti'];
+  var p_out = allVar['point']['out']['projection'];
+
+  var unite_out = allVar['point']['out']['geog-unite'];
+
+  console.log(coordonnees);
+
+  switch (t_out) {
+    case 'cart':
+      setCoordValue(t_out, 'x', coordonnees[t_out][P_out]['X']['X0']);
+      setCoordValue(t_out, 'y', coordonnees[t_out][P_out]['Y']['Y0']);
+      setCoordValue(t_out, 'z', coordonnees[t_out][P_out]['Z']['Z0'])
+      break;
+
+    case 'geog':
+      // c permet d'aérer le code en simplifiant le "path" dans la variable coordonnees
+      var c = T_out ? coordonnees[t_out][P_out]['a'][A_out] : coordonnees[t_out][P_out]['h'];
+      setCoordValue(t_out, 'lng', c['lambda']['lambda0'], unite_out);
+      setCoordValue(t_out, 'lat', c['phi']['phi0'], unite_out);
+      T_out ? setCoordValue(t_out, 'altitude', c['H']['H0']) : setCoordValue(t_out, 'hauteur', c['h']['h0']);
+      break;
+
+    case 'proj':
+      // c permet d'aérer le code en simplifiant le "path" dans la variable coordonnees
+      var c = T_out ? coordonnees[t_out][P_out][p_out]['a'][A_out] : coordonnees[t_out][P_out][p_out]['h'];
+      setCoordValue(t_out, 'est', c['E']['E0']);
+      setCoordValue(t_out, 'nord', c['N']['N0']);
+      T_out ? setCoordValue(t_out, 'altitude', c['H']['H0']) : setCoordValue(t_out, 'hauteur', c['h']['h0']);
+      if (c['eta']) setCoordValue(t_out, 'eta', c['eta']['eta0'], 'rad');
+      if (c['ksi']) setCoordValue(t_out, 'xi', c['ksi']['ksi0'], 'rad');
+
+  }
+
+}
+
+function downloadFileFromResult() {
+  /**
+  * Lorsque l'utilisateur souhaite transformer un fichier, cette fonction récupère Les
+  * coordonnées transformés selon les paramètres de l'utilisateur et en crée un fichier,
+  * qui est ensuite téléchargé.
+  **/
+
+  // Paramètres séléctionnés par l'utilisateur
+  var t_out = allVar['file']['out']['type-coord'];
+  var P_out = (allVar['file']['out']['systeme-plani'] == "CH1903+") ? "CH1903plus" : allVar['file']['out']['systeme-plani'];
+  var A_out = allVar['file']['out']['systeme-alti'];
+  var p_out = allVar['file']['out']['projection'];
+  var format_out = allVar['file']['out']['selection-formatage'];
+  var format_out_dev = allVar['file']['out']['selection-formatage-deviation'];
+  var T_out = /H/.test(format_out);
+  var unite_out = allVar['file']['out']['geog-unite'];
+  var extension = allVar['file']['out']['extension'];
+
+
+  if (t_out == "proj" && allVar['file']['in']['selection-formatage-deviation'] != "false") {
+    format_out += (format_out_dev == "false" ? "" : format_out_dev);
+  }
+
+  applyLoading("Ecriture du fichier...");
+
+  // Création du fichier
+  var fileContent = fillFile(t_out, P_out, T_out, A_out, p_out, format_out, unite_out);
+
+  // Validation du nom du fichier
+  var filename = allVar['file']['out']['nom-export'] + "." + extension;
+  if (!/\.\w+$/.test(filename)) raiseError("Nom de fichier en sortie non valide. Vérifiez l'extension");
+
+  applyLoading("Téléchargement en cours...");
+  download(fileContent, filename); // téléchargement du fichier
+}
+
+
 function fillFile(_t, _P, _T, _A, _p, format, _u) {
+  /**
+  * Crée un string qui sera le contenu du fichier.
+  * L'en-tête est d'abord créé, puis le fichier rempli des points transformés.
+  **/
 
+  // Pour l'écriture du fichier (utf-8)
   var explicite = {"cart":"Cartesiennes", "proj": "Projetees", "geog": "Geographiques", "H": "altitude", "h": "hauteur ellipsoïdale"}
+  var format_to_values = {'n': 'n', 'X': 'X', 'Y': 'Y', 'Z': 'Z', 'E': 'E', 'N': 'N', 'h': 'h', 'H': 'H', 'l': 'lambda', 'f': 'phi', 'c': 'eta', 'x': 'ksi'};
+  var format_to_string = {'n': 'Nom', 'X': 'X', 'Y': 'Y', 'Z': 'Z', 'E': 'Est', 'N': 'Nord', 'h': 'hauteur', 'H': 'altitude', 'l': 'lambda', 'f': 'phi', 'c': '&eta;', 'x': '&xi;'};
 
+  // Remplissage de l'en-tête
   file_content = "";
   file_content += "#" + pad(pad("GEO FS", 46, "*", true), 99, "*") + "\r\n";
   file_content += "# Fichier realise grace au service en ligne GEOFS retrouvable a l'adresse geofs.ensg.eu . \r\n"+
@@ -163,9 +193,7 @@ function fillFile(_t, _P, _T, _A, _p, format, _u) {
   console.log(coordonnees);
   coords = coordonnees[_t][_P];
 
-  var format_to_values = {'n': 'n', 'X': 'X', 'Y': 'Y', 'Z': 'Z', 'E': 'E', 'N': 'N', 'h': 'h', 'H': 'H', 'l': 'lambda', 'f': 'phi', 'c': 'eta', 'x': 'ksi'};
-  var format_to_string = {'n': 'Nom', 'X': 'X', 'Y': 'Y', 'Z': 'Z', 'E': 'Est', 'N': 'Nord', 'h': 'hauteur', 'H': 'altitude', 'l': 'lambda', 'f': 'phi', 'c': '&eta;', 'x': '&xi;'};
-
+  // Description des coordonnées du fichier (formatage comme demandé par l'utilisateur)
   var headline = [];
   for (var i = 0; i < format.length; i++){
     char = format[i];
@@ -173,17 +201,22 @@ function fillFile(_t, _P, _T, _A, _p, format, _u) {
   }
   file_content += createline(headline, undefined, "# ");
 
+  // c permet d'aérer le code en simplifiant le "path" dans la variable coordonnees
   if (_t == "cart") var c = coords;
   else if (_t == "geog") var c = _T ? coords['a'][_A] : coords['h'];
   else if (_t == "proj") var c = _T ? coords[_p]['a'][_A] : coords[_p]['h'];
   else raiseError("Erreur inconnue");
 
+  // parcours des points
   for (var num_line = 0; num_line < coordonnees['n'].length; num_line++) {
     ligne = [];
+
+    // Ecriture au format souhaité
     for (var i = 0; i < format.length; i++){
       char = format[i];
       val = (char == 'n') ? coordonnees['n'][num_line] : c[format_to_values[char]][format_to_values[char]+num_line]
 
+      // Passage éventuel en radians
       ligne.push((char == 'l' || char == 'f') ? radToAngle(val, _u) : val);
     }
     file_content += createline(ligne);
@@ -192,85 +225,6 @@ function fillFile(_t, _P, _T, _A, _p, format, _u) {
   return file_content;
 }
 
-function createline(array, largeur_colonne, line_start) {
-  var line = line_start || " ";
-  var l_colonne = largeur_colonne || 16;
-
-  if (allVar['file']['out']['extension'] == 'csv') {
-    return line + array.join(";") + '\n';
-  }
-
-  for (i in array) { // cas txt
-    if (array[i] === false) continue;
-    line += pad(array[i], l_colonne, " ", true);
-  }
-  line += "\r\n";
-  return line;
-}
-
-function pad(n, width, z, bafter) {
-  /*
-  Renvoie un string comprenant l'entier ou string n précédé ou suivi d'un nombre de 0 (ou z si renseigné) de longueur width.
-  bafter: bool si false : fill avant. si true: fill après
-  */
-
-  z = z || '0';
-  n = n + '';
-  bafter = bafter || false;
-  return n.length >= width ? n : bafter ? n + new Array(width - n.length + 1).join(z) : new Array(width - n.length + 1).join(z) + n ;
-}
-
-function isErrorType(string) {
-  return /Err[euo]+r /.test(string) || string == "";
-}
-
-function isPHPErrorType(string) {
-  return /<b>/.test(string)
-}
-
-function setCoordValue(type, coord, value, unite) {
-  unite = unite || 'none';
-  value = radToAngle(value, unite)
-
-  document.getElementById('coord-' + type + '-' + coord + '-point-out').value = value;
-}
-
-
-function modify(htmlCollection, display) {
-  if (htmlCollection instanceof HTMLCollection) { // liste d'élement
-  var first = true;
-  var id_select = "";
-    Array.from(htmlCollection).forEach( function(htmlelement) {
-      if (htmlelement.tagName == 'OPTION') {
-        if (htmlelement.parentNode.parentNode.id != id_select) {
-          first = true;
-          id_select = htmlelement.parentNode.parentNode.id;
-        }
-        htmlelement.disabled = !display;
-        if (display && first) {
-          htmlelement.selected = true;
-          first = false;
-        }
-        else htmlelement.selected = false;
-      }
-      else htmlelement.style = "display:" + (display ? "block" : "none !important");
-    });
-  }
-  else { // unique element
-    if (htmlCollection.tagName == 'OPTION') {
-      htmlCollection.disabled = !display;
-      htmlelement.selected = true;
-    }
-    else htmlCollection.style = "display:" + (display ? "block" : "none !important");
-  }
-}
-
-function enable(htmlCollection) {
-  modify(htmlCollection, true);
-}
-function disable(htmlCollection) {
-  modify(htmlCollection, false);
-}
 
 function adaptDisplay(array, toDisplay, data, inout) {
   /*
@@ -295,39 +249,51 @@ function adaptDisplay(array, toDisplay, data, inout) {
 }
 
 function hideAlti(inout) {
+  /**
+  Gère l'affichage des cases altitude et hauteur en particulier,
+  car elle se prêtent mal à la méthode générale.
+  **/
+
   alti_checked = document.getElementById('type-alti-altitude-point-'+inout).checked;
-  if (alti_checked) {
+  if (alti_checked) { // on désactive les 'cases hauteur'
     disable(document.getElementsByClassName('proj-hauteur-point-' + inout));
     disable(document.getElementsByClassName('geog-hauteur-point-' + inout));
   }
-  else {
+  else { // on désactive les 'cases altitude'
     disable(document.getElementsByClassName('proj-alti-point-' + inout));
     disable(document.getElementsByClassName('geog-alti-point-' + inout));
   }
 }
 
 function getAllElementsByClass(list_elements, globalArray) {
+  /**
+  Récupère tous les éléments du DOM ayant une classe au format :
+  radical-[point/file]- [in/out] avec radical un élément de list_elements
+  Et les stocke dans la supervariable allVar[globalArray]
+  **/
+
   window.allVar[globalArray] = new Array();
+
   list_elements.forEach( function (elem) {
     window.allVar[globalArray][elem] = new Array();
+
     ['point', 'file'].forEach( function (data) {
       window.allVar[globalArray][elem][data] = new Array();
+
       ['in', 'out'].forEach( function (inout) {
         window.allVar[globalArray][elem][data][inout] = document.getElementsByClassName(elem +'-'+ data + '-' + inout);
       });
     });
   });
-}
 
-function toggleAltiHauteur(inout) {
-  var elems_to_show = document.getElementsByClassName(class_alti_hauteur);
-  Array.from(elems_to_toggle).forEach( function (elem) {
-    if (elem.style.display != "block") elem.style.display = "block";
-    else elem.style.display = "none";
-  });
 }
 
 function registerAllData() {
+  /**
+  * Enregistre tous les paramètres laissés à l'utilisateur.
+  * Les paramètres non remplis ou non séléctionnées prennent la valeur false
+  * Ces paramètres sont stockés dans la supervariable allVar.
+  **/
 
   allVar['file'] = new Array();
   allVar['point'] = new Array();
@@ -336,10 +302,13 @@ function registerAllData() {
   allVar['file']['out'] = new Array();
   allVar['point']['out'] = new Array();
 
-  allHTMLElem.forEach( function (input) {
+  allHTMLElem.forEach( function (input) { // Parcours des éléments HTML des paramètres laissés à l'utilisateur
 
+    // On récupère l'id de l'élément html et on le traite avant de le "ranger" dans allVar
     var id = input.id;
     var inout = '';
+
+    // in ou out
     if (id.substr(-4) == "-out") {
       inout = 'out';
       id = id.slice(0, -4);
@@ -350,6 +319,7 @@ function registerAllData() {
     }
     else {console.log(input.id + " non traité");return;}
 
+    // file ou point
     if (id.substr(-5) == "-file") {
       data = 'file';
       id = id.slice(0, -5);
@@ -360,6 +330,7 @@ function registerAllData() {
     }
     else {console.log(input.id + " non traité");return;}
 
+    // cas select : si rien n'est séléctionné, la value sera à 'false'. On traduit au booléen false.
     if (input.tagName == "SELECT"){
       try {
         if (input.options[input.options.selectedIndex].value == 'false') {
@@ -373,38 +344,21 @@ function registerAllData() {
       }
     }
 
+    // cas checkbox et radio
     if (input.type == "checkbox" | input.type == "radio") allVar[data][inout][id] = input.checked;
-    else {
+    else { // sinon on récupère la value
       var val = input.value
-      allVar[data][inout][id] = (val == "0") ? "0" : (val || false);
+      allVar[data][inout][id] = (val == "0") ? "0" : (val || false); // si '0' : on renvoie '0' (car peut être traité comme false sur les tests)
     }
   });
 
 }
 
-function addToData(key, value) {
-
-  if (key[0] == '_') {
-    if (!inArray(key[1], allVar['head_data']['out'])) {
-      allVar['head_data']['out'] += key[1];
-    }
-    else return;
-  }
-  else {
-    if (!inArray(key, allVar['head_data']['in'])) {
-      allVar['head_data']['in'] += key;
-    }
-    else return;
-  }
-
-  allVar['data'] += '&' + key + '=' + value;
-}
-
-function inArray(elem, arr) {
-  return (arr.indexOf(elem) != -1);
-}
-
 function toggleHead(type) {
+  /**
+  * Modifie l'affichage de l'en-tête, selon qu'on sélection le traitement par fichier
+  * ou par points.
+  **/
   toShow = (type == "point") ? "fichier" : "point";
   toHide = type;
 
@@ -418,6 +372,15 @@ function toggleHead(type) {
 }
 
 function set_tPTAp(str_t, t, str_P, P, str_T, T, str_A, A, str_p, p) {
+  /**
+  * Renseigne l'en-tête de la requête AJAX pour la transformation de coordonnées.
+  * Cette fonction sert pour les paramètres en entrée et/ou pour les paramètres en sortie
+  * t : type de coordonnées;
+  * P : système palnimétrique
+  * T : type d'altimétrie
+  * A : système altimétrique
+  * p : projection
+  **/
 
   addToData(str_t, t);
   addToData(str_P, (P == "CH1903+" ? "CH1903plus" : P));
@@ -429,202 +392,156 @@ function set_tPTAp(str_t, t, str_P, P, str_T, T, str_A, A, str_p, p) {
   }
 }
 
-function validAndSetData(addMap) {
-
-  window.start = new Date();
-
-  addMap = addMap || false;
+function processTransformationPoint(addMap) {
+  /**
+  * Lance le processus de transformation d'un point.
+  * Récupère les paramètres saisi par l'utilisateur, leur applique une validation
+  * et les ajoute à la supervariable allVar['data'].
+  * Si tout s'est bien passé, lance la requête AJAX pour la transformation.
+  * Pour la dénomination des variables, se référer à la doc docs/formatages_transfert_donnees.docx
+  * :return: string d'erreur si au moin un des paramètres n'est pas valide. "Success" sinon
+  **/
 
   applyLoading("Chargement...");
 
-  registerAllData();
-
   data = "point";
 
-  invalide_data = "";
+  invalide_data = ""; // string d'erreur
 
+  // initialisation de la variable data
   allVar['data'] = '';
   allVar['head_data'] = new Array;
   allVar['head_data']['in'] = '';
   allVar['head_data']['out'] = '';
 
-  // Pour la dénomination des variables, se référer à la doc docs/formatages_transfert_donnees.docx
-  var t = allVar[data]['in']['type-coord'];
-  var T = allVar[data]['in']['type-alti-altitude'];
-  var p = allVar[data]['in']['projection'];
-  var P = allVar[data]['in']['systeme-plani'];
+  // enregistrement des métadonnées en entrée et sortie
+  var t = allVar[data]['in']['type-coord'],
+  T = allVar[data]['in']['type-alti-altitude'],
+  p = allVar[data]['in']['projection'],
+  A = allVar[data]['in']['systeme-alti'],
+  P = allVar[data]['in']['systeme-plani'];
 
-  set_tPTAp('t', t, 'P', P, 'T', T, 'A', allVar[data]['in']['systeme-alti'], 'p', p)
+  set_tPTAp('t', t, 'P', P, 'T', T, 'A', A, 'p', p);
+
+  var _t = allVar[data]['out']['type-coord'],
+  _P = allVar[data]['out']['systeme-plani'],
+  _T = allVar[data]['out']['type-alti-altitude'],
+  _A = allVar[data]['out']['systeme-alti'],
+  _p = allVar[data]['out']['projection']
+
+  set_tPTAp('_t', _t, '_P', _P, '_T', _T, '_A', _A, '_p', _p);
 
   var unite_in = allVar[data]['in']['geog-unite'];
 
+  // Ajout de la hauteur/altitude en focntion des choix de l'utilisateur
   if ((t == 'proj') | (t == 'geog')) {
     var T = allVar[data]['in']['type-alti-altitude'];
     if (T) {
       var H = validateCoord(allVar[data]['in']['coord-' + t + '-altitude']);
-      if (H) addToData('H', H);
+      if (H) addToData('H', H); // ajout altitude
       else invalide_data += '   Altitude [m]  ';
     }
     else {
       var h = validateCoord(allVar[data]['in']['coord-' + t + '-hauteur']);
-      if (h) addToData('h', h);
+      if (h) addToData('h', h); // ajout hauteur
       else invalide_data += '   Hauteur [m]  ';
     }
   }
 
-  if (data == 'point') {
+  // Différents cas possibles
+  switch (t) {
+    case 'cart':
+      var X = validateCoord(allVar[data]['in']['coord-cart-x']);
+      if (X) addToData('X', X);
+      else invalide_data += '   X [m] ';
 
-    switch (t) {
-      case 'cart':
-        var X = validateCoord(allVar[data]['in']['coord-cart-x']);
-        if (X) addToData('X', X);
-        else invalide_data += '   X [m] ';
+      var Y = validateCoord(allVar[data]['in']['coord-cart-y']);
+      if (Y) addToData('Y', Y);
+      else invalide_data += '   Y [m] ';
 
-        var Y = validateCoord(allVar[data]['in']['coord-cart-y']);
-        if (Y) addToData('Y', Y);
-        else invalide_data += '   Y [m] ';
+      var Z = validateCoord(allVar[data]['in']['coord-cart-z']);
+      if (Z) addToData('Z', Z);
+      else invalide_data += '   Z [m] ';
 
-        var Z = validateCoord(allVar[data]['in']['coord-cart-z']);
-        if (Z) addToData('Z', Z);
-        else invalide_data += '   Z [m] ';
+      break;
 
-        break;
+    case 'geog':
+      var l = validateCoord(allVar[data]['in']['coord-geog-lng'], unite_in);
+      if (l) addToData('l', l);
+      else invalide_data += '   Longtiude  ';
 
-      case 'geog':
-        var l = validateCoord(allVar[data]['in']['coord-geog-lng'], unite_in);
-        if (l) addToData('l', l);
-        else invalide_data += '   Longtiude  ';
+      var f = validateCoord(allVar[data]['in']['coord-geog-lat'], unite_in);
+      if (f) addToData('f', f);
+      else invalide_data += '   Latitude  ';
 
-        var f = validateCoord(allVar[data]['in']['coord-geog-lat'], unite_in);
-        if (f) addToData('f', f);
-        else invalide_data += '   Latitude  ';
+      break;
 
-        break;
+    case 'proj':
 
-      case 'proj':
+      var E = validateCoord(allVar[data]['in']['coord-proj-est']);
+      if (E) addToData('E', E);
+      else invalide_data += '   E [m]  ';
 
-        var E = validateCoord(allVar[data]['in']['coord-proj-est']);
-        if (E) addToData('E', E);
-        else invalide_data += '   E [m]  ';
+      var N = validateCoord(allVar[data]['in']['coord-proj-nord']);
+      if (N) addToData('N', N);
+      else invalide_data += '   N [m]  ';
 
-        var N = validateCoord(allVar[data]['in']['coord-proj-nord']);
-        if (N) addToData('N', N);
-        else invalide_data += '   N [m]  ';
+      var c = validateCoord(allVar[data]['in']['coord-proj-eta']);
+      var x = validateCoord(allVar[data]['in']['coord-proj-xi']);
 
-        var c = validateCoord(allVar[data]['in']['coord-proj-eta']);
-        var x = validateCoord(allVar[data]['in']['coord-proj-xi']);
+      // optionnel : ajoutés que si renseignés.
+      if (c && x) addToData('c', c);
+      if (c && x) addToData('x', x);
 
-        if (c && x) addToData('c', c);
-        if (c && x) addToData('x', x);
-
-        break;
-    }
-
-    var _t = allVar[data]['out']['type-coord'],
-    _P = allVar[data]['out']['systeme-plani'],
-    _T = allVar[data]['out']['type-alti-altitude'],
-    _A = allVar[data]['out']['systeme-alti'],
-    _p = allVar[data]['out']['projection']
-
-    set_tPTAp('_t', _t, '_P', _P, '_T', _T, '_A', _A, '_p', _p)
-
+      break;
   }
 
   addToData("addMap", addMap);
 
-  if (invalide_data == "") {
+  if (invalide_data == "") { // cas succès
     sendDataToModel();
     return "Success";
   }
-  else return invalide_data;
+  else return invalide_data; // des données sont invalides
 }
 
-function validateCoord(coord, unite) {
+function processTransformationFile(file, addMap) {
+  /**
+  * Lance le processus de transformation d'un fichier.
+  * Récupère le fichier entré par l'utilisateur, l'envoie en AJAX pour récupérer son contenu si ce contenu est valide.
+  * Les paramêtres choisis par l'utilisateur sont ajoutés à la supervariable allVar['data'].
+  * Pour la dénomination des variables, se référer à la doc docs/formatages_transfert_donnees.docx
+  **/
 
-  unite = unite || 'none';
-
-  // Traitement dms
-  if (coord === "0") return "0";
-  if (!coord) return false;
-  coord = coord.replace(',', '.').replace('/\D[^\.]/', '') // Garde uniquement nombre et points
-  if (isNaN(parseFloat(coord))) {
-    raiseError("Erreur 206: Le paramètre suivant n'est pas valide : ", coord);
-    return false;
-  }
-
-  if (unite == 'grad') return angleToRad(coord, 400);
-  else if (unite == 'deg') return angleToRad(coord, 360);
-  else if (unite == 'rad') return angleToRad(coord, 2*Math.PI);
-  else return coord + "";
-}
-
-function angleToRad(alpha, nb) {
-  alpha = parseFloat(alpha);
-  while (!(alpha >= 0 && alpha < nb)) {
-    if (alpha < 0) alpha += nb;
-    else if (alpha >= nb) alpha -= nb;
-  }
-  return alpha*2*Math.PI/nb;
-}
-
-function radToAngle(alpha, unite) {
-  alpha = parseFloat(alpha);
-  if (unite == "deg") nb = 360;
-  else if (unite == "grad") nb = 400;
-  else if (unite == "rad") nb = 2*Math.PI;
-  else return alpha;
-  return precisionRound(alpha*nb/(2*Math.PI), 9);
-}
-
-function precisionRound(number, precision) {
-  var factor = Math.pow(10, precision);
-  return Math.round(number * factor) / factor;
-}
-
-function raiseError(code, complement) {
-  complement = complement || "";
-
-  code = /Err[euo]+r/.test(code) ? code : 'Erreur : ' + code;
-  console.log(code);
-  showError(code + "<br><center>" + complement + "</center>");
-
-  return code;
-}
-
-function getFileContent(file, addMap) {
-
-  window.start = new Date();
-
-  registerAllData();
-
-  file = file || document.getElementById("input-file-in").files[0];
-  addMap = addMap || false;
-
+  // initialisation des données à envoyer au modèle
   allVar['data'] = '';
   allVar['head_data'] = new Array;
   allVar['head_data']['in'] = '';
   allVar['head_data']['out'] = '';
 
+  // Paramètres saisi par l'utilisateur pour la lecture du fichier
   var separateur = allVar['file']['in']['separateur'],
   start = allVar['file']['in']['ligne-start'],
   format = allVar['file']['in']['selection-formatage'],
   format_out = allVar['file']['out']['selection-formatage'],
   format_dev = allVar['file']['in']['selection-formatage-deviation'];
-  console.log(format_dev);
 
+  // concaténation avec la déviation de la verticle si renseignée
   format = format + (format_dev ? format_dev : "");
 
   var t = allVar['file']['in']['type-coord'],
   P = allVar['file']['in']['systeme-plani'];
 
+  // métadonnées en entrée enregistrés
   set_tPTAp('t', t, 'P', P, 'T', /H/.test(format), 'A', allVar['file']['in']['systeme-alti'], 'p', allVar['file']['in']['projection']);
   addToData("addMap", addMap);
 
+  // métadonnées en sortie enregistrés
   var _t = allVar['file']['out']['type-coord'],
   _P = allVar['file']['out']['systeme-plani'];
   set_tPTAp('_t', _t, '_P', _P, '_T', /H/.test(format_out), '_A', allVar['file']['out']['systeme-alti'], '_p', allVar['file']['out']['projection']);
 
-
+  // envoi du fichier en AJAX via un formulaire formdata
   var formdata = new FormData();
 
   formdata.append('file', file);
@@ -634,47 +551,54 @@ function getFileContent(file, addMap) {
 
   applyLoading("Chargement du fichier...");
 
-  return sendAjax(collectData, './php/vue/get_file_content.php', formdata, true);
+  // envoi de la requête. La fonction êxécuté en retour sera collectFileData
+  return sendAjax(collectFileData, './php/vue/get_file_content.php', formdata, true);
 
 
 }
 
-function collectData(reponse) {
+function collectFileData(reponse) {
+  /**
+  * Exécuté une fois le traitement du fcihier terminé, cette fonction traite les données pour les envoyer
+  * au modèle si tout s'est bien déroulé et si les coordonnées sont valides
+  * Le contenu du fichier est contenu dans :reponse: ..
+  * :return: Message d'erreur si une coordonnée est invalide, 'Success' sinon.
+  **/
 
-  if (isPHPErrorType(reponse)) {
+  if (isPHPErrorType(reponse)) { // Le fichier renvoie une erreur PHP
 
     console.log("Erreur PHP");
     raiseError('Erreur 200 : Une erreur inattendu est survenu.', reponse);
   }
-  else if (isErrorType(reponse)) raiseError(reponse);
-  else {
+  else if (isErrorType(reponse)) raiseError(reponse); // Une erreur a été détecté lors du parcours du fichier
+  else { // Le fichier est valide
 
     applyLoading('Traitement des données. Ceci peut prendre un moment...');
 
     try {
       var variables = JSON.parse(reponse);
     }
-    catch (e) {
-      raiseError("Erreur 207: La lecture du fichier s'est mal passé.", reponse);
-      return;
+    catch (e) { // Erreur inconnue
+      return raiseError("Erreur 207: La lecture du fichier s'est mal passé.", reponse);
     }
 
+    // Unité si coordonnées en géographique
     var unite_in = (allVar['file']['in']['type-coord'] == 'geog') ? allVar['file']['in']['geog-unite'] : "none";
 
 
-    for (type in variables) {
+    for (type in variables) { // Parcours des listes de coordonnées par type (longitude, Est, nom..)
 
       var values = variables[type];
       var temp_str = "";
 
-      for (line in values) {
+      for (line in values) { // parcours coordonnées par coordonnées
 
         value = values[line];
 
-        if (type == 'n') {
+        if (type == 'n') { // Cas nom : on renvoie le string (sans les points-virgules)
           temp_str += value.replace(";", "_") + ';';
         }
-        else {
+        else { // Validation de la coordonnées
 
           var valid_value = (type == "f" || type == "l") ? validateCoord(value, unite_in) : validateCoord(value);
           if (valid_value) temp_str += valid_value + ';';
@@ -684,90 +608,37 @@ function collectData(reponse) {
 
       }
 
-      str = temp_str.substr(0, temp_str.length-1);
+      str = temp_str.substr(0, temp_str.length-1); // un ; en trop
 
-      addToData(type, str);
+      addToData(type, str); // On ajoute ce type de coordonnées à allVar['data']
 
     }
 
-    console.log(allVar['data']);
-    sendDataToModel();
+    sendDataToModel(); // Envoie des données au modèle
     return 'Success';
   }
 
 }
 
-function download(data, filename, type) {
+function processTransformation(type, addMap) {
+  /**
+  * Fonction globale appelé lorsque l'utilisateur clique sur un des 4 outons de lancement des transformation.
+  * Redirige vers la fonction concerné.
+  * :addMap: true si l'utilisateur souhaite ajouter le point à la carte. false sinon
+  * :type: 'point' ou 'file', selon le bouton cliqué
+  **/
 
-    type = type || "text/plain";
+  window.start = new Date(); // suivi temporel
 
-    var file = new Blob([data], {type: type});
+  registerAllData(); // actualisation des données renseignés par l'utilisateur
 
-    if (window.navigator.msSaveOrOpenBlob) // IE10+
-        window.navigator.msSaveOrOpenBlob(file, filename);
-    else { // Others
-
-        var a = document.createElement("a");
-        var url = URL.createObjectURL(file);
-
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-
-        setTimeout(function() {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }, 0);
-    }
-}
-
-function applyLoading(message) {
-
-  showLoader("loader");
-  document.getElementById("loader-message").innerHTML = message;
-  return;
-}
-
-function sleep(ms) {
-  /*
-  Temporisation de la durée souhaité (ms).
-  Correctif de 4ms correspondant approximativement au temps d'éxécution propre
-  */
-
-  return new Promise(resolve => setTimeout(resolve, Math.max(1, ms-4)));
-}
-
-function endLoading() {
-
-  var loaderFiltre = document.getElementById('loader-filtre');
-  loaderFiltre.style.visibility = "hidden";
-  loaderFiltre.style.opacity = 0;
-  loaderFiltre.style.zIndex = -10;
-
-  if (ajax.readyState != 4) {
-    console.log(ajax);
-    ajax.abort();
+  if (type == "point") {
+    var errordata = processTransformationPoint(addMap);
+    if (errordata != 'Success') raiseError("Erreur 205 : Les informations suivantes sont manquantes pour la compilation : ", errordata);
+  }
+  if (type == "file") {
+    files().forEach( function (file) { // parcours des fichiers saisis par l'utilisateur
+      processTransformationFile(file, addMap);
+    });
   }
 }
-
-function showError(message) {
-
-  showLoader("error");
-  document.getElementById('error-message').innerHTML = message;
-}
-
-function showLoader(loadOrError) {
-
-  document.getElementById('loader-content').style.visibility = (loadOrError == "loader") ? "visible" : "hidden";
-  document.getElementById('error-content').style.visibility = (loadOrError != "loader") ? "visible" : "hidden";
-
-  var loaderFiltre = document.getElementById('loader-filtre');
-  if (loaderFiltre.style.visibility != "visible") {
-    loaderFiltre.style.visibility = "visible";
-    loaderFiltre.style.opacity = 1;
-    loaderFiltre.style.zIndex = 1000;
-  }
-}
-
-files = () => Array.from(document.getElementById('input-file-in').files).concat(Array.from(document.getElementById('dropped-files').files));

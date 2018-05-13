@@ -1,7 +1,7 @@
 <fieldset id=fichier-de-depart>
   <legend>Fichier de départ</legend>
   <div class=put-inline style=justify-content:space-around>
-    <div id='container-input-file' class=put-inline style=margin-right:30px;>
+    <div id='container-input-file' class=put-inline style=margin-right:20px;>
       <input id="input-file-in" name=input-file-in type="file" multiple/>
       <label for="input-file-in">Parcourir</label>
       <input type=text id=name-import-file-in disabled value="Déposer un fichier ici...">
@@ -12,6 +12,7 @@
       <label for="separateur-file-in">Séparateur: </label>
       <input type="text" id=separateur-file-in class=input-transfo-fichier value=";" maxlength="2">
     </div>
+    <span class=infobulle-content><span class=infobulle-base>?<span class=infobulle-pop>Séparateur entre coordonnées. Si multiples espaces ou tab, laissez vide</span></span></span>
     <div class=put-inline>
       <label for="ligne-start-file-in" style="position:relative;margin-left:20px;">Début à la ligne: </label>
       <input type="number" id="ligne-start-file-in" value="0" maxlength="3" min=0 class="input-transfo-fichier">

@@ -1,4 +1,6 @@
-<div id=page_accueil>
+<?php if (!isset($_SESSION)) session_start(); ?>
+<?php include('./php/vue/head.php'); ?>
+<body id=page_accueil>
   <div id=head-content>
     <div id=headline>
       <img src=./images/geofs.jpg alt=GeoFS>
@@ -81,4 +83,5 @@
       Son utilisation est libre de droit.
     </span>
   </div>
-</div>
+  <script type=text/javascript src=./js/accueil.js></script>
+</body>

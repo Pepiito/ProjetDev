@@ -92,7 +92,7 @@ function AfficheCoord($inout) {
     . "
     <div $hide class=geog-point-$inout>
       <label for=geog-unite-point-$inout>Unité</label>
-      <select id=geog-unite-point-$inout style=width:150px;>
+      <select id=geog-unite-point-$inout class=select-unite style=width:150px;>
         <option value=grad>Grades</option>
         <option value=deg selected>Degrés décimaux</option>
         <option value=rad>Radians</option>

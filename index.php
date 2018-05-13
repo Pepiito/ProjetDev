@@ -9,7 +9,6 @@ include("./php/vue/postgis_to_geojson.php");
 <!DOCTYPE html>
 <?php include('./php/vue/head.php'); ?>
 	<body>
-		<?php include('accueil.php'); ?>
     <div class=corps>
 			<div class="legende">
 				<?php include("./php/vue/legende.php"); ?>
@@ -45,6 +44,5 @@ include("./php/vue/postgis_to_geojson.php");
 		<script src="lib/proj4-epsg2154.js"></script>
 		<script src="lib/proj4-epsg4275.js"></script>
     <script type=text/javascript src=./js/controleur.js></script>
-		<script type=text/javascript src=./js/accueil.js></script>
   </body>
 </html>

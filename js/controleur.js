@@ -7,49 +7,47 @@ Les fontions sont définies dans le main.js
 */
 
 /*
-Variables à déclarer
+* Variables à déclarer
 */
 
-window.addEventListener('load', (event) => {
+var allVar = new Array(); // stocke tous les éléments du DOM utiles
+allVar['type-transfo-selected'] = 'point';
 
-  /*
-  * variables à déclarer
-  */
+var inputs = document.getElementById('pop_body').getElementsByTagName('input');
+var selects =  document.getElementById('pop_body').getElementsByTagName('select');
 
-  window.allVar = new Array(); // stocke tous les éléments du DOM utiles
-  allVar['type-transfo-selected'] = 'point';
+var allHTMLElem = Array.from(inputs).concat(Array.from(selects));
 
-  var inputs = document.getElementById('pop_body').getElementsByTagName('input');
-  var selects =  document.getElementById('pop_body').getElementsByTagName('select');
+// Eléments du DOM dont l'affichage dépend du type de coordonnée choisi
+getAllElementsByClass(['cart', 'geog', 'proj'], 'typeCoord');
 
-  window.allHTMLElem = Array.from(inputs).concat(Array.from(selects));
+// Eléments du DOM dont l'affichage dépend du système plani choisi
+getAllElementsByClass(['ETRS89', 'CH1903', 'CH1903+', 'RGF93', 'NTF'], 'systemePlani');
 
-  // Eléments du DOM dont l'affichage dépend du type de coordonnée choisi
-  getAllElementsByClass(['cart', 'geog', 'proj'], 'typeCoord');
+getAllElementsByClass(['proj-alti', 'proj-hauteur', 'geog-alti', 'geog-hauteur'], 'typeAlti')
+// Inputs de coordonnées
 
-  // Eléments du DOM dont l'affichage dépend du système plani choisi
-  getAllElementsByClass(['ETRS89', 'CH1903', 'CH1903+', 'RGF93', 'NTF'], 'systemePlani');
+registerAllData();
 
-  getAllElementsByClass(['proj-alti', 'proj-hauteur', 'geog-alti', 'geog-hauteur'], 'typeAlti')
-  // Inputs de coordonnées
 
-  registerAllData();
+var points_fixes_title = document.getElementById('points_fixes_title');
+var sys_plani_title = document.getElementById('sys_plani_title');
+var sys_alti_title = document.getElementById('sys_alti_title');
 
-  /*
-  * fonction à éxécuter au lancement
-  */
+/*
+* Fonctions à éxécuter au lancement
+*/
 
-  ['in', 'out'].forEach( function (inout) {
-    ['point', 'file'].forEach( function (data) {
+['in', 'out'].forEach( function (inout) {
+  ['point', 'file'].forEach( function (data) {
 
-      //initialisation en coordonnées géographiques
-      adaptDisplay(allVar.typeCoord, 'geog', data, inout);
-      adaptDisplay(allVar.systemePlani, 'RGF93', data, inout);
-      hideAlti(inout);
-    });
+    //initialisation en coordonnées géographiques
+    adaptDisplay(allVar.typeCoord, 'geog', data, inout);
+    adaptDisplay(allVar.systemePlani, 'RGF93', data, inout);
+    hideAlti(inout);
   });
+});
 
-}, false);
 
 /*
 Ecouteurs
@@ -78,28 +76,29 @@ Ecouteurs
 });
 
 document.getElementById('calcul-point').addEventListener('click', (event) => {
-  var errordata = validAndSetData();
-  if (errordata != 'Success') raiseError("Erreur 205 : Les informations suivantes sont manquantes pour la compilation : ", errordata);
+  processTransformation('point', false)
 }, false);
 
+document.getElementById("ajout-carte-point").addEventListener('click', (event) => {
+  processTransformation('point', true)
+});
+
 document.getElementById('dl-file').addEventListener('click', (event) => {
-  files().forEach( function (file) {
-    getFileContent(file);
-  });
+  processTransformation('file', false);
 }, false);
 
 document.getElementById("ajout-carte-file").addEventListener('click', (event) => {
-  files().forEach( function (file) {
-    getFileContent(file, true);
-  });
+  processTransformation('file', true);
 });
 
-document.getElementById("ajout-carte-point").addEventListener('click', (event) => {
-  var errordata = validAndSetData(true);
-  if (errordata != 'Success') raiseError("Erreur 205 : Les informations suivantes sont manquantes pour la compilation : ", errordata);
 
+document.addEventListener('keydown', (event) => {
+  if (event.key == 'Escape') {
+    if (document.getElementById('loader-filtre').style.visibility == "visible") {
+      endLoading();
+    }
+  }
 });
-
 
 document.getElementById('input-file-in').addEventListener('change', showNamesFiles, false);
 
@@ -213,9 +212,6 @@ function displayOptionCarte(style, symbol) {
   }
 }
 
-var points_fixes_title = document.getElementById('points_fixes_title');
-var sys_plani_title = document.getElementById('sys_plani_title');
-var sys_alti_title = document.getElementById('sys_alti_title');
 points_fixes_title.onmousemove = function (e) {
     var x = e.clientX,
         y = e.clientY;
@@ -235,13 +231,15 @@ sys_alti_title.onmousemove = function (e) {
     document.getElementById('span_alti').style.left = (x+10) + 'px';
 };
 
+document.getElementsByClassName('home')[0].onclick = goToHomePage; // bouton home de la page principale.
+
 document.getElementById('liste_chantier').addEventListener('change', (event) => {
 	var value = document.getElementById('liste_chantier').value;
 	console.log(value)
 	source.clear();
 	sendAjax(change_chantier, "./php/vue/postgis_change_chantier.php", "value_chantier=" + value);
-	
-	
+
+
 
 }, false);
 
@@ -256,7 +254,7 @@ function change_chantier(reponse){
 	else if (isErrorType(reponse)) {
 		raiseError(reponse);
 	}else{
-	
+
 	var features_ptsess2 = new ol.format.GeoJSON().readFeatures(geojson_ptsess);
 	source.addFeatures(features_ptsess2)
 	console.log(features_ptsess2)
@@ -265,8 +263,7 @@ function change_chantier(reponse){
 
 document.getElementById('button_gest').addEventListener('click', (event) => {
 	window.open('./gestion-compte.php?id_sess='+id_sess);
-	
-	
+
+
 
 }, false);
-
