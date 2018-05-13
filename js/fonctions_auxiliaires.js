@@ -23,8 +23,10 @@ function addPointsToMap() {
 
   var date = getDate();
   var select =  document.getElementById('liste_chantier').innerHTML;
-  if (!date.test(select)) {
-    select += "<option value=" + date + ">" + date + "</option>";
+  if (select.indexOf(date) == -1) {
+	  console.log('salut')
+    list_chantier = "<option value=" + date + "selected>" + date + "</option>" + select;
+	document.getElementById('liste_chantier').innerHTML = list_chantier;
   }
 }
 
@@ -40,7 +42,7 @@ function getDate() {
 
     if(mm<10) mm = '0'+mm;
 
-    return yyyy + '-' + mm + '-' + jj;
+    return yyyy + '-' + mm + '-' + dd;
   }
 
 function createline(array, largeur_colonne, line_start) {
