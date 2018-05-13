@@ -147,13 +147,17 @@ if (isset($_POST['c']) && isset($_POST['x'])) {
   if ($_POST['c'] != 'false' && $_POST['x'] != 'false') {
     $eta_dep = explode(';', $_POST['c']);
     $ksi_dep = explode(';', $_POST['x']);
+    if ($_POST['t'] == 'proj' && $_POST['P'] != 'NTF') {
     //choix du mode
-    if ($type_coord_arr == 'proj' && ($type_plani_arr == 'RGF93' || $type_plani_arr == 'NTF')) {
-      $mode = 'fr';
-    } else if ($type_coord_arr == 'proj' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903plus')) {
-      $mode = 'ch';
+      if ($type_coord_arr == 'proj' && ($type_plani_arr == 'RGF93' && ($_POST['P'] == 'CH1903' || $_POST['P'] == 'CH1903plus')) {
+        $mode = 'fr';
+      } else if ($type_coord_arr == 'proj' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903plus') && $_POST['P'] == 'RGF93') {
+        $mode = 'ch';
+      } else {
+        exit("Erreur 130: Les coordonnées de sortie doivent être projetées du RGF93 vers CH1903(+) ou inversement pour calculer la déviation de la verticale");
+      }
     } else {
-      exit("Erreur 130: Les coordonnées de sortie doivent être projetées pour éta et ksi");
+      exit("Erreur 129: Les coordonnées d'entrée doivent être projetées dans un système autre que NTF");
     }
     //calcul pour tous les points
     for ($i=0; $i<$len; $i++) {

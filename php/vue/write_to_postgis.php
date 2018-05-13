@@ -1,7 +1,5 @@
 <?php
 include("connexion_postgis.php");
-$res = pg_query($conn, 'SELECT max(id_ptsess) FROM "Points_session";');
-$id_ptsess = pg_fetch_result($res,0,0)+1;
 
 function postgis_to_geojson($select_postgis){
 	$geojson='';
@@ -18,7 +16,7 @@ function postgis_to_geojson($select_postgis){
 $nb_pt = count($echo['n']); //Variable des numéros des points --> contrôler si variable juste
 
 for ($i = 0; $i<$nb_pt;$i++){
-	$num=$echo['n']['n'.$i];
+	$num=$echo['n'][$i];
 	$ETRS89_X = $echo['cart']['ETRS89']['X']['X'.$i];
 	$ETRS89_Y = $echo['cart']['ETRS89']['Y']['Y'.$i];
 	$ETRS89_Z = $echo['cart']['ETRS89']['Z']['Z'.$i];
