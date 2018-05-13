@@ -21,8 +21,27 @@ function addPointsToMap() {
   // Ajout du point à la carte
   source.addFeatures(features_ptsess3);
 
+  var date = getDate();
+  var select =  document.getElementById('liste_chantier').innerHTML;
+  if (!date.test(select)) {
+    select += "<option value=" + date + ">" + date + "</option>";
+  }
 }
 
+function getDate() {
+    // Renvoie la date du jour au format aaaa-mm-jj
+    var today = new Date();
+
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+
+    if(dd<10) dd = '0'+dd;
+
+    if(mm<10) mm = '0'+mm;
+
+    return yyyy + '-' + mm + '-' + jj;
+  }
 
 function createline(array, largeur_colonne, line_start) {
   /**
