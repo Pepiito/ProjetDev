@@ -17,11 +17,11 @@
 	   <p><u>Suisse</u></p>
        <div style="height:25px;"><input type="checkbox" name="PFP1" id="PFP1_leg"/> <label for="PFP1">PFP1</label><img src="icon_map/PFP1.svg">  </div>
 	   <div style="height:25px;"><input type="checkbox" name="PFP2" id="PFA1_leg"/> <label for="PFA1">PFA1</label><img src="icon_map/PFA1.svg"></div>
+
 	   <?php
 	   if(isset($_SESSION['pseudo'])){
 			echo '<p><u>Points de '.$_SESSION['pseudo'].'</u></p>';
 		    echo '<select id="liste_chantier">';
-
 			$result = pg_query($conn, 'SELECT date_chantier FROM "Points_session" WHERE id_sess='.$_SESSION['id_sess'].' GROUP BY date_chantier ORDER BY date_chantier DESC;');
 			if (!$result) {
 				echo "Une erreur s'est produite.\n";
