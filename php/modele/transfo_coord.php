@@ -149,7 +149,7 @@ if (isset($_POST['c']) && isset($_POST['x'])) {
     $ksi_dep = explode(';', $_POST['x']);
     if ($_POST['t'] == 'proj' && $_POST['P'] != 'NTF') {
     //choix du mode
-      if ($type_coord_arr == 'proj' && ($type_plani_arr == 'RGF93' && ($_POST['P'] == 'CH1903' || $_POST['P'] == 'CH1903plus')) {
+      if ($type_coord_arr == 'proj' && ($type_plani_arr == 'RGF93' && ($_POST['P'] == 'CH1903' || $_POST['P'] == 'CH1903plus'))) {
         $mode = 'fr';
       } else if ($type_coord_arr == 'proj' && ($type_plani_arr == 'CH1903' || $type_plani_arr == 'CH1903plus') && $_POST['P'] == 'RGF93') {
         $mode = 'ch';
