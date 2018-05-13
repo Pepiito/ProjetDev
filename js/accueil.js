@@ -56,13 +56,17 @@ function hideButtons() {
   showButtons(0, 'hidden');
 }
 
-document.getElementById('identification').addEventListener('click', (event) => { // Envoie les informations relatives à la connexion
+document.getElementById('identification').addEventListener('click', (event) => {
+  // Envoie les informations relatives à la connexion
+
   data = "pseudo=" + encodeURIComponent(document.getElementById('pseudo-connexion').value);
   data += "&password=" + encodeURIComponent(document.getElementById('password-connexion').value);
   sendAjax(checkConnexionValid, "./php/vue/sess_controle.php", data);
 }, false);
 
-document.getElementById('sinscrire').addEventListener('click', (event) => { // Envoie les informations relatives à l'inscription
+document.getElementById('sinscrire').addEventListener('click', (event) => {
+  // Envoie les informations relatives à l'inscription
+
   data = "pseudo=" + encodeURIComponent(document.getElementById('pseudo-inscription').value);
   data += "&password=" + encodeURIComponent(document.getElementById('password-inscription').value);
   data += "&pass2=" + encodeURIComponent(document.getElementById('pass2-inscription').value);
