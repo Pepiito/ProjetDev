@@ -328,8 +328,8 @@ function showLoader(loadOrError) {
 files = () => Array.from(document.getElementById('input-file-in').files).concat(Array.from(document.getElementById('dropped-files').files));
 
 function goToMainPage() { // Page de garde vers page principale
-  document.location.href = './geofs.php';
+  document.location.href = './index.php';
 }
 function goToHomePage() { // Page principale vers page de garde
-  document.location.href = './';
+  document.location.href = './accueil.php';
 }
