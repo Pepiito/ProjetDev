@@ -3,7 +3,7 @@
 /**
 * Fonction h_to_alti
 *
-* Retourne un altitude par rapport aux coordonnées géographique données en radian et mètre
+* Retourne une altitude par rapport aux coordonnées géographique données en radian et mètre à partir d'une hauteur ellipsoïdale
 *
 * @param float $lambda première coordonnée géographique
 * @param float $phi deuxième coordonnée géographique
@@ -18,7 +18,7 @@ function h_to_alti($lambda, $phi, $h) {
 /**
 * Fonction h_to_alti
 *
-* Retourne un hauteur par rapport aux coordonnées géographique et une altitude données en radian et mètre
+* Retourne une hauteur par rapport aux coordonnées géographique et une altitude donnée en radian et mètre
 *
 * @param float $lambda première coordonnée géographique
 * @param float $phi deuxième coordonnée géographique
