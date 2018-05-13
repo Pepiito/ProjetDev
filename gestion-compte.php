@@ -25,7 +25,7 @@ include("./php/vue/connexion_postgis.php");?>
 		echo '<table width="80%">';
 		echo '<thead><tr><th>Date du chantier</th><th></th></thead><tbody>';
 		$id_sess = $_GET['id_sess'];
-		$result = pg_query($conn, "SELECT date_chantier FROM \"Points_session\" WHERE id_sess=".$id_sess." GROUP BY date_chantier");
+		$result = pg_query($conn, "SELECT date_chantier FROM \"Points_session\" WHERE id_sess=".$id_sess." GROUP BY date_chantier ORDER BY date_chantier DESC");
 		
 		while ($row = pg_fetch_row($result)) {
 				$date = strval($row[0]);
