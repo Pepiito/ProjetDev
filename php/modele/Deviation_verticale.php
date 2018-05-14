@@ -3,7 +3,9 @@
 
 # Déviation de la verticale
 
-function deviation_verticale($mode, $Bessel_lambda, $Bessel_phi, $GRS80_lambda, $GRS80_phi, $eta, $ksi){
+function deviation_verticale($mode, $Bessel_lambda, $Bessel_phi, $GRS80_lambda, $GRS80_phi, $eta_sec, $ksi_sec){
+	$eta = $eta_sec/3600*pi()/180;
+	$ksi = $ksi_sec/3600*pi()/180;
     $vecteur_suisse_zeta = 1/sqrt(1+tan($eta)**2+tan($ksi)**2);
     $vecteur_france_zeta = 1/sqrt(1+tan($eta)**2+tan($ksi)**2);
 
@@ -87,6 +89,9 @@ function deviation_verticale($mode, $Bessel_lambda, $Bessel_phi, $GRS80_lambda, 
         $zeta=array($matrice_produit_matriciel_transpose[2][0]*$vecteur_france_eta+$matrice_produit_matriciel_transpose[2][1]*$vecteur_france_ksi+$matrice_produit_matriciel_transpose[2][2]*$vecteur_france_zeta);
         #echo $matrice_vecteur_suisse[0][0];
     }
-    return array($eta[0], $ksi[0], $zeta[0]);
+	$eta_out=$eta[0]*3600*180/pi();
+	$ksi_out=$ksi[0]*3600*180/pi();
+    return array($eta_out, $ksi_out, $zeta[0]);
 }
+
 ?>

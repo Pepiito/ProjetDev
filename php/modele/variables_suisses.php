@@ -33,15 +33,6 @@ $Bessel_dz=-405.346;
 
 $Epsilon=0.0000000001;
 
-# Définition des variables pour deviation verticale
-$Bessel_lambda=0.11526939778334;
-$Bessel_phi=0.816859119428048;
 
-$GRS80_lambda=0.11526939778334;
-$GRS80_phi=0.816859119428048;
-
-$vecteur_suisse_eta=-0.000056044462;
-$vecteur_suisse_ksi=0.000027876787;
-$vecteur_suisse_zeta=1;
 
 ?>

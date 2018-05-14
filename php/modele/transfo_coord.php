@@ -139,6 +139,7 @@ if ($addmap) {
   }
   //avec le cas ETRS89 en plus pour ensuite calculer la déviation de la verticale si besoin
   $echo['ETRS89']['geog']['h'] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, 'geog', 'ETRS89', 'h', 0, 0);
+  $echo['CH1903plus']['geog']['h'] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, 'geog', 'CH1903plus', 'h', 0, 0);
 
 }
 
@@ -161,6 +162,8 @@ if (isset($_POST['c']) && isset($_POST['x'])) {
     }
     //calcul pour tous les points
     for ($i=0; $i<$len; $i++) {
+	  $Bessel_lambda = $echo['CH1903plus']['geog']['h']['lambda']['lambda'.$i];
+      $Bessel_phi = $echo['CH1903plus']['geog']['h']['phi']['phi'.$i];
       $lambda = $echo['ETRS89']['geog']['h']['lambda']['lambda'.$i];
       $phi = $echo['ETRS89']['geog']['h']['phi']['phi'.$i];
       list($eta, $ksi, $zeta) = deviation_verticale($mode, $Bessel_lambda, $Bessel_phi, $lambda, $phi, $eta_dep[$i], $ksi_dep[$i]);
