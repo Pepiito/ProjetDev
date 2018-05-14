@@ -1,5 +1,5 @@
 <?php
-set_time_limit(30);
+set_time_limit(60);
 if (!isset($_SESSION)) session_start();
 
 /* Renvoie une chaine de caractère au format json.

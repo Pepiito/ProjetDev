@@ -72,7 +72,7 @@
   margin: 0;
   height: 0;
   border-bottom: 3px solid #E34112;
-  transition: .8s ease-in-out;
+  transition: .6s ease-in-out;
 }
 #pop_header #underline_fichier { width: 0%;}
 

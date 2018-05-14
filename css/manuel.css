@@ -1,0 +1,88 @@
+html {
+  width: 100%;
+  background-color: rgb(210, 220, 250);
+}
+body {
+  margin-left: 25%;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  padding-bottom: 400px;
+  background-color: rgba(250, 250, 240);
+  box-shadow: 2px 2px 20px black;
+}
+h1, h2{
+  text-align: center;
+}
+
+h2 {
+  font-style: italic;
+}
+
+h3 {
+  text-decoration: underline;
+  color: rgb(10, 20, 60);
+}
+
+h4 {
+  margin-left: 10px;
+  font-size: 1.05em;
+}
+
+p {
+  margin-left: 30px;
+  line-height: 130%;
+  font-size: 17px;
+}
+
+br {
+  display: block;
+  line-height: 20px;
+}
+
+li {
+  margin-left: 60px;
+}
+
+.home {
+	position: fixed;
+	top: 50px;
+	right:30px;
+	width: 50px;
+	transition: .3s;
+	background-color: #15713e;
+	height: 46px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.home:hover {
+	background-color: #0e3b22;
+}
+
+.dl {
+  position: fixed;
+	top: 50px;
+	right:90px;
+	width: 100px;
+	transition: .3s;
+	background-color: #1355a2;
+	height: 46px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-family: sans-serif;
+  font-size: 18px;
+}
+
+.dl:hover {
+	background-color: #0e3e77;
+}

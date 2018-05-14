@@ -123,7 +123,6 @@
   content: "";
   position: absolute;
   z-index: -1;
-  transform: rotate3d(2, 0, 0.8, 20deg);
 }
 
 #page_accueil #transformer-vos-points::before {
@@ -134,24 +133,36 @@
   height: 140%;
   top: -10%;
   left: -5%;
+  transform: rotate3d(2, 0, 0.8, 20deg);
 }
 
 #page_accueil #visualiser-vos-points::before {
-  background-image: url("../images/visu_pts.png");
+  background-image: url("../images/visualiser_pts.png");
   background-size: auto 80%;
   background-position: left;
-  width: 120%;
-  height: 120%;
-  top: -5%;
+  width: 140%;
+  height: 140%;
+  top: -10%;
   left: -5%;
-  transform: rotate3d(2, 0, 0.8, -10deg);
+  transform: rotate3d(3, 0, 0.8, 20deg);
+}
+
+#page_accueil #retrouver-vos-points::before {
+  background-image: url("../images/retrouver_pts.png");
+  background-size: auto 80%;
+  background-position: left;
+  width: 160%;
+  height: 160%;
+  top: 5%;
+  left: 0%;
+  transform: rotate3d(2, 0, 0.6, 15deg);
 }
 
 #page_accueil .fonctionnalite .head-fonctionnalite {
   height: 100%;
   border-radius: inherit;
   padding: 5%;
-  background: linear-gradient(rgba(255, 255, 255, .9), rgba(0,0,0,0));
+  background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
   font-family: sans-serif, Arial;
   font-style: italic;
   color: rgba(92, 145, 75, 1);

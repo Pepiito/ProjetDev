@@ -119,3 +119,15 @@ function hideErrorConnexion() { // Cache le mesage d'erreur
   showErrorConnexion("inscription", "", "none");
   showErrorConnexion("connexion", "", "none");
 }
+
+document.getElementById('transformer-vos-points').onclick = function () {
+  document.location.href = "./manuel.html#transformer-vos-points";
+}
+
+document.getElementById('retrouver-vos-points').onclick = function () {
+  document.location.href = "./manuel.html#retrouver-vos-points";
+}
+
+document.getElementById('visualiser-vos-points').onclick = function () {
+  document.location.href = "./manuel.html#visualiser-vos-points";
+}

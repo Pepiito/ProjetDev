@@ -1,3 +1,31 @@
+function sendAjax(callback, file, data, isFormData) {
+  /**
+  * Requete AJAX pour ouvrir le fichier sélectionné. Prend en paramètrre :
+  * function callback, exécuté avec le paramètre responsetext une fois la requete AJAX effectué correctement
+  * file, fichier de destination de la requete
+  * data, données envoyés avec la requête (optionnel)
+  **/
+
+  data = data || "";
+  isFormData = isFormData || false;
+
+  window.ajax = new XMLHttpRequest();
+  ajax.open('POST', file, true);
+
+  if (!isFormData) ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  ajax.addEventListener('readystatechange', function(e) {
+
+    // test du statut de retour de la requête AJAX
+    if (ajax.readyState == 4 && (ajax.status == 200 || ajax.status == 0)) {
+        // récupération du contenu du fichier et envoi de la fonction de callback
+        return callback(ajax.responseText);
+
+    }
+  });
+  ajax.send(data);
+}
+
 function sendDataToModel() {
   /*
   Envoie les données au modèle (fichier transfo_coord.php) par une requête AJAX.
@@ -287,42 +315,20 @@ function download(data, filename, type) {
     }
 }
 
-function applyLoading(message) {
-  // Change le message dans le loader. L'affiche s'il n'était pas déjà visible.
-
-  showLoader("loader");
-  document.getElementById("loader-message").innerHTML = message;
-  return;
-}
-
-function endLoading() {
+function hideAlti(inout) {
   /**
-  * Cache le loader / gestionnaire d'erreur.
-  * Force la requête AJAX à s'arrêter.
+  Gère l'affichage des cases altitude et hauteur en particulier,
+  car elle se prêtent mal à la méthode générale.
   **/
 
-  var loaderFiltre = document.getElementById('loader-filtre');
-  loaderFiltre.style.visibility = "hidden";
-  loaderFiltre.style.opacity = 0;
-  loaderFiltre.style.zIndex = -10;
-
-  if (ajax.readyState != 4) {
-    console.log(ajax);
-    ajax.abort();
+  alti_checked = document.getElementById('type-alti-altitude-point-'+inout).checked;
+  if (alti_checked) { // on désactive les 'cases hauteur'
+    disable(document.getElementsByClassName('proj-hauteur-point-' + inout));
+    disable(document.getElementsByClassName('geog-hauteur-point-' + inout));
   }
-}
-
-function showLoader(loadOrError) {
-  // Affiche le loader ou le message d'erreur, selon le paramètre loadOrError.
-
-  document.getElementById('loader-content').style.visibility = (loadOrError == "loader") ? "visible" : "hidden";
-  document.getElementById('error-content').style.visibility = (loadOrError != "loader") ? "visible" : "hidden";
-
-  var loaderFiltre = document.getElementById('loader-filtre');
-  if (loaderFiltre.style.visibility != "visible") { // Si le loader n'est pas déjà à l'écran, il est affiché
-    loaderFiltre.style.visibility = "visible";
-    loaderFiltre.style.opacity = 1;
-    loaderFiltre.style.zIndex = 1000;
+  else { // on désactive les 'cases altitude'
+    disable(document.getElementsByClassName('proj-alti-point-' + inout));
+    disable(document.getElementsByClassName('geog-alti-point-' + inout));
   }
 }
 
@@ -330,8 +336,8 @@ function showLoader(loadOrError) {
 files = () => Array.from(document.getElementById('input-file-in').files).concat(Array.from(document.getElementById('dropped-files').files));
 
 function goToMainPage() { // Page de garde vers page principale
-  document.location.href = './index.php';
+  document.location.href = './geofs.php';
 }
 function goToHomePage() { // Page principale vers page de garde
-  document.location.href = './accueil.php';
+  document.location.href = './';
 }

@@ -30,7 +30,7 @@ if (($f = file($file['tmp_name'])) !== FALSE) {
     $data[$format[$i]] = [];
   }
   $nb_lines = count($f);
-  $nbmaxpoints = 10;
+  $nbmaxpoints = 1000;
   $nb_points = 0;
 
   for ($line = $start; $line < $nb_lines; $line++) {

@@ -92,8 +92,8 @@
 	   </div>
 	   <div class="border_legende">
 	   <p><u>Hauteur ellipsoïdale</u></p>
-	   <div><input type="checkbox" name="hbessel_map" id="hbessel_map"/> <label for="hbessel_map">Ellisoïde: Bessel</label></div>
-	   <div><input type="checkbox" name="hgrs80_map" id="hgrs80_map"/> <label for="hgrs80_map">Ellisoïde: IAG GRS 1980</label></div>
+	   <div><input type="checkbox" name="hbessel_map" id="hbessel_map"/> <label for="hbessel_map">Ellipsoïde: Bessel</label></div>
+	   <div><input type="checkbox" name="hgrs80_map" id="hgrs80_map"/> <label for="hgrs80_map">Ellipsoïde: IAG GRS 1980</label></div>
 		</div>
 		</div>
 
@@ -122,4 +122,3 @@
                 </select>
             </p>
             <p id="coordonnees"></p>
-			

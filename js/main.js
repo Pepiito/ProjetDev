@@ -5,35 +5,6 @@ Les écouteurs d'évènements sont contenues dans le controleur.js
 
 */
 
-
-function sendAjax(callback, file, data, isFormData) {
-  /**
-  * Requete AJAX pour ouvrir le fichier sélectionné. Prend en paramètrre :
-  * function callback, exécuté avec le paramètre responsetext une fois la requete AJAX effectué correctement
-  * file, fichier de destination de la requete
-  * data, données envoyés avec la requête (optionnel)
-  **/
-
-  data = data || "";
-  isFormData = isFormData || false;
-
-  window.ajax = new XMLHttpRequest();
-  ajax.open('POST', file, true);
-
-  if (!isFormData) ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-  ajax.addEventListener('readystatechange', function(e) {
-
-    // test du statut de retour de la requête AJAX
-    if (ajax.readyState == 4 && (ajax.status == 200 || ajax.status == 0)) {
-        // récupération du contenu du fichier et envoi de la fonction de callback
-        return callback(ajax.responseText);
-
-    }
-  });
-  ajax.send(data);
-}
-
 function receiveDataFromModel(reponse) {
   /**
   * Est éxécuté lorsque le modèle répond à la requête AJAX de transformation des coordonnées.
@@ -246,23 +217,6 @@ function adaptDisplay(array, toDisplay, data, inout) {
     if (elem == toDisplay) enable(array[elem][data][inout]);
   }
 
-}
-
-function hideAlti(inout) {
-  /**
-  Gère l'affichage des cases altitude et hauteur en particulier,
-  car elle se prêtent mal à la méthode générale.
-  **/
-
-  alti_checked = document.getElementById('type-alti-altitude-point-'+inout).checked;
-  if (alti_checked) { // on désactive les 'cases hauteur'
-    disable(document.getElementsByClassName('proj-hauteur-point-' + inout));
-    disable(document.getElementsByClassName('geog-hauteur-point-' + inout));
-  }
-  else { // on désactive les 'cases altitude'
-    disable(document.getElementsByClassName('proj-alti-point-' + inout));
-    disable(document.getElementsByClassName('geog-alti-point-' + inout));
-  }
 }
 
 function getAllElementsByClass(list_elements, globalArray) {
@@ -640,5 +594,44 @@ function processTransformation(type, addMap) {
     files().forEach( function (file) { // parcours des fichiers saisis par l'utilisateur
       processTransformationFile(file, addMap);
     });
+  }
+}
+
+function applyLoading(message) {
+  // Change le message dans le loader. L'affiche s'il n'était pas déjà visible.
+
+  showLoader("loader");
+  document.getElementById("loader-message").innerHTML = message;
+  return;
+}
+
+function endLoading() {
+  /**
+  * Cache le loader / gestionnaire d'erreur.
+  * Force la requête AJAX à s'arrêter.
+  **/
+
+  var loaderFiltre = document.getElementById('loader-filtre');
+  loaderFiltre.style.visibility = "hidden";
+  loaderFiltre.style.opacity = 0;
+  loaderFiltre.style.zIndex = -10;
+
+  if (ajax.readyState != 4) {
+    console.log(ajax);
+    ajax.abort();
+  }
+}
+
+function showLoader(loadOrError) {
+  // Affiche le loader ou le message d'erreur, selon le paramètre loadOrError.
+
+  document.getElementById('loader-content').style.visibility = (loadOrError == "loader") ? "visible" : "hidden";
+  document.getElementById('error-content').style.visibility = (loadOrError != "loader") ? "visible" : "hidden";
+
+  var loaderFiltre = document.getElementById('loader-filtre');
+  if (loaderFiltre.style.visibility != "visible") { // Si le loader n'est pas déjà à l'écran, il est affiché
+    loaderFiltre.style.visibility = "visible";
+    loaderFiltre.style.opacity = 1;
+    loaderFiltre.style.zIndex = 1000;
   }
 }

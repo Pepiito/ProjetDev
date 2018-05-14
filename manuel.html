@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Projet Dev</title>
+    <link rel="stylesheet" href="./css/manuel.css">
+  </head>
+  <body>
+    <a href=./ class=home><img src=./images/home.png alt=Home height=50% style=margin:25%></div>
+    <a href='./docs/doc_utilisateur.docx' download class=dl><img src=./images/dl.png alt=Télécharger height=50%> PDF</a>
+
+    <h1>Documentation utilisateur</h1>
+    <h2>Projet Geo FS</h2>
+    <p>Le site internet est disponible à l'adresse geofs.ensg.eu </p>
+    <p>Ce site est un géoportail permettant de transformer des coordonnées entre les référentiels Suisses et Français. Il permet de plus de visualiser sur une carte les points que l’on souhaite transformer. Ces points peuvent être affichés dans le système souhaité et récupérer plus tard grâce à une connexion à votre compte.</p>
+    <h3>I.	Page d'accueil</h3>
+    <h4>A.	S'inscrire</h4>
+    <p>En vous inscrivant, vous créez un compte qui vous permettra de conserver les points que vous enregistrez pendant vos différentes utilisations. </p>
+    <h4>B.	Se connecter</h4>
+    <p>En vous connectant à votre compte, vous avez accès à vos points précédemment enregistrés et vous pouvez continuer à travailler sur vos chantiers en cours.</p>
+    <h4>C.	Continuer sans connexion</h4>
+    <p>En continuant sans vous connecter, vous ne pourrez pas retrouver, lors de vos prochaines utilisations, les points que vous créerez pendant votre utilisation du site, mais toutes les transformations sont disponibles.</p>
+
+    <h3 id=transformer-vos-points>II.	Transformer vos coordonnées</h3>
+    <p>Ces transformations sont faites côté français en suivant les algorithmes détaillés sur geodesie.ign.fr. La grande majorité des transformations faites du coté suisses sont détaillées dans le document refsys_f.pdf et sur le site www.swisstopo.admin.ch. </p><p>
+      Notre stratégie de calcul consiste à transformer les coordonnées en coordonnées cartésiennes dans le système ETRS89/RGF93/CHTRS95. Et à l'aide de ces coordonnées, calculer celles voulues. Les transformations ont été validées du côté Français et du côté Suisse sur les applications de transformations de références: Circé France 4.2 et Reframe.</p><p>
+      Les deux boutons du haut, « Transformation de coordonnées » et «Transformation via fichier » vous permettent de choisir si vous souhaitez transformer vos points un par un en les rentrant manuellement ou si vous le souhaitez, importer un document .txt ou .csv sur le site pour transformer tous les points qu'il contient.</p>
+      <h4>A.	Transformation de coordonnées</h4>
+      <p>Vous pouvez choisir pour vos coordonnées que vous entrez ou que vous désirez votre système géodésique, votre type de coordonnées, votre projection et/ou votre système altimétrique le cas échéant. De plus, vous avez la possibilité de changer l'unité dans laquelle vous entrez vos angles.</p><p>
+        Si vous manipulez des coordonnées planimétriques pour votre système de départ et votre système d'arrivée, vous avez la possibilité de calculer la déviation de la verticale en connaissant les paramètres de la déviation êta et ksi en radians. Ces paramètres sont optionnels</p><p>
+        Une fois le formulaire rempli, vous pouvez au choix calculer les coordonnées entrées dans le système de sortie que vous avez choisi, ou ajouter votre point à la carte directement.</p>
+      <h4>B.	Transformation par fichier</h4>
+      <p>Vous pouvez, sur cet onglet, importer ou drag and drop un ou plusieurs fichier .txt ou .csv. Ce fichier contiendra vos points lignes par lignes dans le formatage que vous indiquerez. De plus, vous pouvez choisir le séparateur de votre fichier (symbole séparant vos différentes coordonnées). Enfin, vous pouvez indiquer si les premières lignes de votre fichier ne sont pas des coordonnées mais juste des métadonnées. Les lignes commençant par # ou * seront ignorés.</p><p>
+        De la même manière que dans Transformer vos coordonnées, vous devez choisir votre système de départ et d'arrivée. </p><p>
+        Vous pouvez choisir le nom et l'extension de votre fichier de sortie ainsi que son formatage si vous souhaitez télécharger le fichier.</p><p>
+        </p><p>
+        Attention : en raison d’un bug, il est possible que le nombre de point soit très rapidement trop grand. Préférez des fichiers courts, d’une dizaine de points.<strong> L’upload de fichiers simultanés est possible.</strong></p>
+
+        <h3 id=visualiser-vos-points>III.	Visualiser vos points sur la carte</h3>
+        <p>
+        En sortant du formulaire, vous aurez accès à la carte vous permettant de visualiser les points que vous aurez ajoutés auparavant.</p><p>
+        <strong>La couche de point que vous avez créée est temporaire</strong> : si vous n’êtes pas connecté, elle sera supprimée à la fin de votre manipulation. Si vous êtes connecté, elle sera bien sauvegardée.</p><p>
+        <strong>Si vous n’êtes pas connecté</strong>, retournez à la page d’accueil avec le bouton home et cliquer sur « S’identifier », ou « S’inscrire » si vous n’avez pas encore de compte.</p><p>
+        </p>
+        <p>
+        Si vous souhaitez revenir au formulaire de transformation de coordonnées, vous pouvez cliquer sur le bouton ‘transformer vos coordonnées’ en haut à droite.</p><p>
+        La carte est interactive : vous trouverez une liste d’option sur la gauche de la carte :
+      </p>
+      <li>Points à afficher sur la carte</li>
+      <li>Système planimétrique à afficher</li>
+      <li>Système altimétrique à afficher</li>
+      <li>Fond de plan</li>
+      <li>Système géodésique</li>
+      <p>
+        Il suffit de cliquer sur un point pour voir s’afficher les coordonnées dans les systèmes planimétrique et altimétrique choisis. </p><p>
+        Le fond de plan permet de passer d’un fond de carte à une vue aérienne.</p><p>
+        <strong>Si vous souhaitez ajouter un point à la carte</strong>, ouvrez le formulaire de transformation de coordonnées et entrez les coordonnées de votre point dans le système correspondant, puis cliquer sur « Ajouter à la carte ».</p><p>
+        Si vous souhaitez choisir vous-même le nom du point, passez par l’option « Transformation par fichier » et sélectionner un formatage prenant en compte le nom, puis cliquer sur « Ajouter à la carte ».</p><p>
+        Si vous étiez bien connecté, vous pouvez fermer votre navigateur ! Vous retrouverez votre chantier à votre prochaine connexion.</p><p>
+      </p>
+
+      <h3 id=retrouver-vos-points>IV.	Retrouver vos couches de points</h3>
+      <p>
+        L’application permet, lorsque vous vous créez un compte, d’enregistrer vos couches de points et de les retrouver plus tard.</p><p>
+
+        <strong>Si vous souhaitez retrouver un ancien chantier</strong>, cliquez sur « Liste des points », à gauche de la carte : l’option « Date des chantiers » sera disponible si vous êtes bien connecté. Choisissez celui que vous voulez récupérer.</p><p>
+
+        <strong>Si vous n’êtes pas connecté</strong>, retournez à la page d’accueil avec le bouton home et cliquer sur « S’identifier », ou « S’inscrire » si vous n’avez pas encore de compte.</p><p>
+
+      </p>
+  </body>
+</html>
