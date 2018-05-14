@@ -19,7 +19,7 @@ function testTransfoPlani_MN95_to_MN03($e, $n, $e2, $n2){
     if($e<$de+15000 AND $e>$de-15000 AND $n<$dn+15000 AND $n>$dn-15000 ){
         return array($e2, $n2);
     }elseif($de<0.001 AND $dn<0.001){
-        echo 'Erreur 400: Coordonnées MN95 en dehors du perimètre de transformation vers MN03';
+        echo 'Erreur 400: Coordonnées MN95 en dehors du périmètre de transformation vers MN03';
         exit;
     }else{
         return array($e2, $n2);
@@ -32,7 +32,7 @@ function testTransfoPlani_MN03_to_MN95($e, $n, $e2, $n2){
     if($e<$de+15000 AND $e>$de-15000 AND $n<$dn+15000 AND $n>$dn-15000 ){
         return array($e2, $n2);
     }elseif($de<0.001 AND $dn<0.001){
-        echo 'Erreur 401: Coordonnées MN03 en dehors du perimètre de transformation vers MN95';
+        echo 'Erreur 401: Coordonnées MN03 en dehors du périmètre de transformation vers MN95';
         exit;
     }else{
         return array($e2, $n2);
@@ -125,7 +125,7 @@ function RAN95_to_NF02($E_MN03, $N_MN03, $H_RAN95){
             exit;
 		}
 	}else{
-		echo 'Erreur 450: Erreur API - Server is not not available right nowe';
+		echo 'Erreur 450: Erreur API - Votre connexion internet est peut-être trop lente';
         exit;
 	}
 }
