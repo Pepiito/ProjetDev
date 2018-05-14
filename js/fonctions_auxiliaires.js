@@ -50,11 +50,13 @@ function addPointsToMap() {
   source.addFeatures(features_ptsess3);
 
   var date = getDate();
+  if(connexion_ut){
   var select =  document.getElementById('liste_chantier').innerHTML;
-  if (select.indexOf(date) == -1) {
-	  console.log('salut')
-    list_chantier = "<option value=" + date + "selected>" + date + "</option>" + select;
-	document.getElementById('liste_chantier').innerHTML = list_chantier;
+	  if (select.indexOf(date) == -1) {
+		  console.log('salut')
+		list_chantier = "<option value=" + date + ">" + date + "</option>" + select;
+		document.getElementById('liste_chantier').innerHTML = list_chantier;
+	  }
   }
 }
 

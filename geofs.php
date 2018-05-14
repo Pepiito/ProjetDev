@@ -39,7 +39,10 @@ include("./php/vue/postgis_to_geojson.php");
 		var geojson_ptsess=<?php echo $geojson_ptsess; ?>;		
 		<?php 
 		if(isset($_SESSION['pseudo'])){
-			echo 'var id_sess='.$_SESSION['id_sess'];
+			echo 'var id_sess='.$_SESSION['id_sess'].';';
+			echo 'var connexion_ut = true;';
+		}else{
+			echo 'var connexion_ut = false;';
 		}
 		?>
 		</script>

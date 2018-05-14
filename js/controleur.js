@@ -233,15 +233,18 @@ sys_alti_title.onmousemove = function (e) {
 
 document.getElementsByClassName('home')[0].onclick = goToHomePage; // bouton home de la page principale.
 
-document.getElementById('liste_chantier').addEventListener('change', (event) => {
-	var value = document.getElementById('liste_chantier').value;
-	console.log(value)
-	source.clear();
-	sendAjax(change_chantier, "./php/vue/postgis_change_chantier.php", "value_chantier=" + value);
-
-
-
-}, false);
+if(connexion_ut){
+	document.getElementById('liste_chantier').addEventListener('change', (event) => {
+		var value = document.getElementById('liste_chantier').value;
+		console.log(value)
+		source.clear();
+		sendAjax(change_chantier, "./php/vue/postgis_change_chantier.php", "value_chantier=" + value);
+	}, false)
+	
+	document.getElementById('button_gest').addEventListener('click', (event) => {
+	window.open('./gestion-compte.php?id_sess='+id_sess);
+	}, false);
+};
 
 function change_chantier(reponse){
 	var geojson_ptsess = reponse;
@@ -260,10 +263,3 @@ function change_chantier(reponse){
 	console.log(features_ptsess2)
 	}
 };
-
-document.getElementById('button_gest').addEventListener('click', (event) => {
-	window.open('./gestion-compte.php?id_sess='+id_sess);
-
-
-
-}, false);
