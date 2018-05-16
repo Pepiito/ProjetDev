@@ -172,3 +172,9 @@ p{
 .legende p{
 	margin-top:2px;
 }
+
+.ol-attribution {
+	position: relative;
+top: -50px;
+left: -50px;
+}

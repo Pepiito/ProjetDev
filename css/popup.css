@@ -198,6 +198,10 @@ div#pop_body label.inline {
   text-align: center;
 }
 
+#pop_body input[type="text"]:disabled {
+  background-color: #f3f3f3;
+}
+
 #input-file-in {
   position: absolute;
   opacity: 0;

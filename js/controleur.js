@@ -75,6 +75,20 @@ Ecouteurs
   });
 });
 
+document.getElementById('systeme-plani-point-in').addEventListener('change', (event) => {
+  var eta = document.getElementById('coord-proj-eta-point-in');
+  var xi = document.getElementById('coord-proj-xi-point-in');
+  console.log(event.target.value);
+  if (event.target.value == 'NTF') {
+    eta.disabled = true;
+    xi.disabled = true;
+  }
+  else {
+    eta.disabled = false;
+    xi.disabled = false;
+  }
+}, false);
+
 document.getElementById('calcul-point').addEventListener('click', (event) => {
   processTransformation('point', false)
 }, false);
@@ -240,7 +254,7 @@ if(connexion_ut){
 		source.clear();
 		sendAjax(change_chantier, "./php/vue/postgis_change_chantier.php", "value_chantier=" + value);
 	}, false)
-	
+
 	document.getElementById('button_gest').addEventListener('click', (event) => {
 	window.open('./gestion-compte.php?id_sess='+id_sess);
 	}, false);

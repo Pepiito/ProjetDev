@@ -173,8 +173,8 @@ map.on('click', function(e) {
 
 				var hbessel_map = features[0].N.h_CH1903plus;
 				var hgrs80_map = features[0].N.h_ETRS89;
-				
-				
+
+
 				//Création de la popup en fonction des systèmes choisis
 				var description = '<h4><u>Coordonnées du point '+num_pt+'</u></h4>';
 				if(document.getElementById('ch1903_proj_map').checked == true || document.getElementById('ch1903plus_proj_map').checked == true || document.getElementById('rgf_proj_map').checked == true || document.getElementById('ntf_proj_Etendu_map').checked == true || document.getElementById('rgf_proj_C46_map').checked == true || document.getElementById('rgf_proj_C47_map').checked == true || document.getElementById('rgf_proj_C48_map').checked == true || document.getElementById('ntf_proj_2_map').checked == true){
@@ -324,3 +324,12 @@ function changeBaselayer(layer) {
 			break;
 	}
 }
+
+map.on("pointermove", function (evt) {
+    var hit = map.getFeaturesAtPixel(evt.pixel);
+    if (hit) {
+        document.getElementsByTagName('body')[0].style.cursor = 'pointer';
+    } else {
+        document.getElementsByTagName('body')[0].style.cursor = '';
+    }
+});

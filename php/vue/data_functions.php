@@ -79,7 +79,7 @@ function AfficheCoord($inout) {
         <input type=text id=coord-proj-xi-point-$inout $disable>
       </div>
     </div>
-    <p class='infobulle-content proj-point-$inout'><p class='infobulle-base proj-point-$inout'>?<span class=infobulle-pop>La déviation de la verticale est optionnelle. Elle ne sera calculé que si vous la renseignez</span></p></p>
+    <p class='infobulle-content proj-point-$inout'><p class='infobulle-base proj-point-$inout'>?<span class=infobulle-pop>La déviation de la verticale est optionnelle. Elle ne sera calculé que si vous la renseignez.<br>Elle n'est pas disponible en NTF</span></p></p>
   </div>
   <div id=geog-point-$inout class='inputs-coord'>"
     .
