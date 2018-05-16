@@ -1,4 +1,5 @@
 <?php
+//@author Hugo Lecomte
 
 /**
 * Fonction proj_to_CC

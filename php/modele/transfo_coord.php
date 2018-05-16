@@ -1,4 +1,6 @@
 <?php
+//@author Hugo Lecomte
+
 set_time_limit(60);
 if (!isset($_SESSION)) session_start();
 

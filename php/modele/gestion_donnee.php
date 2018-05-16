@@ -1,4 +1,6 @@
 <?php
+//@author Hugo Lecomte
+
 /**
 * Fonction traitement_vers_milieu
 *

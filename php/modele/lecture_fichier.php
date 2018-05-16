@@ -1,4 +1,6 @@
 <?php
+//@author Hugo Lecomte
+
 function lecture_fichier($fichier){
   $file = fopen($fichier, "r");
   if (FALSE === $file) {

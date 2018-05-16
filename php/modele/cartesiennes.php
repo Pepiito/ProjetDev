@@ -1,4 +1,5 @@
 <?php
+//@author Hugo Lecomte
 
 /**
 * Fonction cartesien_to_geographic

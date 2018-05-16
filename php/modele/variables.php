@@ -1,4 +1,5 @@
 <?php
+//@author Hugo Lecomte
 
 class Ellipse {
   private $nom;

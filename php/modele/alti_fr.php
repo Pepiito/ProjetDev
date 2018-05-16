@@ -1,4 +1,5 @@
 <?php
+//@author Hugo Lecomte
 
 /**
 * Fonction h_to_alti
