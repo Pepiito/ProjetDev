@@ -139,15 +139,17 @@ if ($addmap) {
       }
     }
   }
-  //avec le cas ETRS89 en plus pour ensuite calculer la déviation de la verticale si besoin
-  $echo['ETRS89']['geog']['h'] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, 'geog', 'ETRS89', 'h', 0, 0);
-  $echo['CH1903plus']['geog']['h'] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, 'geog', 'CH1903plus', 'h', 0, 0);
 
 }
 
 //calcul de la dévition de la verticale si besoin
 if (isset($_POST['c']) && isset($_POST['x'])) {
   if ($_POST['c'] != 'false' && $_POST['x'] != 'false') {
+    if (!($addmap)) {
+      //avec le cas ETRS89 et CH1903+ en plus pour ensuite calculer la déviation de la verticale si besoin
+      $echo['ETRS89']['geog']['h'] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, 'geog', 'ETRS89', 'h', 0, 0);
+      $echo['CH1903plus']['geog']['h'] = conversion_vers_sortie($X_tmp, $Y_tmp, $Z_tmp, 'geog', 'CH1903plus', 'h', 0, 0);
+    }
     $eta_dep = explode(';', $_POST['c']);
     $ksi_dep = explode(';', $_POST['x']);
     if ($_POST['t'] == 'proj' && $_POST['P'] != 'NTF') {
