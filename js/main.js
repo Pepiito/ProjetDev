@@ -118,7 +118,7 @@ function downloadFileFromResult() {
 
 
   if (t_out == "proj" && allVar['file']['in']['selection-formatage-deviation'] != "false") {
-    format_out += (format_out_dev == "false" ? "" : format_out_dev);
+    format_out += (!format_out_dev ? "" : format_out_dev);
   }
 
   applyLoading("Ecriture du fichier...");
